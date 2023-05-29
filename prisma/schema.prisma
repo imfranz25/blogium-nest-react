@@ -44,9 +44,10 @@ model Post {
 }
 
 model Comment {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId
-  PostId String @db.ObjectId
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  userId  String @db.ObjectId
+  PostId  String @db.ObjectId
+  comment String
 
   User User @relation(fields: [userId], references: [id])
   Post Post @relation(fields: [PostId], references: [id])

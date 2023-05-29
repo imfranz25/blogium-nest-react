@@ -7,7 +7,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Blogium')
-    .setDescription('Blogium API made with heart by Francis Ong')
+    .setDescription('Blogium API by Francis Ong')
     .setVersion('0.1')
     .build();
 
