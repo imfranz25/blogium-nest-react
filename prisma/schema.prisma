@@ -29,8 +29,8 @@ model User {
   updatedAt      DateTime  @updatedAt
 
   Post    Post[]
-  comment Comment[]
-  like    Like[]
+  Comment Comment[]
+  Like    Like[]
 }
 
 model Post {
@@ -39,8 +39,8 @@ model Post {
   post   String
 
   User    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  comment Comment[]
-  like    Like[]
+  Comment Comment[]
+  Like    Like[]
 }
 
 model Comment {

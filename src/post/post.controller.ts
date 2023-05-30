@@ -36,8 +36,14 @@ export class PostController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.postService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const post = await this.postService.findOne(id);
+
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
+
+    return post;
   }
 
   @Patch(':id')

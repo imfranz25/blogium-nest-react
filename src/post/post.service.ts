@@ -17,22 +17,29 @@ export class PostService {
   }
 
   async findAll() {
-    return await this.prisma.post.findMany();
-  }
-
-  async findOne(id: string) {
-    return await this.prisma.post.findUnique({ where: { id } });
-  }
-
-  async update(id: string, userId: string, updatePostDto: UpdatePostDto) {
-    return await this.prisma.post.updateMany({
-      where: { id, userId },
-      data: updatePostDto,
+    return await this.prisma.post.findMany({
+      include: { User: true, like: true },
     });
   }
 
+  async findOne(id: string) {
+    return await this.prisma.post.findUnique({
+      where: { id },
+      include: { User: true, like: true },
+    });
+  }
+
+  async update(id: string, userId: string, updatePostDto: UpdatePostDto) {
+    await this.prisma.post.updateMany({
+      where: { id, userId },
+      data: updatePostDto,
+    });
+
+    return { id, ...updatePostDto };
+  }
+
   async remove(id: string, userId: string) {
-    await this.prisma.post.deleteMany({
+    return await this.prisma.post.deleteMany({
       where: {
         id,
         userId,
