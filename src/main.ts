@@ -9,6 +9,7 @@ async function bootstrap() {
     .setTitle('Blogium')
     .setDescription('Blogium API by Francis Ong')
     .setVersion('0.1')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

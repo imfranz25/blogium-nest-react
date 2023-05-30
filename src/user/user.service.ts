@@ -23,8 +23,8 @@ export class UserService {
     });
   }
 
-  async findOne(id: string) {
-    return await this.prisma.user.findUnique({ where: { id } });
+  async findOne(userId: string) {
+    return await this.prisma.user.findUnique({ where: { id: userId } });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
