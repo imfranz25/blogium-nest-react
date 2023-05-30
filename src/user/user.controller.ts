@@ -19,11 +19,7 @@ export class UserController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    try {
-      return this.userService.create(createUserDto);
-    } catch (e) {
-      console.error(e);
-    }
+    return this.userService.create(createUserDto);
   }
 
   @Patch(':id')
