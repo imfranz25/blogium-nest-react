@@ -38,7 +38,7 @@ model Post {
   userId String @db.ObjectId
   post   String
 
-  User    User      @relation(fields: [userId], references: [id])
+  User    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   comment Comment[]
   like    Like[]
 }
@@ -49,15 +49,15 @@ model Comment {
   PostId  String @db.ObjectId
   comment String
 
-  User User @relation(fields: [userId], references: [id])
-  Post Post @relation(fields: [PostId], references: [id])
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Post Post @relation(fields: [PostId], references: [id], onDelete: Cascade)
 }
 
 model Like {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
-  PostId String @db.ObjectId
+  postId String @db.ObjectId
   userId String @db.ObjectId
 
-  User User @relation(fields: [userId], references: [id])
-  Post Post @relation(fields: [PostId], references: [id])
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 }

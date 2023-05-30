@@ -21,7 +21,7 @@ export class AuthService {
       throw new NotFoundException(`Invalid email or password`);
     }
 
-    // Step 2: Check if the password is correct
+    // Check if the password is correct
     const isPasswordValid = await bcrypt.compare(password, user.hashedPassword);
 
     // If password does not match, throw an error
