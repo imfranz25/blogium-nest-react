@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { PrismaClientValidationError } from '@prisma/client/runtime/library';
-import { hash } from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -16,7 +16,7 @@ export class UserService {
       throw new PrismaClientValidationError();
     }
 
-    const hashedPassword = await hash(password, 12);
+    const hashedPassword = await bcrypt.hash(password, 12);
 
     return this.prisma.user.create({
       data: { ...newUser, hashedPassword },
