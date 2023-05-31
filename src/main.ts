@@ -9,6 +9,9 @@ async function bootstrap() {
   /* Input Validation */
   app.useGlobalPipes(new ValidationPipe());
 
+  /* Enable CORS */
+  app.enableCors();
+
   /* API Documentation ~ OpenAPI Swagger */
   const config = new DocumentBuilder()
     .setTitle('Blogium')

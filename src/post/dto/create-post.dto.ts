@@ -2,9 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class CreatePostDto {
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(5)
+  @IsString({ message: 'Invalid post, please try again' })
+  @IsNotEmpty({ message: 'Post is required' })
+  @MinLength(5, { message: 'Minimum of 5 characters for post is required' })
   @ApiProperty()
   post: string;
 }
