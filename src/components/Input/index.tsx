@@ -8,6 +8,7 @@ interface InputProps {
   required?: boolean;
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
+  autoComplete?: string;
 }
 const Input: React.FC<InputProps> = ({
   id,
@@ -16,12 +17,19 @@ const Input: React.FC<InputProps> = ({
   register,
   required,
   errors,
+  autoComplete = 'off',
   type = 'text',
 }) => {
   return (
     <div>
       <label htmlFor={id}>{label}</label>
-      <input type={type} id={id} disabled={disabled} {...register(id, { required })} />
+      <input
+        type={type}
+        id={id}
+        disabled={disabled}
+        autoComplete={autoComplete}
+        {...register(id, { required })}
+      />
       {errors[id] && <p>Error in {label}</p>}
     </div>
   );

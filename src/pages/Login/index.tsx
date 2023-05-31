@@ -1,10 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import * as api from '../../api';
+import { toast } from 'react-hot-toast';
 import { useState } from 'react';
 import { useForm, FieldValues } from 'react-hook-form';
+import getErrorMessage from '../../utils/getErrorMessage';
+import { useNavigate } from 'react-router-dom';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [isDisable, setDisable] = useState(false);
   const {
     register,
@@ -12,10 +19,18 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm<FieldValues>({ defaultValues: { email: '', password: '' } });
 
-  const onLogin = handleSubmit((data) => {
+  const onLogin = handleSubmit(async (credentials) => {
     setDisable(true);
 
-    alert(JSON.stringify(data));
+    try {
+      const response = await api.loginUser(credentials);
+      const token = response.data;
+
+      localStorage.setItem('token', token);
+      navigate('/feed');
+    } catch (error: any) {
+      toast.error(getErrorMessage(error));
+    }
 
     setDisable(false);
   });
