@@ -12,7 +12,7 @@ const getErrorMessage = (error: any) => {
       break;
   }
 
-  return errorMessage || 'Something went wrong';
+  return errorMessage ?? 'Something went wrong';
 };
 
 export default getErrorMessage;
