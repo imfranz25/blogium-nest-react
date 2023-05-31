@@ -1,17 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import * as api from '../../api';
 import { toast } from 'react-hot-toast';
 import { useState } from 'react';
 import { useForm, FieldValues } from 'react-hook-form';
-import getErrorMessage from '../../utils/getErrorMessage';
 import { useNavigate } from 'react-router-dom';
+
+import useAuth from '../../hooks/useAuth';
+import getErrorMessage from '../../utils/getErrorMessage';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { registerToken } = useAuth();
   const [isDisable, setDisable] = useState(false);
   const {
     register,
@@ -24,9 +26,8 @@ const LoginPage = () => {
 
     try {
       const response = await api.loginUser(credentials);
-      const token = response.data;
 
-      localStorage.setItem('token', token);
+      registerToken(response?.data?.accessToken);
       navigate('/feed');
     } catch (error: any) {
       toast.error(getErrorMessage(error));
