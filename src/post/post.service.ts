@@ -18,14 +18,14 @@ export class PostService {
 
   async findAll() {
     return await this.prisma.post.findMany({
-      include: { User: true, like: true },
+      include: { User: true, Like: true },
     });
   }
 
   async findOne(id: string) {
     return await this.prisma.post.findUnique({
       where: { id },
-      include: { User: true, like: true },
+      include: { User: true, Like: true },
     });
   }
 

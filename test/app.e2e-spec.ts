@@ -24,7 +24,7 @@ describe('AppController (e2e)', () => {
     hashedPassword: 'super-secret',
   };
 
-  const postShape = expect.objectContaining({
+  const postResponse = expect.objectContaining({
     id: expect.any(String),
     firstName: expect(newUser.firstName),
     lastName: expect(newUser.lastName),
@@ -32,6 +32,9 @@ describe('AppController (e2e)', () => {
     hashedPassword: expect.any(String),
     createdAt: expect.any(String),
     updatedAt: expect.any(String),
+    birthday: expect(null),
+    bio: expect(null),
+    profilePicture: expect(null),
   });
 
   beforeAll(async () => {
@@ -70,14 +73,19 @@ describe('AppController (e2e)', () => {
       expect(afterCount - beforeCount).toBe(1);
     });
 
-    it('fail user creation without email', async () => {
-      const { status } = await request(app.getHttpServer()).post('/user').send({
-        firstName: 'test',
-        lastName: 'test',
-        hashedPassword: 'secret',
-      });
+    it('fail user creation ~ invalid email input', async () => {
+      const { status, body } = await request(app.getHttpServer())
+        .post('/user')
+        .send({
+          firstName: 'test',
+          email: 'not-an-email',
+          lastName: 'test',
+          password: 'super-secret',
+          confirmPassword: 'super-secret',
+        });
 
       expect(status).toBe(400);
+      expect(body.message[0]).toBe('email must be an email');
     });
   });
 
