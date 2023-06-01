@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
@@ -13,7 +13,10 @@ export class UserService {
     const { password, confirmPassword, ...newUser } = createUserDto;
 
     if (password !== confirmPassword) {
-      throw new PrismaClientValidationError();
+      throw new HttpException(
+        { message: ['Password and confirm password does not match'] },
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -24,7 +27,16 @@ export class UserService {
   }
 
   async findOne(userId: string) {
-    return await this.prisma.user.findUnique({ where: { id: userId } });
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+
+    if (!user) {
+      throw new HttpException(
+        { message: ['User not found'] },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return user;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
