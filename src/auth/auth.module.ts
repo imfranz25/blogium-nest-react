@@ -7,8 +7,11 @@ import { AuthController } from './auth.controller';
 import { PrismaModule } from '../prisma/prisma.module';
 import { UserModule } from '../user/user.module';
 import { JwtStrategy } from './jwt.strategy';
+import { PrismaService } from '../prisma/prisma.service';
 
-export const JWT_SECRET = process.env.JWT_SECRET || 'stratpoint';
+import { Provider } from '../../constants';
+
+export const JWT_SECRET = process.env.JWT_SECRET || '';
 
 @Module({
   imports: [
@@ -22,6 +25,11 @@ export const JWT_SECRET = process.env.JWT_SECRET || 'stratpoint';
     UserModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [
+    { provide: Provider.AUTH_SERVICE, useClass: AuthService },
+    { provide: Provider.PRISMA_SERVICE, useClass: PrismaService },
+    // { provide: Provider.JWT_STRATEGY, useClass: JwtStrategy },
+    JwtStrategy,
+  ],
 })
 export class AuthModule {}

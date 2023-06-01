@@ -1,27 +1,28 @@
+import request from 'supertest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { useContainer } from 'class-validator';
+import { faker } from '@faker-js/faker';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
   let prisma: PrismaService;
 
   const newUser = {
-    firstName: 'test',
-    lastName: 'test',
-    email: 'test@gmail.com',
-    password: 'super-secret',
-    confirmPassword: 'super-secret',
+    firstName: faker.person.firstName(),
+    lastName: faker.person.lastName(),
+    email: `${faker.person.firstName()}@gmail.com`,
+    password: 'stratpoint',
+    confirmPassword: 'stratpoint',
   };
 
   const dummyUser = {
-    firstName: 'dummy',
-    lastName: 'dummy',
-    email: 'dummy@gmail.com',
-    hashedPassword: 'super-secret',
+    firstName: faker.person.firstName(),
+    lastName: faker.person.lastName(),
+    email: `${faker.person.firstName()}@gmail.com`,
+    hashedPassword: faker.string.uuid(),
   };
 
   // const userResponse = expect.objectContaining({

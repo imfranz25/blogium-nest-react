@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
@@ -21,9 +26,20 @@ export class UserService {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    return this.prisma.user.create({
-      data: { ...newUser, hashedPassword },
-    });
+    try {
+      return await this.prisma.user.create({
+        data: { ...newUser, hashedPassword },
+      });
+    } catch (error) {
+      if (error.code === 'P2002') {
+        throw new HttpException(
+          { message: ['Email already taken'] },
+          HttpStatus.CONFLICT,
+        );
+      }
+
+      throw new BadRequestException();
+    }
   }
 
   async findOne(userId: string) {
