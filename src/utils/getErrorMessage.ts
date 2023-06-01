@@ -5,9 +5,11 @@ const getErrorMessage = (error: any) => {
 
   switch (errorCode) {
     case 400:
+    case 409:
       errorMessage = error?.response?.data?.message[0];
       break;
     case 401:
+    case 404:
       errorMessage = error?.response?.data?.message;
       break;
   }

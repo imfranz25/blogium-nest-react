@@ -20,3 +20,12 @@ export const createUser = async (userData: FieldValues) => {
     data: userData,
   });
 };
+
+/* User */
+export const createPost = async (postData: FieldValues) => {
+  return await axios({
+    method: 'post',
+    url: `${API}/user`,
+    data: postData,
+  });
+};
