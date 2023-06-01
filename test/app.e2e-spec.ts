@@ -24,7 +24,7 @@ describe('AppController (e2e)', () => {
     hashedPassword: 'super-secret',
   };
 
-  // const postResponse = expect.objectContaining({
+  // const userResponse = expect.objectContaining({
   //   id: expect.any(String),
   //   firstName: expect(newUser.firstName),
   //   lastName: expect(newUser.lastName),
@@ -85,7 +85,7 @@ describe('AppController (e2e)', () => {
         });
 
       expect(status).toBe(400);
-      expect(body.message[0]).toBe('email must be an email');
+      expect(body.message[0]).toBe('Invalid email format');
     });
   });
 
