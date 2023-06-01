@@ -1,3 +1,4 @@
+import React from 'react';
 import { IconType } from 'react-icons';
 
 interface ButtonProps {
@@ -18,4 +19,6 @@ const Button: React.FC<ButtonProps> = ({ label, onClick, disabled, icon: Icon })
   );
 };
 
-export default Button;
+const MemoizedButton = React.memo(Button);
+
+export default MemoizedButton;

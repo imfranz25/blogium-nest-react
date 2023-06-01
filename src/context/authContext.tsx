@@ -1,15 +1,18 @@
 import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
-import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { useLocation } from 'react-router-dom';
+import jwtDecode, { JwtPayload } from 'jwt-decode';
+
+import { SafeUser } from '../types';
 
 interface AuthContextProviderProps {
   children: React.ReactNode;
+  skip?: boolean;
 }
 
 const AuthContext = createContext({
   isAuthenticated: false,
   token: '',
-  user: '',
+  user: null as SafeUser,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   registerToken: (_accessToken: string) => {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -19,28 +22,27 @@ const AuthContext = createContext({
 const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
   const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [token, setToken] = useState(localStorage.getItem('accessToken') || '');
-  const [user, setUser] = useState(localStorage.getItem('user') || '');
+  const [token, setToken] = useState(localStorage.getItem('accessToken') ?? '');
+  const [user, setUser] = useState<SafeUser>(null);
 
   const resetAuth = useCallback(() => {
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('user');
 
     setIsAuthenticated(false);
     setToken('');
-    setUser('');
+    setUser(null);
   }, []);
 
   const registerToken = useCallback(
     (accessToken: string) => {
       try {
-        const decodedToken = jwtDecode(accessToken);
+        const decodedToken: SafeUser = jwtDecode(accessToken);
         const userData = JSON.stringify(decodedToken);
 
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('user', userData);
 
-        setUser(userData);
+        setUser(decodedToken);
         setToken(accessToken);
         setIsAuthenticated(true);
       } catch (error) {
@@ -54,29 +56,27 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) =
     resetAuth();
   }, [resetAuth]);
 
-  /* TO check token expiration */
-  useEffect(() => {
-    if (isAuthenticated) {
-      try {
-        const decoded = jwtDecode<JwtPayload>(token);
-        const expiration = decoded?.exp ?? 0;
-
-        if (Date.now() >= expiration * 1000) {
-          resetAuth();
-        }
-      } catch (error) {
-        resetAuth();
-      }
-    }
-  }, [location, isAuthenticated, resetAuth, token]);
-
+  /* Page mount -> check for existing token */
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
 
     if (accessToken) {
-      setIsAuthenticated(true);
+      registerToken(accessToken);
     }
-  }, []);
+  }, [registerToken]);
+
+  /* To check token expiration */
+  useEffect(() => {
+    if (isAuthenticated) {
+      const decoded = jwtDecode<JwtPayload>(token);
+      const expiration = decoded?.exp ?? 0;
+
+      if (Date.now() >= expiration * 1000) {
+        resetAuth();
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
 
   const values = useMemo(
     () => ({

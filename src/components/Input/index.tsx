@@ -1,3 +1,4 @@
+import React from 'react';
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 
 interface InputProps {
@@ -36,4 +37,6 @@ const Input: React.FC<InputProps> = ({
   );
 };
 
-export default Input;
+const MemoizedInput = React.memo(Input);
+
+export default MemoizedInput;
