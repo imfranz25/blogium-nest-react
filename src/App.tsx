@@ -1,6 +1,7 @@
 import { RouteObject, useRoutes } from 'react-router-dom';
 
 /* Pages */
+import PublicRoutes from './components/Routes/PublicRoutes';
 import PrivateRoutes from './components/Routes/PrivateRoutes';
 import LoginPage from './pages/Login';
 import SignUpPage from './pages/SignUp';
@@ -8,7 +9,6 @@ import PageNotFound from './pages/404';
 import FeedPage from './pages/Feed';
 import ProfilePage from './pages/Profile';
 import PostPage from './pages/Post';
-import PublicRoutes from './components/Routes/PublicRoutes';
 
 const App = () => {
   const routes: RouteObject[] = [

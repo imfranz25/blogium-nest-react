@@ -1,6 +1,6 @@
 import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 interface AuthContextProviderProps {
   children: React.ReactNode;
@@ -54,14 +54,12 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) =
     resetAuth();
   }, [resetAuth]);
 
+  /* TO check token expiration */
   useEffect(() => {
     if (isAuthenticated) {
       try {
-        const accessToken = localStorage.getItem('accessToken') || '';
-        const decoded = jwtDecode<JwtPayload>(accessToken);
+        const decoded = jwtDecode<JwtPayload>(token);
         const expiration = decoded?.exp ?? 0;
-
-        console.log(Date.now() >= expiration * 1000);
 
         if (Date.now() >= expiration * 1000) {
           resetAuth();
@@ -70,10 +68,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) =
         resetAuth();
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
-
-  console.log('rendered');
+  }, [location, isAuthenticated, resetAuth, token]);
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
