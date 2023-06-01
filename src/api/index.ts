@@ -11,3 +11,12 @@ export const loginUser = async (userCredentials: FieldValues) => {
     data: userCredentials,
   });
 };
+
+/* User */
+export const createUser = async (userData: FieldValues) => {
+  return await axios({
+    method: 'post',
+    url: `${API}/user`,
+    data: userData,
+  });
+};

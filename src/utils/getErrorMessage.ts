@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getErrorMessage = (error: any) => {
-  const errorCode = error?.response?.data?.statusCode || 500;
+  const errorCode = error?.response?.status || 500;
   let errorMessage;
 
   switch (errorCode) {
