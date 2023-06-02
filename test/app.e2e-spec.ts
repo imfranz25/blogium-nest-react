@@ -10,13 +10,6 @@ describe('AppController (e2e)', () => {
   let app: INestApplication;
   let prisma: PrismaService;
 
-  const dummyUser = {
-    firstName: faker.person.firstName(),
-    lastName: faker.person.lastName(),
-    email: `${faker.person.firstName()}@gmail.com`,
-    hashedPassword: faker.string.uuid(),
-  };
-
   const newUser = {
     firstName: faker.person.firstName(),
     lastName: faker.person.lastName(),
@@ -50,7 +43,6 @@ describe('AppController (e2e)', () => {
     app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
     await app.init();
-    await prisma.user.create({ data: dummyUser });
   });
 
   // it('/ (GET)', () => {
@@ -62,7 +54,7 @@ describe('AppController (e2e)', () => {
 
   describe('POST /user', () => {
     describe('Positive Scenario(s)', () => {
-      it('create new user', async () => {
+      it('should create new user', async () => {
         const beforeCount = await prisma.user.count();
 
         const { status } = await request(app.getHttpServer())
@@ -77,19 +69,54 @@ describe('AppController (e2e)', () => {
     });
 
     describe('Negative Scenario(s)', () => {
-      it('fail user creation ~ invalid email input', async () => {
+      it('should catch ~ invalid email input', async () => {
         const { status, body } = await request(app.getHttpServer())
           .post('/user')
           .send({
-            firstName: 'test',
-            lastName: 'test',
+            ...newUser,
             email: 'not-an-email',
-            password: 'super-secret',
-            confirmPassword: 'super-secret',
           });
 
         expect(status).toBe(400);
         expect(body.message[0]).toBe('Invalid email format');
+      });
+
+      it('should catch ~ password is not 8+ chars', async () => {
+        const { status, body } = await request(app.getHttpServer())
+          .post('/user')
+          .send({
+            ...newUser,
+            password: '1234567',
+          });
+
+        expect(status).toBe(400);
+        expect(body.message[0]).toBe(
+          'Minimum of 8 characters for password is required',
+        );
+      });
+
+      it('should catch ~ password and confirm password does not match', async () => {
+        const { status, body } = await request(app.getHttpServer())
+          .post('/user')
+          .send({
+            ...newUser,
+            password: '12345678',
+            confirmPassword: '123456789',
+          });
+
+        expect(status).toBe(400);
+        expect(body.message[0]).toBe(
+          'Password and confirm password does not match',
+        );
+      });
+
+      it('should catch ~ email already taken', async () => {
+        const { status, body } = await request(app.getHttpServer())
+          .post('/user')
+          .send(newUser);
+
+        expect(status).toBe(409);
+        expect(body.message[0]).toBe('Email already taken');
       });
     });
   });
