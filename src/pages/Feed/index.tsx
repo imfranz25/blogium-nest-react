@@ -1,5 +1,11 @@
+import PostForm from '../../components/PostForm';
+
 const FeedPage = () => {
-  return <div>FeedPage</div>;
+  return (
+    <div>
+      <PostForm />
+    </div>
+  );
 };
 
 export default FeedPage;

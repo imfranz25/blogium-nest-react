@@ -19,6 +19,5 @@ export const createPost = async (postData: FieldValues, token: string) => {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-    withCredentials: true,
   });
 };

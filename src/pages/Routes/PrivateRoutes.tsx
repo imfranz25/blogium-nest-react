@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 
-import Navbar from '../Navbar';
+import Navbar from '../../components/Navbar';
 
 const PrivateRoutes = () => {
   const { isAuthenticated } = useAuth();

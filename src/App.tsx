@@ -1,8 +1,8 @@
 import { RouteObject, useRoutes } from 'react-router-dom';
 
 /* Pages */
-import PublicRoutes from './components/Routes/PublicRoutes';
-import PrivateRoutes from './components/Routes/PrivateRoutes';
+import PublicRoutes from './pages/Routes/PublicRoutes';
+import PrivateRoutes from './pages/Routes/PrivateRoutes';
 import LoginPage from './pages/Login';
 import SignUpPage from './pages/SignUp';
 import PageNotFound from './pages/404';
