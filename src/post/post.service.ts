@@ -13,12 +13,19 @@ export class PostService {
         userId,
         post: createPostDto.post,
       },
+      include: {
+        User: true,
+        Like: true,
+      },
     });
   }
 
   async findAll() {
     return await this.prisma.post.findMany({
-      include: { User: true, Like: true },
+      include: {
+        User: true,
+        Like: true,
+      },
     });
   }
 
