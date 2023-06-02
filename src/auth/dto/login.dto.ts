@@ -10,7 +10,6 @@ export class LoginDto {
 
   @IsString({ message: 'Invalid password format' })
   @IsNotEmpty({ message: 'Password field is empty' })
-  @MinLength(8, { message: 'Password must be 8 characters or more' })
   @ApiProperty()
   password: string;
 }

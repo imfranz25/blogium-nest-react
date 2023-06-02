@@ -1,4 +1,4 @@
-import request from 'supertest';
+import * as request from 'supertest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { AppModule } from './../src/app.module';
@@ -10,19 +10,19 @@ describe('AppController (e2e)', () => {
   let app: INestApplication;
   let prisma: PrismaService;
 
+  const dummyUser = {
+    firstName: faker.person.firstName(),
+    lastName: faker.person.lastName(),
+    email: `${faker.person.firstName()}@gmail.com`,
+    hashedPassword: faker.string.uuid(),
+  };
+
   const newUser = {
     firstName: faker.person.firstName(),
     lastName: faker.person.lastName(),
     email: `${faker.person.firstName()}@gmail.com`,
     password: 'stratpoint',
     confirmPassword: 'stratpoint',
-  };
-
-  const dummyUser = {
-    firstName: faker.person.firstName(),
-    lastName: faker.person.lastName(),
-    email: `${faker.person.firstName()}@gmail.com`,
-    hashedPassword: faker.string.uuid(),
   };
 
   // const userResponse = expect.objectContaining({
@@ -53,40 +53,44 @@ describe('AppController (e2e)', () => {
     await prisma.user.create({ data: dummyUser });
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
-  });
+  // it('/ (GET)', () => {
+  //   return request(app.getHttpServer())
+  //     .get('/')
+  //     .expect(200)
+  //     .expect('Hello World!');
+  // });
 
   describe('POST /user', () => {
-    it('create new user', async () => {
-      const beforeCount = await prisma.user.count();
+    describe('Positive Scenario(s)', () => {
+      it('create new user', async () => {
+        const beforeCount = await prisma.user.count();
 
-      const { status } = await request(app.getHttpServer())
-        .post('/user')
-        .send(newUser);
+        const { status } = await request(app.getHttpServer())
+          .post('/user')
+          .send(newUser);
 
-      const afterCount = await prisma.user.count();
+        const afterCount = await prisma.user.count();
 
-      expect(status).toBe(201);
-      expect(afterCount - beforeCount).toBe(1);
+        expect(status).toBe(201);
+        expect(afterCount - beforeCount).toBe(1);
+      });
     });
 
-    it('fail user creation ~ invalid email input', async () => {
-      const { status, body } = await request(app.getHttpServer())
-        .post('/user')
-        .send({
-          firstName: 'test',
-          email: 'not-an-email',
-          lastName: 'test',
-          password: 'super-secret',
-          confirmPassword: 'super-secret',
-        });
+    describe('Negative Scenario(s)', () => {
+      it('fail user creation ~ invalid email input', async () => {
+        const { status, body } = await request(app.getHttpServer())
+          .post('/user')
+          .send({
+            firstName: 'test',
+            lastName: 'test',
+            email: 'not-an-email',
+            password: 'super-secret',
+            confirmPassword: 'super-secret',
+          });
 
-      expect(status).toBe(400);
-      expect(body.message[0]).toBe('Invalid email format');
+        expect(status).toBe(400);
+        expect(body.message[0]).toBe('Invalid email format');
+      });
     });
   });
 

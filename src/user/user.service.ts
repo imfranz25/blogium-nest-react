@@ -7,7 +7,6 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
-import { PrismaClientValidationError } from '@prisma/client/runtime/library';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()

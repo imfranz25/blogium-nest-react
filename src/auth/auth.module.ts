@@ -25,11 +25,6 @@ export const JWT_SECRET = process.env.JWT_SECRET || '';
     UserModule,
   ],
   controllers: [AuthController],
-  providers: [
-    { provide: Provider.AUTH_SERVICE, useClass: AuthService },
-    { provide: Provider.PRISMA_SERVICE, useClass: PrismaService },
-    // { provide: Provider.JWT_STRATEGY, useClass: JwtStrategy },
-    JwtStrategy,
-  ],
+  providers: [AuthService, PrismaService, JwtStrategy],
 })
 export class AuthModule {}

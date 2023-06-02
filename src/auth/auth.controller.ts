@@ -9,9 +9,7 @@ import { Provider } from '../../constants';
 @Controller('auth')
 @ApiTags('Auth')
 export class AuthController {
-  constructor(
-    @Inject(Provider.AUTH_SERVICE) private readonly authService: AuthService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('login')
   @ApiOkResponse({ type: AuthEntity })

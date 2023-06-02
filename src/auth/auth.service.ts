@@ -8,9 +8,11 @@ import { Provider } from '../../constants';
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject(Provider.PRISMA_SERVICE) private readonly prisma: PrismaService,
+    private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
   ) {}
+
+  /*  private readonly jwtService: JwtService, */
 
   async login(email: string, password: string): Promise<AuthEntity> {
     const user = await this.prisma.user.findUnique({ where: { email: email } });
