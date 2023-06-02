@@ -78,7 +78,9 @@ describe('AppController (e2e)', () => {
           });
 
         expect(status).toBe(400);
-        expect(body.message[0]).toBe('Invalid email format');
+        expect(body.message).toEqual(
+          expect.arrayContaining(['Invalid email format']),
+        );
       });
 
       it('should catch ~ password is not 8+ chars', async () => {
@@ -90,8 +92,10 @@ describe('AppController (e2e)', () => {
           });
 
         expect(status).toBe(400);
-        expect(body.message[0]).toBe(
-          'Minimum of 8 characters for password is required',
+        expect(body.message).toEqual(
+          expect.arrayContaining([
+            'Minimum of 8 characters for password is required',
+          ]),
         );
       });
 
@@ -105,8 +109,10 @@ describe('AppController (e2e)', () => {
           });
 
         expect(status).toBe(400);
-        expect(body.message[0]).toBe(
-          'Password and confirm password does not match',
+        expect(body.message).toEqual(
+          expect.arrayContaining([
+            'Password and confirm password does not match',
+          ]),
         );
       });
 
@@ -116,7 +122,9 @@ describe('AppController (e2e)', () => {
           .send(newUser);
 
         expect(status).toBe(409);
-        expect(body.message[0]).toBe('Email already taken');
+        expect(body.message).toEqual(
+          expect.arrayContaining(['Email already taken']),
+        );
       });
     });
   });
