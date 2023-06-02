@@ -5,27 +5,20 @@ const API = import.meta.env.VITE_BACKEND_URL;
 
 /* Auth */
 export const loginUser = async (userCredentials: FieldValues) => {
-  return await axios({
-    method: 'post',
-    url: `${API}/auth/login`,
-    data: userCredentials,
-  });
+  return await axios.post(`${API}/auth/login`, userCredentials);
 };
 
 /* User */
 export const createUser = async (userData: FieldValues) => {
-  return await axios({
-    method: 'post',
-    url: `${API}/user`,
-    data: userData,
-  });
+  return await axios.post(`${API}/user`, userData);
 };
 
 /* User */
-export const createPost = async (postData: FieldValues) => {
-  return await axios({
-    method: 'post',
-    url: `${API}/user`,
-    data: postData,
+export const createPost = async (postData: FieldValues, token: string) => {
+  return await axios.post(`${API}/post`, postData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    withCredentials: true,
   });
 };
