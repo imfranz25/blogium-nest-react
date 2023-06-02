@@ -1,12 +1,12 @@
 import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 
 import { SafeUser } from '../types';
 
 interface AuthContextProviderProps {
   children: React.ReactNode;
-  skip?: boolean;
 }
 
 const AuthContext = createContext({
@@ -19,7 +19,7 @@ const AuthContext = createContext({
   onLogout: () => {},
 });
 
-const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
+const AuthProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
   const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState(localStorage.getItem('accessToken') ?? '');
@@ -72,6 +72,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) =
       const expiration = decoded?.exp ?? 0;
 
       if (Date.now() >= expiration * 1000) {
+        toast.error('Session expired');
         resetAuth();
       }
     }
@@ -92,5 +93,4 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) =
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };
 
-export default AuthContext;
-export { AuthContextProvider };
+export { AuthProvider, AuthContext };

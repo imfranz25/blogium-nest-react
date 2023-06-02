@@ -17,6 +17,8 @@ const FeedPage = () => {
       setIsLoading(true);
       const response = await api.getAllPost(token);
 
+      console.log(response.data);
+
       setPosts(response?.data || []);
     } catch (error) {
       toast.error(getErrorMessage(error));
@@ -31,7 +33,7 @@ const FeedPage = () => {
 
   return (
     <div>
-      <PostForm />
+      <PostForm addPost={setPosts} />
       {isLoading && <p>Loading...</p>}
       {posts.map((post) => (
         <p key={post.id}>{post.post}</p>

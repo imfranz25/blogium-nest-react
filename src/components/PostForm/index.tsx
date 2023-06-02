@@ -1,15 +1,20 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, Dispatch, SetStateAction } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import useAuth from '../../hooks/useAuth';
 
+import * as api from '../../api';
 import Modal from '../Modal';
 import Button from '../Button';
 import Input from '../Input';
-import * as api from '../../api';
 import getErrorMessage from '../../utils/getErrorMessage';
-import { toast } from 'react-hot-toast';
+import { SafePost } from '../../types';
 
-const PostForm = () => {
+interface PostFormProps {
+  addPost: Dispatch<SetStateAction<SafePost[]>>;
+}
+
+const PostForm: React.FC<PostFormProps> = ({ addPost }) => {
   const { token } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,14 +32,16 @@ const PostForm = () => {
     setIsLoading(true);
 
     try {
-      await api.createPost(post, token);
+      const { data: newPost } = await api.createPost(post, token);
+
+      addPost((posts) => [...posts, newPost]);
       toast.success('Post created successfully');
-      setIsModalOpen((state) => !state);
     } catch (error) {
       toast.error(getErrorMessage(error));
+    } finally {
+      setIsModalOpen(false);
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   });
 
   const bodyContent = (

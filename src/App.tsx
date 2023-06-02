@@ -8,7 +8,7 @@ import SignUpPage from './pages/SignUp';
 import PageNotFound from './pages/404';
 import FeedPage from './pages/Feed';
 import ProfilePage from './pages/Profile';
-import PostPage from './pages/Post';
+import PostPage from './pages/PostDetail';
 
 const App = () => {
   const routes: RouteObject[] = [
