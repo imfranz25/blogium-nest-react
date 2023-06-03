@@ -6,9 +6,17 @@ interface ModalProps {
   onSubmit: () => void;
   onCancel: () => void;
   body: React.ReactNode;
+  okLabel?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ isLoading, isOpen, onCancel, onSubmit, body }) => {
+const Modal: React.FC<ModalProps> = ({
+  isLoading,
+  isOpen,
+  onCancel,
+  onSubmit,
+  body,
+  okLabel = 'Submit',
+}) => {
   return (
     <AntdModal
       title="Title"
@@ -16,6 +24,7 @@ const Modal: React.FC<ModalProps> = ({ isLoading, isOpen, onCancel, onSubmit, bo
       onOk={onSubmit}
       confirmLoading={isLoading}
       onCancel={onCancel}
+      okText={okLabel}
     >
       {body}
     </AntdModal>

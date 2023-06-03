@@ -47,7 +47,6 @@ const PostForm: React.FC<PostFormProps> = ({ addPost }) => {
   const bodyContent = (
     <div>
       <Input label="Post" id="post" register={register} errors={errors} required />
-      <Button label="Submit" onClick={onPostSubmit} />
     </div>
   );
 
