@@ -2,19 +2,31 @@ import { Injectable } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { CommentPostDto } from './dto/comment-post.dto';
 
 @Injectable()
 export class PostService {
-  private readonly includeOptions = Object.freeze({
-    User: Object.freeze({
-      select: Object.freeze({
+  private readonly includeOptions = {
+    User: {
+      select: {
         profilePicture: true,
         firstName: true,
         lastName: true,
-      }),
-    }),
+      },
+    },
     Like: true,
-  });
+    Comment: {
+      select: {
+        id: true,
+        comment: true,
+        User: {
+          select: {
+            profilePicture: true,
+          },
+        },
+      },
+    },
+  };
 
   constructor(private readonly prisma: PrismaService) {}
 
@@ -60,7 +72,7 @@ export class PostService {
   }
 
   async like(postId: string, userId: string) {
-    return this.prisma.like.create({
+    return await this.prisma.like.create({
       data: {
         userId,
         postId,
@@ -69,10 +81,24 @@ export class PostService {
   }
 
   async unlike(postId: string, userId: string) {
-    return this.prisma.like.deleteMany({
+    return await this.prisma.like.deleteMany({
       where: {
         userId,
         postId,
+      },
+    });
+  }
+
+  async addComment(
+    userId: string,
+    postId: string,
+    commentPostDto: CommentPostDto,
+  ) {
+    return await this.prisma.comment.create({
+      data: {
+        userId,
+        postId,
+        ...commentPostDto,
       },
     });
   }

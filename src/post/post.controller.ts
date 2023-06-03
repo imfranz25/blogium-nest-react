@@ -15,6 +15,7 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { CommentPostDto } from './dto/comment-post.dto';
 
 @Controller('post')
 @UseGuards(JwtAuthGuard)
@@ -87,5 +88,16 @@ export class PostController {
     const userId = request?.user?.id;
 
     return this.postService.unlike(post.id, userId);
+  }
+
+  @Post('comment/:id')
+  async createComment(
+    @Req() request: any,
+    @Param('id') id: string,
+    @Body() commentPostDto: CommentPostDto,
+  ) {
+    const userId = request?.user?.id;
+
+    return await this.postService.addComment(userId, id, commentPostDto);
   }
 }
