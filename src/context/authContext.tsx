@@ -1,5 +1,5 @@
 import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 
@@ -10,7 +10,6 @@ interface AuthContextProviderProps {
 }
 
 const AuthContext = createContext({
-  isAuthenticated: false,
   token: '',
   user: null as SafeUser,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
@@ -21,6 +20,7 @@ const AuthContext = createContext({
 
 const AuthProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState(localStorage.getItem('accessToken') ?? '');
   const [user, setUser] = useState<SafeUser>(null);
@@ -31,16 +31,14 @@ const AuthProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
     setIsAuthenticated(false);
     setToken('');
     setUser(null);
-  }, []);
+    navigate('/');
+  }, [navigate]);
 
   const registerToken = useCallback(
     (accessToken: string) => {
       try {
         const decodedToken: SafeUser = jwtDecode(accessToken);
-        const userData = JSON.stringify(decodedToken);
-
         localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('user', userData);
 
         setUser(decodedToken);
         setToken(accessToken);
@@ -68,6 +66,7 @@ const AuthProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
   /* To check token expiration */
   useEffect(() => {
     if (isAuthenticated) {
+      console.log('rendered');
       const decoded = jwtDecode<JwtPayload>(token);
       const expiration = decoded?.exp ?? 0;
 
@@ -76,18 +75,16 @@ const AuthProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
         resetAuth();
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
+  }, [location, isAuthenticated, token, resetAuth]);
 
   const values = useMemo(
     () => ({
-      isAuthenticated,
       token,
       user,
       registerToken,
       onLogout,
     }),
-    [isAuthenticated, token, user, onLogout, registerToken]
+    [token, user, onLogout, registerToken]
   );
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

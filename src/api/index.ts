@@ -25,3 +25,9 @@ export const getAllPost = async (token: string) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+
+export const addComment = async (postId: string, commentData: FieldValues, token: string) => {
+  return await axios.post(`${API}/post/comment/${postId}`, commentData, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};

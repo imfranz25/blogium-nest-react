@@ -2,10 +2,12 @@ import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-hot-toast';
 
 import * as api from '../../api';
-import PostForm from '../../components/PostForm';
 import getErrorMessage from '../../utils/getErrorMessage';
 import useAuth from '../../hooks/useAuth';
 import { SafePost } from '../../types';
+
+import Post from '../../components/Post';
+import PostForm from '../../components/PostForm';
 
 const FeedPage = () => {
   const { token } = useAuth();
@@ -36,7 +38,14 @@ const FeedPage = () => {
       <PostForm addPost={setPosts} />
       {isLoading && <p>Loading...</p>}
       {posts.map((post) => (
-        <p key={post.id}>{post.post}</p>
+        <Post
+          key={post.id}
+          id={post.id}
+          post={post.post}
+          user={{ ...post.User, userId: post.userId }}
+          likes={post.Like}
+          comments={post.Comment}
+        />
       ))}
     </div>
   );
