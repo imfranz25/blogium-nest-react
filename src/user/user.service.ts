@@ -42,7 +42,15 @@ export class UserService {
   }
 
   async findOne(userId: string) {
-    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        profilePicture: true,
+        firstName: true,
+        lastName: true,
+      },
+    });
 
     if (!user) {
       throw new HttpException(

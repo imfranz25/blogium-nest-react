@@ -9,8 +9,6 @@ import { UserModule } from '../user/user.module';
 import { JwtStrategy } from './jwt.strategy';
 import { PrismaService } from '../prisma/prisma.service';
 
-import { Provider } from '../../constants';
-
 export const JWT_SECRET = process.env.JWT_SECRET || '';
 
 @Module({

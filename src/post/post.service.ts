@@ -103,6 +103,7 @@ export class PostService {
       select: {
         id: true,
         comment: true,
+        userId: true,
         User: {
           select: {
             profilePicture: true,
