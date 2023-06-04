@@ -15,7 +15,7 @@ interface IUseLike {
 
 const useLike = ({ likes, userId, postId, token, setPosts }: IUseLike) => {
   const [isLikeLoading, setLikeLoading] = useState(false);
-  const isLiked = !likes.findIndex((like) => like.userId === userId);
+  const isLiked = likes.findIndex((like) => like.userId === userId) > -1 ? true : false;
 
   const updateLikeStatus = useCallback(
     (likeData: SafeLikePost) => {
