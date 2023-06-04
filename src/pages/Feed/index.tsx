@@ -19,8 +19,6 @@ const FeedPage = () => {
       setIsLoading(true);
       const response = await api.getAllPost(token);
 
-      console.log(response.data);
-
       setPosts(response?.data || []);
     } catch (error) {
       toast.error(getErrorMessage(error));
@@ -45,6 +43,7 @@ const FeedPage = () => {
           user={{ ...post.User, userId: post.userId }}
           likes={post.Like}
           comments={post.Comment}
+          setComment={setPosts}
         />
       ))}
     </div>

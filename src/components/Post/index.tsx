@@ -1,10 +1,10 @@
 import * as api from '../../api';
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FieldValues, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
-import { SafePostUser, SafePostComment } from '../../types';
+import { SafePostUser, SafePostComment, SafePost } from '../../types';
 import Input from '../Input';
 import Button from '../Button';
 import useAuth from '../../hooks/useAuth';
@@ -16,9 +16,10 @@ interface PostProps {
   user: SafePostUser;
   likes: string[];
   comments: SafePostComment[];
+  setComment: Dispatch<SetStateAction<SafePost[]>>;
 }
 
-const Post: React.FC<PostProps> = ({ id, post, user, likes, comments }) => {
+const Post: React.FC<PostProps> = ({ id, post, user, likes, comments, setComment }) => {
   const { token } = useAuth();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -30,12 +31,19 @@ const Post: React.FC<PostProps> = ({ id, post, user, likes, comments }) => {
   } = useForm<FieldValues>({ defaultValues: { comment: '' } });
 
   const onSubmitComment = handleSubmit(async (comment) => {
-    setIsLoading(true);
-
     try {
+      setIsLoading(true);
       const response = await api.addComment(id, comment, token);
 
-      console.log(response.data);
+      setComment((posts) => {
+        const postIndex = posts.findIndex((post) => post.id === id);
+        const updatedPost = { ...posts[postIndex] };
+
+        updatedPost.Comment.push(response.data);
+        posts[postIndex] = updatedPost;
+
+        return posts;
+      });
 
       toast.success('Comment successfully added');
     } catch (error) {
