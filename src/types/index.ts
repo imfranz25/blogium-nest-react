@@ -19,11 +19,17 @@ export type SafePostComment = {
   };
 };
 
+export type SafeLikePost = {
+  id: string;
+  postId: string;
+  userId: string;
+};
+
 export type SafePost = {
   id: string;
   post: string;
   userId: string;
   User: SafePostUser;
-  Like: string[];
+  Like: SafeLikePost[];
   Comment: SafePostComment[];
 };

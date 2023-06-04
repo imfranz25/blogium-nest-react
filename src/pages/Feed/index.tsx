@@ -43,7 +43,7 @@ const FeedPage = () => {
           user={{ ...post.User, userId: post.userId }}
           likes={post.Like}
           comments={post.Comment}
-          setComment={setPosts}
+          setPosts={setPosts}
         />
       ))}
     </div>

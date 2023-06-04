@@ -1,28 +1,36 @@
 import * as api from '../../api';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FieldValues, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
-import { SafePostUser, SafePostComment, SafePost } from '../../types';
+import { SafePostUser, SafePostComment, SafePost, SafeLikePost } from '../../types';
 import Input from '../Input';
 import Button from '../Button';
 import useAuth from '../../hooks/useAuth';
 import getErrorMessage from '../../utils/getErrorMessage';
+import useLike from '../../hooks/useLike';
 
 interface PostProps {
   id: string;
   post: string;
   user: SafePostUser;
-  likes: string[];
+  likes: SafeLikePost[];
   comments: SafePostComment[];
-  setComment: Dispatch<SetStateAction<SafePost[]>>;
+  setPosts: Dispatch<SetStateAction<SafePost[]>>;
 }
 
-const Post: React.FC<PostProps> = ({ id, post, user, likes, comments, setComment }) => {
-  const { token } = useAuth();
-  const navigate = useNavigate();
+const Post: React.FC<PostProps> = ({ id, post, user, likes, comments, setPosts }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const { token, user: userData } = useAuth();
+  const { isLiked, isLikeLoading, toggleLike } = useLike({
+    likes,
+    token,
+    setPosts,
+    userId: userData?.userId,
+    postId: id,
+  });
   const {
     register,
     handleSubmit,
@@ -35,7 +43,7 @@ const Post: React.FC<PostProps> = ({ id, post, user, likes, comments, setComment
       setIsLoading(true);
       const response = await api.addComment(id, comment, token);
 
-      setComment((posts) => {
+      setPosts((posts) => {
         const postIndex = posts.findIndex((post) => post.id === id);
         const updatedPost = { ...posts[postIndex] };
 
@@ -54,19 +62,26 @@ const Post: React.FC<PostProps> = ({ id, post, user, likes, comments, setComment
     }
   });
 
+  const viewUser = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      event.stopPropagation();
+      navigate(`/profile/${user.userId}`);
+    },
+    [navigate, user.userId]
+  );
+
   return (
     <>
-      <div onClick={() => navigate(`/post/${id}`)}>
-        {post}
-        <div>Likes: {likes.length}</div>
-        <div
-          onClick={(event) => {
-            event.stopPropagation();
-            navigate(`/profile/${user.userId}`);
-          }}
-        >
-          user: {`${user.firstName} ${user.lastName}`}
-        </div>
+      <hr />
+      <div>
+        <Button label="View Post" onClick={() => navigate(`/post/${id}`)} />
+        <p> {post}</p>
+        <Button
+          disabled={isLikeLoading}
+          onClick={toggleLike}
+          label={`${isLiked ? 'Liked' : 'Like'}: ${likes.length}`}
+        />
+        <div onClick={viewUser}>user: {`${user.firstName} ${user.lastName}`}</div>
       </div>
       <div>
         Comments:

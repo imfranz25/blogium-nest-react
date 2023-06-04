@@ -37,3 +37,17 @@ export const addComment = async (postId: string, commentData: FieldValues, token
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+
+export const likePost = async (postId: string, token: string) => {
+  return await axios.post(
+    `${API}/post/like/${postId}`,
+    {},
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+};
+
+export const unlikePost = async (postId: string, token: string) => {
+  return await axios.delete(`${API}/post/like/${postId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
