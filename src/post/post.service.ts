@@ -100,6 +100,15 @@ export class PostService {
         postId,
         ...commentPostDto,
       },
+      select: {
+        id: true,
+        comment: true,
+        User: {
+          select: {
+            profilePicture: true,
+          },
+        },
+      },
     });
   }
 }
