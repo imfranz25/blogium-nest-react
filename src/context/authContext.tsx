@@ -66,7 +66,6 @@ const AuthProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
   /* To check token expiration */
   useEffect(() => {
     if (isAuthenticated) {
-      console.log('rendered');
       const decoded = jwtDecode<JwtPayload>(token);
       const expiration = decoded?.exp ?? 0;
 

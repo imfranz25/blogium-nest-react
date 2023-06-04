@@ -13,6 +13,12 @@ export const createUser = async (userData: FieldValues) => {
   return await axios.post(`${API}/user`, userData);
 };
 
+export const getUser = async (userId: string, token: string) => {
+  return await axios.get(`${API}/user/${userId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
 /* Post */
 export const createPost = async (postData: FieldValues, token: string) => {
   return await axios.post(`${API}/post`, postData, {
