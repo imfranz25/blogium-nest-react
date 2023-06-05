@@ -10,6 +10,7 @@ import Button from '../Button';
 import useAuth from '../../hooks/useAuth';
 import getErrorMessage from '../../utils/getErrorMessage';
 import useLike from '../../hooks/useLike';
+import Menu from '../Menu';
 
 interface PostProps {
   id: string;
@@ -74,7 +75,7 @@ const Post: React.FC<PostProps> = ({ id, post, user, likes, comments, setPosts }
     <>
       <hr />
       <div>
-        <Button label="View Post" onClick={() => navigate(`/post/${id}`)} />
+        <Menu postId={id} isOwned={user.userId === userData?.userId} />
         <p> {post}</p>
         <Button
           disabled={isLikeLoading}

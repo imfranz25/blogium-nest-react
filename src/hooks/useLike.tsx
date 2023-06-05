@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import * as api from '../api';
 import toast from 'react-hot-toast';
 
@@ -49,7 +49,7 @@ const useLike = ({ likes, userId, postId, token, setPosts }: IUseLike) => {
 
         if (isLiked) {
           request = () => api.unlikePost(postId, token);
-          responseMessage = 'Disliked post';
+          responseMessage = 'Post unliked';
         } else {
           request = () => api.likePost(postId, token);
           responseMessage = 'Post liked';
