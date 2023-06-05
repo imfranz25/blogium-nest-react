@@ -3,27 +3,28 @@ import * as api from '../../api';
 import { toast } from 'react-hot-toast';
 import { useState } from 'react';
 import { useForm, FieldValues } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { Button, Form, Typography } from 'antd';
+import { AiOutlineLogin } from 'react-icons/ai';
 
 import useAuth from '../../hooks/useAuth';
 import getErrorMessage from '../../utils/getErrorMessage';
-import { Link } from 'react-router-dom';
-
 import Input from '../../components/Input';
-import Button from '../../components/Button';
+import { LoginWrapper, LoginCard } from './styles';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const { registerToken } = useAuth();
-  const [isDisable, setDisable] = useState(false);
+  const [isLoading, isSetLoading] = useState(false);
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FieldValues>({ defaultValues: { email: '', password: '' } });
 
   const onLogin = handleSubmit(async (credentials) => {
-    setDisable(true);
+    isSetLoading(true);
 
     try {
       const response = await api.loginUser(credentials);
@@ -34,26 +35,44 @@ const LoginPage = () => {
     } catch (error: any) {
       toast.error(getErrorMessage(error));
     } finally {
-      setDisable(false);
+      isSetLoading(false);
     }
   });
 
   return (
-    <div>
-      <Input label="Email" type="email" id="email" register={register} errors={errors} required />
-      <Input
-        label="Password"
-        id="password"
-        type="password"
-        register={register}
-        errors={errors}
-        required
-      />
-      <Button label="Login" disabled={isDisable} onClick={onLogin} />
-      <p>
-        Don&apos;t have an account? <Link to="/sign-up">Sign up</Link>
-      </p>
-    </div>
+    <LoginWrapper>
+      <LoginCard bordered hoverable>
+        <Typography.Title level={3}>Welcome back!</Typography.Title>
+        <Form onFinish={onLogin}>
+          <Input
+            label="Email"
+            type="email"
+            id="email"
+            register={register}
+            errors={errors}
+            setValue={setValue}
+            required
+          />
+          <Input
+            label="Password"
+            id="password"
+            type="password"
+            register={register}
+            errors={errors}
+            setValue={setValue}
+            required
+          />
+          <div style={{ margin: '50px 0px 50px 0px' }}>
+            <Button type="primary" icon={<AiOutlineLogin />} loading={isLoading} htmlType="submit">
+              Login
+            </Button>
+          </div>
+        </Form>
+        <Typography.Paragraph>
+          Don&apos;t have an account? <Link to="/sign-up">Sign up</Link>
+        </Typography.Paragraph>
+      </LoginCard>
+    </LoginWrapper>
   );
 };
 

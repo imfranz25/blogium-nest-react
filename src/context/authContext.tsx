@@ -1,7 +1,7 @@
 import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
+import toast from 'react-hot-toast';
 
 import { SafeUser } from '../types';
 
@@ -31,6 +31,7 @@ const AuthProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
     setIsAuthenticated(false);
     setToken('');
     setUser(null);
+
     navigate('/');
   }, [navigate]);
 
