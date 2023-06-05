@@ -17,7 +17,7 @@ const FeedPage = () => {
   const fetchPosts = useCallback(async () => {
     try {
       setIsLoading(true);
-      const response = await api.getAllPost(token);
+      const response = await api.getAllPosts(token);
 
       setPosts(response?.data || []);
     } catch (error) {

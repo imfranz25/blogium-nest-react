@@ -26,7 +26,13 @@ export const createPost = async (postData: FieldValues, token: string) => {
   });
 };
 
-export const getAllPost = async (token: string) => {
+export const getPost = async (postId: string, token: string) => {
+  return await axios.get(`${API}/post/${postId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+export const getAllPosts = async (token: string) => {
   return await axios.get(`${API}/post`, {
     headers: { Authorization: `Bearer ${token}` },
   });

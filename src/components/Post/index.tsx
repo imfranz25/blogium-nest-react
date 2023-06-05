@@ -18,19 +18,21 @@ interface PostProps {
   user: SafePostUser;
   likes: SafeLikePost[];
   comments: SafePostComment[];
-  setPosts: Dispatch<SetStateAction<SafePost[]>>;
+  setPosts?: Dispatch<SetStateAction<SafePost[]>>;
+  setPostData?: Dispatch<SetStateAction<SafePost | null>>;
 }
 
-const Post: React.FC<PostProps> = ({ id, post, user, likes, comments, setPosts }) => {
+const Post: React.FC<PostProps> = ({ id, post, user, likes, comments, setPosts, setPostData }) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { token, user: userData } = useAuth();
   const { isLiked, isLikeLoading, toggleLike } = useLike({
     likes,
     token,
-    setPosts,
     userId: userData?.userId,
     postId: id,
+    setPosts,
+    setPostData,
   });
   const {
     register,
@@ -44,15 +46,28 @@ const Post: React.FC<PostProps> = ({ id, post, user, likes, comments, setPosts }
       setIsLoading(true);
       const response = await api.addComment(id, comment, token);
 
-      setPosts((posts) => {
-        const postIndex = posts.findIndex((post) => post.id === id);
-        const updatedPost = { ...posts[postIndex] };
+      if (setPosts) {
+        setPosts((posts) => {
+          const postIndex = posts.findIndex((post) => post.id === id);
+          const updatedPost = { ...posts[postIndex] };
 
-        updatedPost.Comment.push(response.data);
-        posts[postIndex] = updatedPost;
+          updatedPost.Comment.push(response.data);
+          posts[postIndex] = updatedPost;
 
-        return posts;
-      });
+          return posts;
+        });
+      }
+
+      if (setPostData) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        setPostData((post: any) => {
+          const updatedPost = { ...post };
+
+          updatedPost?.Comment?.push(response.data);
+
+          return updatedPost;
+        });
+      }
 
       toast.success('Comment successfully added');
     } catch (error) {

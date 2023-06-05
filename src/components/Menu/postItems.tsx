@@ -1,13 +1,15 @@
 import { MenuProps } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, Location } from 'react-router-dom';
 
-const postItems = (postId: string, isOwned: boolean) => {
-  const menuItems: MenuProps['items'] = [
-    {
+const postItems = (postId: string, isOwned: boolean, location: Location) => {
+  const menuItems: MenuProps['items'] = [];
+
+  if (location.pathname === '/feed') {
+    menuItems.push({
       key: `view-${postId}`,
       label: <Link to={`/post/${postId}`}>View</Link>,
-    },
-  ];
+    });
+  }
 
   if (isOwned) {
     menuItems.push({
