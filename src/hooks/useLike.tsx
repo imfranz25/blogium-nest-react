@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import { Dispatch, MouseEventHandler, SetStateAction, useCallback, useState } from 'react';
 import * as api from '../api';
 import toast from 'react-hot-toast';
 
@@ -57,7 +57,7 @@ const useLike = ({ likes, userId, postId, token, setPosts, setPostData }: IUseLi
     [setPosts, postId, userId, setPostData]
   );
 
-  const toggleLike = useCallback(
+  const toggleLike: MouseEventHandler = useCallback(
     async (event: React.MouseEvent<HTMLButtonElement>) => {
       event.stopPropagation();
       setLikeLoading(true);
