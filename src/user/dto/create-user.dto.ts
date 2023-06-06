@@ -38,6 +38,10 @@ export class CreateUserDto {
   })
   password: string;
 
+  @ApiProperty({ example: '2023-5-1' })
+  @IsNotEmpty({ message: 'Birthday is required' })
+  birthday: string;
+
   @ApiProperty({
     example: 'Strong-p@ssword123',
     description: 'Same with password field',

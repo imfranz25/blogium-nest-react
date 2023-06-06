@@ -14,7 +14,7 @@ export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createUserDto: CreateUserDto) {
-    const { password, confirmPassword, ...newUser } = createUserDto;
+    const { password, confirmPassword, birthday, ...newUser } = createUserDto;
 
     if (password !== confirmPassword) {
       throw new HttpException(
@@ -27,9 +27,11 @@ export class UserService {
 
     try {
       return await this.prisma.user.create({
-        data: { ...newUser, hashedPassword },
+        data: { ...newUser, hashedPassword, birthday: new Date(birthday) },
       });
     } catch (error) {
+      console.log(error);
+
       if (error.code === 'P2002') {
         throw new HttpException(
           { message: ['Email already taken'] },
@@ -49,6 +51,8 @@ export class UserService {
         profilePicture: true,
         firstName: true,
         lastName: true,
+        birthday: true,
+        bio: true,
       },
     });
 
