@@ -11,6 +11,17 @@ export const LoginWrapper = styled.div`
 `;
 
 export const LoginCard = styled(Card)`
-  width: 40%;
+  width: 400px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+`;
+
+export const ActionWrapper = styled.div`
+  margin: 35px 0 5px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .ant-btn {
+    width: 100%;
+  }
 `;

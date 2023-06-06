@@ -20,7 +20,7 @@ export const InputCol = styled(Col)`
 `;
 
 export const ActionWrapper = styled.div`
-  margin: 15px 0;
+  margin: 25px 0 5px 0;
   display: flex;
   justify-content: center;
   align-items: center;

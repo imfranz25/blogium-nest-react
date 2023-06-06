@@ -4,13 +4,13 @@ import { toast } from 'react-hot-toast';
 import { useState } from 'react';
 import { useForm, FieldValues } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
-import { Button, Form, Typography } from 'antd';
+import { Button, Form, Row, Typography } from 'antd';
 import { AiOutlineLogin } from 'react-icons/ai';
 
 import useAuth from '../../hooks/useAuth';
 import getErrorMessage from '../../utils/getErrorMessage';
 import Input from '../../components/Input';
-import { LoginWrapper, LoginCard } from './styles';
+import { LoginWrapper, LoginCard, ActionWrapper } from './styles';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -42,8 +42,11 @@ const LoginPage = () => {
   return (
     <LoginWrapper>
       <LoginCard bordered hoverable>
-        <Form onFinish={onLogin}>
+        <Row justify="center">
           <Typography.Title level={3}>Welcome back!</Typography.Title>
+        </Row>
+
+        <Form onFinish={onLogin}>
           <Input
             label="Email"
             type="email"
@@ -62,15 +65,18 @@ const LoginPage = () => {
             setValue={setValue}
             required
           />
-          <div style={{ margin: '50px 0px 50px 0px' }}>
+          <ActionWrapper>
             <Button type="primary" icon={<AiOutlineLogin />} loading={isLoading} htmlType="submit">
               Login
             </Button>
-          </div>
+          </ActionWrapper>
         </Form>
-        <Typography.Paragraph>
-          Don&apos;t have an account? <Link to="/sign-up">Sign up</Link>
-        </Typography.Paragraph>
+
+        <Row justify="center">
+          <Typography.Paragraph>
+            Don&apos;t have an account? <Link to="/sign-up">Sign up</Link>
+          </Typography.Paragraph>
+        </Row>
       </LoginCard>
     </LoginWrapper>
   );
