@@ -1,7 +1,7 @@
 export type SafeUser = {
-  userId: string;
-  iat: number;
-  exp: number;
+  readonly userId: string;
+  readonly iat: number;
+  readonly exp: number;
 } | null;
 
 export type SafePostUser = {
@@ -14,9 +14,7 @@ export type SafePostUser = {
 export type SafePostComment = {
   id: string;
   comment: string;
-  User: {
-    profilePicture: string | null;
-  };
+  User: Pick<SafePostUser, 'profilePicture'>;
 };
 
 export type SafeLikePost = {
@@ -25,10 +23,7 @@ export type SafeLikePost = {
   userId: string;
 };
 
-export type SafePost = {
-  id: string;
-  post: string;
-  userId: string;
+export type SafePost = SafeLikePost & {
   User: SafePostUser;
   Like: SafeLikePost[];
   Comment: SafePostComment[];

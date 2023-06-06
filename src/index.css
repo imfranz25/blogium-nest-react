@@ -1,5 +1,7 @@
+@import url('https://fonts.cdnfonts.com/css/futura-pt?styles=117664');
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Futura PT', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -16,6 +18,12 @@
 
 body {
   margin: 0;
+}
+
+.ant-input-affix-wrapper,
+.ant-input,
+.ant-picker {
+  background-color: #f9fafb;
 }
 
 /* @media (prefers-color-scheme: light) {

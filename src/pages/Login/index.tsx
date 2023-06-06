@@ -42,8 +42,8 @@ const LoginPage = () => {
   return (
     <LoginWrapper>
       <LoginCard bordered hoverable>
-        <Typography.Title level={3}>Welcome back!</Typography.Title>
         <Form onFinish={onLogin}>
+          <Typography.Title level={3}>Welcome back!</Typography.Title>
           <Input
             label="Email"
             type="email"
