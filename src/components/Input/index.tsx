@@ -60,6 +60,7 @@ const Input: React.FC<InputProps> = ({
       <InputComponent
         {...register(id, { required })}
         id={id}
+        type={type}
         disabled={disabled}
         autoComplete={autoComplete}
         onChange={onChangeInput}

@@ -16,7 +16,7 @@ export const LoginCard = styled(Card)`
 `;
 
 export const ActionWrapper = styled.div`
-  margin: 35px 0 5px 0;
+  margin: 40px 0 5px 0;
   display: flex;
   justify-content: center;
   align-items: center;
