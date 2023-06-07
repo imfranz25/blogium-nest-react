@@ -6,7 +6,7 @@ import { FormItem } from './styles';
 
 interface InputProps {
   id: string;
-  label: string;
+  label?: string;
   type?: string;
   errors: FieldErrors;
   disabled?: boolean;
@@ -14,6 +14,8 @@ interface InputProps {
   autoComplete?: string;
   register: UseFormRegister<FieldValues>;
   setValue: UseFormSetValue<FieldValues>;
+  placeholder?: string;
+  suffix?: React.ReactNode;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -23,7 +25,9 @@ const Input: React.FC<InputProps> = ({
   register,
   errors,
   setValue,
+  suffix,
   required = false,
+  placeholder = '',
   autoComplete = 'off',
   type = 'text',
 }) => {
@@ -64,6 +68,8 @@ const Input: React.FC<InputProps> = ({
         disabled={disabled}
         autoComplete={autoComplete}
         onChange={onChangeInput}
+        placeholder={placeholder}
+        suffix={suffix}
       />
     </FormItem>
   );

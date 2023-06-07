@@ -1,5 +1,4 @@
 import * as api from '../../api';
-import React, { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { FaEllipsisH } from 'react-icons/fa';
 import { formatDistanceToNow } from 'date-fns';
@@ -7,14 +6,24 @@ import { FieldValues, useForm } from 'react-hook-form';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Dropdown, Button, Row, Typography } from 'antd';
 import { AiFillLike, AiOutlineComment, AiOutlineLike } from 'react-icons/ai';
+import { IoSend } from 'react-icons/io5';
+import React, { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
 
 import Input from '../Input';
 import useAuth from '../../hooks/useAuth';
 import useLike from '../../hooks/useLike';
 import postItems from '../../utils/getPostMenu';
 import getErrorMessage from '../../utils/getErrorMessage';
-import { AvatarContainer, PostCard, UserContainer, Avatar, Paragraph, PostButton } from './styles';
 import { SafePostUser, SafePostComment, SafePost, SafeLikePost } from '../../types';
+import {
+  AvatarContainer,
+  PostCard,
+  UserContainer,
+  Avatar,
+  Paragraph,
+  PostButton,
+  Divider,
+} from './styles';
 
 interface PostProps {
   id: string;
@@ -60,6 +69,7 @@ const Post: React.FC<PostProps> = ({
 
   const commentCount = comments.length;
   const likeCount = likes.length;
+  const timeCreated = formatDistanceToNow(new Date(createdAt));
 
   const menuItems = useMemo(() => {
     const isOwnPost = userData?.userId === user.userId;
@@ -129,30 +139,50 @@ const Post: React.FC<PostProps> = ({
           </Avatar>
           <UserContainer>
             <Typography.Text>{`${user.firstName} ${user.lastName}`}</Typography.Text>
-            <Typography.Paragraph>{formatDistanceToNow(new Date(createdAt))}</Typography.Paragraph>
+            <Typography.Paragraph>{timeCreated}</Typography.Paragraph>
           </UserContainer>
         </AvatarContainer>
-
         <Dropdown menu={{ items: menuItems }} placement="bottomLeft">
           <Button type="text">
             <FaEllipsisH />
           </Button>
         </Dropdown>
       </Row>
+
       <Paragraph>{post}</Paragraph>
+
+      <Divider style={{ margin: '15px 0' }} />
       <PostButton
+        type="link"
         disabled={isLikeLoading}
         onClick={toggleLike}
-        icon={isLiked ? <AiFillLike /> : <AiOutlineLike />}
-        type="link"
+        icon={isLiked ? <AiFillLike style={{ color: 'blue' }} /> : <AiOutlineLike />}
       >
         {likeCount} Like{likeCount > 1 && 's'}
       </PostButton>
       <PostButton type="link" onClick={toggleComment} icon={<AiOutlineComment />}>
         {commentCount} Comment{commentCount > 1 && 's'}
       </PostButton>
+
       {isShowComment && (
         <>
+          <Divider />
+          <div>
+            <Input
+              id="comment"
+              register={register}
+              errors={errors}
+              setValue={setValue}
+              placeholder="Write a comment..."
+              suffix={
+                <PostButton
+                  onClick={handleSubmit(onSubmitComment)}
+                  loading={isLoading}
+                  icon={<IoSend />}
+                />
+              }
+            />
+          </div>
           <div>
             Comments:
             <ul>
@@ -160,18 +190,6 @@ const Post: React.FC<PostProps> = ({
                 <li key={comment.id}>{comment.comment}</li>
               ))}
             </ul>
-          </div>
-          <div>
-            <Input
-              label="Add comment"
-              id="comment"
-              register={register}
-              errors={errors}
-              setValue={setValue}
-            />
-            <Button onClick={handleSubmit(onSubmitComment)} loading={isLoading}>
-              Save
-            </Button>
           </div>
         </>
       )}

@@ -22,7 +22,7 @@ const Navbar = () => {
       <LogoContainer>
         <Image
           alt="Blogium"
-          width={38}
+          width={32}
           preview={false}
           src={blogiumLogo}
           onClick={() => navigate('/feed')}

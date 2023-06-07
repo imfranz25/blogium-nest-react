@@ -1,4 +1,4 @@
-import { Avatar as AntdAvatar, Button, Card, Typography } from 'antd';
+import { Avatar as AntdAvatar, Button, Card, Typography, Divider as AntdDivider } from 'antd';
 import styled from 'styled-components';
 
 export const PostCard = styled(Card)`
@@ -30,7 +30,7 @@ export const UserContainer = styled.div`
 `;
 
 export const Paragraph = styled(Typography.Paragraph)`
-  margin: 30px 0;
+  margin: 30px 0 0 0 !important;
 `;
 
 export const PostButton = styled(Button)`
@@ -39,4 +39,8 @@ export const PostButton = styled(Button)`
   height: auto;
   margin-right: 12px !important;
   color: inherit;
+`;
+
+export const Divider = styled(AntdDivider)`
+  margin: 15px 0;
 `;
