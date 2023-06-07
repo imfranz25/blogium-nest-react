@@ -1,4 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
+import { Layout } from 'antd';
 
 import Navbar from '../../components/Navbar';
 
@@ -10,10 +11,12 @@ const PrivateRoutes = () => {
   }
 
   return (
-    <>
+    <Layout>
       <Navbar />
-      <Outlet />
-    </>
+      <div style={{ paddingTop: '80px' }}>
+        <Outlet />
+      </div>
+    </Layout>
   );
 };
 
