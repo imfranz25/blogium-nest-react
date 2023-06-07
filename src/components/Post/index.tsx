@@ -104,11 +104,13 @@ const Post: React.FC<PostProps> = ({ id, post, user, likes, comments, setPosts, 
       <hr />
       <div>
         <Dropdown menu={{ items: menuItems }} placement="bottomLeft">
-          <FaEllipsisH />
+          <Button>
+            <FaEllipsisH />
+          </Button>
         </Dropdown>
         <p> {post}</p>
-        <Button loading={isLikeLoading} onClick={toggleLike}>
-          ${isLiked ? 'Liked' : 'Like'}: ${likes.length}
+        <Button disabled={isLikeLoading} onClick={toggleLike}>
+          {isLiked ? 'Liked' : 'Like'}: {likes.length}
         </Button>
         <div onClick={viewUser}>user: {`${user.firstName} ${user.lastName}`}</div>
       </div>

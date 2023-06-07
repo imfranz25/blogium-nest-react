@@ -5,10 +5,10 @@ import useAuth from '../../hooks/useAuth';
 
 import * as api from '../../api';
 import Modal from '../Modal';
-import Button from '../Button';
 import Input from '../Input';
 import getErrorMessage from '../../utils/getErrorMessage';
 import { SafePost } from '../../types';
+import { Button } from 'antd';
 
 interface PostFormProps {
   addPost: Dispatch<SetStateAction<SafePost[]>>;
@@ -21,6 +21,7 @@ const PostForm: React.FC<PostFormProps> = ({ addPost }) => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FieldValues>({ defaultValues: { post: '' } });
 
@@ -46,13 +47,20 @@ const PostForm: React.FC<PostFormProps> = ({ addPost }) => {
 
   const bodyContent = (
     <div>
-      <Input label="Post" id="post" register={register} errors={errors} required />
+      <Input
+        label="Post"
+        id="post"
+        register={register}
+        errors={errors}
+        setValue={setValue}
+        required
+      />
     </div>
   );
 
   return (
     <div>
-      <Button label="Create Post" onClick={togglePostModal} />
+      <Button onClick={togglePostModal}>Create Post</Button>
       <Modal
         isOpen={isModalOpen}
         body={bodyContent}

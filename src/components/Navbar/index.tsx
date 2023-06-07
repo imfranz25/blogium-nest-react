@@ -2,8 +2,7 @@ import { Link } from 'react-router-dom';
 
 import Logo from './Logo';
 import useAuth from '../../hooks/useAuth';
-import Button from '../Button';
-import { Avatar, Row } from 'antd';
+import { Avatar, Button, Row } from 'antd';
 
 import { FaUserCircle } from 'react-icons/fa';
 
@@ -18,7 +17,7 @@ const Navbar = () => {
         <Link to={`/profile/${user?.userId}`}>Profile</Link>
       </ul>
       <Avatar icon={<FaUserCircle />} />
-      <Button label="Logout" onClick={onLogout} />
+      <Button onClick={onLogout}>Logout</Button>
     </Row>
   );
 };

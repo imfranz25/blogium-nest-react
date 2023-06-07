@@ -66,7 +66,13 @@ const LoginPage = () => {
             required
           />
           <ActionWrapper>
-            <Button type="primary" icon={<AiOutlineLogin />} loading={isLoading} htmlType="submit">
+            <Button
+              size="large"
+              type="primary"
+              icon={<AiOutlineLogin />}
+              loading={isLoading}
+              htmlType="submit"
+            >
               Login
             </Button>
           </ActionWrapper>
