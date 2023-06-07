@@ -8,6 +8,7 @@ import { SafePost } from '../../types';
 
 import Post from '../../components/Post';
 import PostForm from '../../components/PostForm';
+import { Col, Row } from 'antd';
 
 const FeedPage = () => {
   const { token } = useAuth();
@@ -31,21 +32,28 @@ const FeedPage = () => {
     fetchPosts();
   }, [fetchPosts]);
 
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <div>
-      <PostForm addPost={setPosts} />
-      {isLoading && <p>Loading...</p>}
-      {posts.map((post) => (
-        <Post
-          key={post.id}
-          id={post.id}
-          post={post.post}
-          user={{ ...post.User, userId: post.userId }}
-          likes={post.Like}
-          comments={post.Comment}
-          setPosts={setPosts}
-        />
-      ))}
+      <Row justify="space-around">
+        <Col span={16}>
+          <PostForm addPost={setPosts} />
+          {posts.map((post) => (
+            <Post
+              key={post.id}
+              id={post.id}
+              post={post.post}
+              user={{ ...post.User, userId: post.userId }}
+              likes={post.Like}
+              comments={post.Comment}
+              setPosts={setPosts}
+            />
+          ))}
+        </Col>
+      </Row>
     </div>
   );
 };
