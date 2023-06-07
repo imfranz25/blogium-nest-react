@@ -4,7 +4,7 @@ import blogiumLogo from '../../assets/logo.png';
 
 import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import { Header, Link, LogoContainer, LinkContainer } from './styles';
+import { Header, Link, LogoContainer, LinkContainer, AvatarContainer } from './styles';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -32,11 +32,11 @@ const Navbar = () => {
         <Link to="/feed">Feed</Link>
         <Link to={`/profile/${user?.userId}`}>Profile</Link>
       </LinkContainer>
-      <div>
+      <AvatarContainer>
         <Dropdown menu={{ items: menuItems }} placement="bottomLeft">
           <Avatar icon={<FaUserCircle size={32} />} />
         </Dropdown>
-      </div>
+      </AvatarContainer>
     </Header>
   );
 };

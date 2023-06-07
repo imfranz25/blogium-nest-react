@@ -3,14 +3,15 @@ import React, { Dispatch, SetStateAction, useCallback, useMemo, useState } from 
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FieldValues, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import { Dropdown, Button } from 'antd';
+import { Dropdown, Button, Card, Row } from 'antd';
 
 import { SafePostUser, SafePostComment, SafePost, SafeLikePost } from '../../types';
+import { FaEllipsisH } from 'react-icons/fa';
+import { AiFillLike, AiOutlineComment, AiOutlineLike } from 'react-icons/ai';
 import Input from '../Input';
 import useAuth from '../../hooks/useAuth';
 import getErrorMessage from '../../utils/getErrorMessage';
 import useLike from '../../hooks/useLike';
-import { FaEllipsisH } from 'react-icons/fa';
 import postItems from '../../utils/getPostMenu';
 
 interface PostProps {
@@ -25,8 +26,9 @@ interface PostProps {
 
 const Post: React.FC<PostProps> = ({ id, post, user, likes, comments, setPosts, setPostData }) => {
   const location = useLocation();
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isShowComment, setShowComment] = useState(false);
   const { token, user: userData } = useAuth();
   const { isLiked, isLikeLoading, toggleLike } = useLike({
     likes,
@@ -43,6 +45,9 @@ const Post: React.FC<PostProps> = ({ id, post, user, likes, comments, setPosts, 
     setValue,
     formState: { errors },
   } = useForm<FieldValues>({ defaultValues: { comment: '' } });
+
+  const commentCount = comments.length;
+  const likeCount = likes.length;
 
   const menuItems = useMemo(() => {
     const isOwnPost = userData?.userId === user.userId;
@@ -99,43 +104,58 @@ const Post: React.FC<PostProps> = ({ id, post, user, likes, comments, setPosts, 
     [navigate, user.userId]
   );
 
+  const toggleComment = useCallback(() => {
+    setShowComment((state) => !state);
+  }, []);
+
   return (
-    <>
-      <hr />
-      <div>
+    <Card>
+      <Row justify="space-between">
+        <div onClick={viewUser}>user: {`${user.firstName} ${user.lastName}`}</div>
+
         <Dropdown menu={{ items: menuItems }} placement="bottomLeft">
-          <Button>
+          <Button type="text">
             <FaEllipsisH />
           </Button>
         </Dropdown>
-        <p> {post}</p>
-        <Button disabled={isLikeLoading} onClick={toggleLike}>
-          {isLiked ? 'Liked' : 'Like'}: {likes.length}
-        </Button>
-        <div onClick={viewUser}>user: {`${user.firstName} ${user.lastName}`}</div>
-      </div>
-      <div>
-        Comments:
-        <ul>
-          {comments.map((comment) => (
-            <li key={comment.id}>{comment.comment}</li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <Input
-          label="Add comment"
-          id="comment"
-          register={register}
-          errors={errors}
-          setValue={setValue}
-        />
-        <Button onClick={handleSubmit(onSubmitComment)} loading={isLoading}>
-          Save
-        </Button>
-      </div>
-      <hr />
-    </>
+      </Row>
+      <p> {post}</p>
+      <Button
+        disabled={isLikeLoading}
+        onClick={toggleLike}
+        type="text"
+        icon={isLiked ? <AiFillLike /> : <AiOutlineLike />}
+      >
+        {likeCount} Like{likeCount > 1 && 's'}
+      </Button>
+      <Button type="text" onClick={toggleComment} icon={<AiOutlineComment />}>
+        {commentCount} Comment{commentCount > 1 && 's'}
+      </Button>
+      {isShowComment && (
+        <>
+          <div>
+            Comments:
+            <ul>
+              {comments.map((comment) => (
+                <li key={comment.id}>{comment.comment}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <Input
+              label="Add comment"
+              id="comment"
+              register={register}
+              errors={errors}
+              setValue={setValue}
+            />
+            <Button onClick={handleSubmit(onSubmitComment)} loading={isLoading}>
+              Save
+            </Button>
+          </div>
+        </>
+      )}
+    </Card>
   );
 };
 

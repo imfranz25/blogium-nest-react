@@ -34,3 +34,7 @@ export const LogoContainer = styled.div`
 export const LinkContainer = styled.div`
   min-width: 120px;
 `;
+
+export const AvatarContainer = styled.div`
+  cursor: pointer;
+`;
