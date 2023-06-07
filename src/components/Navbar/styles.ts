@@ -12,6 +12,10 @@ export const Header = styled(Layout.Header)`
   position: fixed;
   width: 100%;
   z-index: 1;
+
+  @media (min-width: 900px) {
+    padding: 0 200px;
+  }
 `;
 
 export const Link = styled(RouterLink)`
