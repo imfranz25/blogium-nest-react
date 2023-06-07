@@ -45,6 +45,7 @@ const PostDetailsPage = () => {
           comments={postData.Comment}
           user={{ ...postData.User, userId: postData.userId }}
           setPostData={setPostData}
+          createdAt={postData.createdAt}
         />
       )}
     </>

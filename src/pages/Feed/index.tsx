@@ -1,14 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-hot-toast';
+import { Col, Row } from 'antd';
 
 import * as api from '../../api';
 import getErrorMessage from '../../utils/getErrorMessage';
 import useAuth from '../../hooks/useAuth';
 import { SafePost } from '../../types';
-
 import Post from '../../components/Post';
 import PostForm from '../../components/PostForm';
-import { Col, Row } from 'antd';
 
 const FeedPage = () => {
   const { token } = useAuth();
@@ -50,6 +49,7 @@ const FeedPage = () => {
               likes={post.Like}
               comments={post.Comment}
               setPosts={setPosts}
+              createdAt={post.createdAt}
             />
           ))}
         </Col>

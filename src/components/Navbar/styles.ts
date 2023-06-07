@@ -2,10 +2,6 @@ import styled from 'styled-components';
 import { Layout } from 'antd';
 import { Link as RouterLink } from 'react-router-dom';
 
-export const cursorPointer = {
-  cursor: 'pointer',
-};
-
 export const Header = styled(Layout.Header)`
   display: flex;
   justify-content: space-between;

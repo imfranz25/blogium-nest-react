@@ -1,18 +1,20 @@
 import * as api from '../../api';
 import React, { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { FieldValues, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import { Dropdown, Button, Card, Row } from 'antd';
-
-import { SafePostUser, SafePostComment, SafePost, SafeLikePost } from '../../types';
 import { FaEllipsisH } from 'react-icons/fa';
+import { formatDistanceToNow } from 'date-fns';
+import { FieldValues, useForm } from 'react-hook-form';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Dropdown, Button, Row, Typography } from 'antd';
 import { AiFillLike, AiOutlineComment, AiOutlineLike } from 'react-icons/ai';
+
 import Input from '../Input';
 import useAuth from '../../hooks/useAuth';
-import getErrorMessage from '../../utils/getErrorMessage';
 import useLike from '../../hooks/useLike';
 import postItems from '../../utils/getPostMenu';
+import getErrorMessage from '../../utils/getErrorMessage';
+import { AvatarContainer, PostCard, UserContainer, Avatar, Paragraph, PostButton } from './styles';
+import { SafePostUser, SafePostComment, SafePost, SafeLikePost } from '../../types';
 
 interface PostProps {
   id: string;
@@ -22,9 +24,19 @@ interface PostProps {
   comments: SafePostComment[];
   setPosts?: Dispatch<SetStateAction<SafePost[]>>;
   setPostData?: Dispatch<SetStateAction<SafePost | null>>;
+  createdAt: string;
 }
 
-const Post: React.FC<PostProps> = ({ id, post, user, likes, comments, setPosts, setPostData }) => {
+const Post: React.FC<PostProps> = ({
+  id,
+  post,
+  user,
+  createdAt,
+  likes,
+  comments,
+  setPosts,
+  setPostData,
+}) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -109,9 +121,17 @@ const Post: React.FC<PostProps> = ({ id, post, user, likes, comments, setPosts, 
   }, []);
 
   return (
-    <Card>
+    <PostCard>
       <Row justify="space-between">
-        <div onClick={viewUser}>user: {`${user.firstName} ${user.lastName}`}</div>
+        <AvatarContainer onClick={viewUser}>
+          <Avatar src={user.profilePicture} size={40}>
+            {user.firstName[0].toUpperCase()}
+          </Avatar>
+          <UserContainer>
+            <Typography.Text>{`${user.firstName} ${user.lastName}`}</Typography.Text>
+            <Typography.Paragraph>{formatDistanceToNow(new Date(createdAt))}</Typography.Paragraph>
+          </UserContainer>
+        </AvatarContainer>
 
         <Dropdown menu={{ items: menuItems }} placement="bottomLeft">
           <Button type="text">
@@ -119,18 +139,18 @@ const Post: React.FC<PostProps> = ({ id, post, user, likes, comments, setPosts, 
           </Button>
         </Dropdown>
       </Row>
-      <p> {post}</p>
-      <Button
+      <Paragraph>{post}</Paragraph>
+      <PostButton
         disabled={isLikeLoading}
         onClick={toggleLike}
-        type="text"
         icon={isLiked ? <AiFillLike /> : <AiOutlineLike />}
+        type="link"
       >
         {likeCount} Like{likeCount > 1 && 's'}
-      </Button>
-      <Button type="text" onClick={toggleComment} icon={<AiOutlineComment />}>
+      </PostButton>
+      <PostButton type="link" onClick={toggleComment} icon={<AiOutlineComment />}>
         {commentCount} Comment{commentCount > 1 && 's'}
-      </Button>
+      </PostButton>
       {isShowComment && (
         <>
           <div>
@@ -155,7 +175,7 @@ const Post: React.FC<PostProps> = ({ id, post, user, likes, comments, setPosts, 
           </div>
         </>
       )}
-    </Card>
+    </PostCard>
   );
 };
 

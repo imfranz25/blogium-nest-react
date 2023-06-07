@@ -25,6 +25,7 @@ export type SafeLikePost = {
 
 export type SafePost = SafeLikePost & {
   post: string;
+  createdAt: string;
   User: SafePostUser;
   Like: SafeLikePost[];
   Comment: SafePostComment[];

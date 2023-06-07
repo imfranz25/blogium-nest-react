@@ -47,7 +47,6 @@ const SignUpPage = () => {
         registerToken(response?.data?.accessToken);
         navigate('/feed');
       } catch (error: any) {
-        console.log(error);
         toast.error(getErrorMessage(error));
       } finally {
         setIsLoading(false);
