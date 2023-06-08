@@ -19,7 +19,6 @@ const SignUpPage = () => {
   const { registerToken } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const {
-    register,
     handleSubmit,
     setValue,
     formState: { errors },
@@ -68,49 +67,32 @@ const SignUpPage = () => {
               <Input
                 label="First Name"
                 id="firstName"
-                register={register}
                 errors={errors}
                 setValue={setValue}
                 required
               />
             </InputCol>
             <InputCol xs={24} sm={24} md={12}>
-              <Input
-                label="Last Name"
-                id="lastName"
-                register={register}
-                errors={errors}
-                setValue={setValue}
-                required
-              />
+              <Input label="Last Name" id="lastName" errors={errors} setValue={setValue} required />
             </InputCol>
             <InputCol xs={24} sm={24} md={12}>
               <Input
                 label="Email"
                 type="email"
                 id="email"
-                register={register}
-                setValue={setValue}
                 errors={errors}
+                setValue={setValue}
                 required
               />
             </InputCol>
             <InputCol xs={24} sm={24} md={12}>
-              <Date
-                id="birthday"
-                register={register}
-                label="Birthday"
-                setValue={setValue}
-                errors={errors}
-                required
-              />
+              <Date id="birthday" label="Birthday" setValue={setValue} errors={errors} required />
             </InputCol>
             <InputCol xs={24} sm={24} md={12}>
               <Input
                 label="Password"
                 id="password"
                 type="password"
-                register={register}
                 errors={errors}
                 setValue={setValue}
                 required
@@ -121,7 +103,6 @@ const SignUpPage = () => {
                 label="Confirm Password"
                 id="confirmPassword"
                 type="password"
-                register={register}
                 errors={errors}
                 setValue={setValue}
                 required

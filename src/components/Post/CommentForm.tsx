@@ -22,9 +22,7 @@ interface CommentProps {
 const Comment: React.FC<CommentProps> = ({ token, postId, setPosts, setPostData, comments }) => {
   const [isLoading, setIsLoading] = useState(false);
   const {
-    register,
     handleSubmit,
-    reset,
     setValue,
     formState: { errors },
   } = useForm<FieldValues>({ defaultValues: { comment: '' } });
@@ -62,11 +60,10 @@ const Comment: React.FC<CommentProps> = ({ token, postId, setPosts, setPostData,
       } catch (error) {
         toast.error(getErrorMessage(error));
       } finally {
-        reset();
         setIsLoading(false);
       }
     },
-    [postId, reset, setPostData, setPosts, token]
+    [postId, setPostData, setPosts, token]
   );
 
   return (
@@ -77,7 +74,6 @@ const Comment: React.FC<CommentProps> = ({ token, postId, setPosts, setPostData,
           required
           id="comment"
           label="Comment"
-          register={register}
           errors={errors}
           setValue={setValue}
           placeholder="Write a comment..."

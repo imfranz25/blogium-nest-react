@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as api from '../../api';
 import { toast } from 'react-hot-toast';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm, FieldValues } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button, Form, Row, Typography } from 'antd';
@@ -17,27 +17,28 @@ const LoginPage = () => {
   const { registerToken } = useAuth();
   const [isLoading, isSetLoading] = useState(false);
   const {
-    register,
     handleSubmit,
     setValue,
     formState: { errors },
   } = useForm<FieldValues>({ defaultValues: { email: '', password: '' } });
 
-  const onLogin = handleSubmit(async (credentials) => {
-    isSetLoading(true);
+  const onLogin = useCallback(
+    async (credentials: FieldValues) => {
+      try {
+        isSetLoading(true);
+        const response = await api.loginUser(credentials);
 
-    try {
-      const response = await api.loginUser(credentials);
-
-      toast.success('Logged in');
-      registerToken(response?.data?.accessToken);
-      navigate('/feed');
-    } catch (error: any) {
-      toast.error(getErrorMessage(error));
-    } finally {
-      isSetLoading(false);
-    }
-  });
+        toast.success('Logged in');
+        registerToken(response?.data?.accessToken);
+        navigate('/feed');
+      } catch (error: any) {
+        toast.error(getErrorMessage(error));
+      } finally {
+        isSetLoading(false);
+      }
+    },
+    [navigate, registerToken]
+  );
 
   return (
     <LoginWrapper>
@@ -46,12 +47,11 @@ const LoginPage = () => {
           <Typography.Title level={3}>Welcome back!</Typography.Title>
         </Row>
 
-        <Form onFinish={onLogin}>
+        <Form onFinish={handleSubmit(onLogin)}>
           <Input
             label="Email"
             type="email"
             id="email"
-            register={register}
             errors={errors}
             setValue={setValue}
             required
@@ -60,7 +60,6 @@ const LoginPage = () => {
             label="Password"
             id="password"
             type="password"
-            register={register}
             errors={errors}
             setValue={setValue}
             required
