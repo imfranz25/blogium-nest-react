@@ -19,8 +19,16 @@ export const Link = styled(RouterLink)`
   font-size: 16px;
 `;
 
-export const LogoContainer = styled.div`
+export const BrandContainer = styled.div`
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  span {
+    margin-left: 8px;
+    font-size: 22px;
+  }
 
   @media (max-width: 500px) {
     display: none;
@@ -33,4 +41,8 @@ export const LinkContainer = styled.div`
 
 export const AvatarContainer = styled.div`
   cursor: pointer;
+
+  .ant-avatar {
+    background-color: #87ceeb;
+  }
 `;
