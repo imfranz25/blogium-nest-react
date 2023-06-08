@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-hot-toast';
 import { Col, Row } from 'antd';
+import { BounceLoader } from 'react-spinners';
 
 import * as api from '../../api';
 import getErrorMessage from '../../utils/getErrorMessage';
@@ -8,6 +9,7 @@ import useAuth from '../../hooks/useAuth';
 import { SafePost } from '../../types';
 import Post from '../../components/Post';
 import PostForm from '../../components/Post/PostForm';
+import Loader from '../../components/Loader';
 
 const FeedPage = () => {
   const { token } = useAuth();
@@ -32,29 +34,27 @@ const FeedPage = () => {
   }, [fetchPosts]);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loader />;
   }
 
   return (
-    <div>
-      <Row justify="space-around">
-        <Col span={16}>
-          <PostForm addPost={setPosts} />
-          {posts.map((post) => (
-            <Post
-              key={post.id}
-              id={post.id}
-              post={post.post}
-              user={{ ...post.User, userId: post.userId }}
-              likes={post.Like}
-              comments={post.Comment}
-              setPosts={setPosts}
-              createdAt={post.createdAt}
-            />
-          ))}
-        </Col>
-      </Row>
-    </div>
+    <Row justify="space-around">
+      <Col span={16}>
+        <PostForm addPost={setPosts} />
+        {posts.map((post) => (
+          <Post
+            key={post.id}
+            id={post.id}
+            post={post.post}
+            user={{ ...post.User, userId: post.userId }}
+            likes={post.Like}
+            comments={post.Comment}
+            setPosts={setPosts}
+            createdAt={post.createdAt}
+          />
+        ))}
+      </Col>
+    </Row>
   );
 };
 
