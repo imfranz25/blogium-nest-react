@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction, useCallback, useState } from 'react';
-import { FieldValues, useForm } from 'react-hook-form';
 import { IoSend } from 'react-icons/io5';
 import toast from 'react-hot-toast';
 
@@ -19,63 +18,55 @@ interface CommentProps {
   setPostData?: Dispatch<SetStateAction<SafePost | null>>;
 }
 
+interface FormComment {
+  comment: string;
+}
+
 const Comment: React.FC<CommentProps> = ({ token, postId, setPosts, setPostData, comments }) => {
+  const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
-  const {
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<FieldValues>({ defaultValues: { comment: '' } });
 
   const onSubmitComment = useCallback(
-    async (comment: FieldValues) => {
+    async (comment: FormComment) => {
       try {
         setIsLoading(true);
         const response = await api.addComment(postId, comment, token);
-
         if (setPosts) {
           setPosts((posts) => {
             const postIndex = posts.findIndex((post) => post.id === postId);
             const updatedPost = { ...posts[postIndex] };
-
             updatedPost.Comment.push(response.data);
             posts[postIndex] = updatedPost;
-
             return posts;
           });
         }
-
         if (setPostData) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           setPostData((post: any) => {
             const updatedPost = { ...post };
-
             updatedPost?.Comment?.push(response.data);
-
             return updatedPost;
           });
         }
-
         toast.success('Comment successfully added');
       } catch (error) {
         toast.error(getErrorMessage(error));
       } finally {
+        form.resetFields();
         setIsLoading(false);
       }
     },
-    [postId, setPostData, setPosts, token]
+    [postId, setPostData, setPosts, token, form]
   );
 
   return (
     <>
       <Divider />
-      <Form onFinish={handleSubmit(onSubmitComment)}>
+      <Form onFinish={onSubmitComment} form={form}>
         <Input
           required
           id="comment"
           label="Comment"
-          errors={errors}
-          setValue={setValue}
           placeholder="Write a comment..."
           suffix={
             <CommentButton loading={isLoading} htmlType="submit" type="link" icon={<IoSend />} />

@@ -1,5 +1,4 @@
-import React, { ChangeEvent, useCallback } from 'react';
-import { FieldErrors, FieldValues, UseFormSetValue } from 'react-hook-form';
+import React from 'react';
 import { Input as AntdInput } from 'antd';
 import { FormLabelAlign } from 'antd/es/form/interface';
 import { FormItem } from './styles';
@@ -9,11 +8,9 @@ interface InputProps {
   label?: string;
   disabled?: boolean;
   required?: boolean;
-  errors: FieldErrors;
   placeholder?: string;
   autoComplete?: string;
   suffix?: React.ReactNode;
-  setValue: UseFormSetValue<FieldValues>;
   type?: 'password' | 'textarea' | 'date' | 'email';
 }
 
@@ -21,8 +18,6 @@ const Input: React.FC<InputProps> = ({
   id,
   label,
   disabled,
-  errors,
-  setValue,
   suffix,
   type = 'text',
   required = false,
@@ -32,17 +27,6 @@ const Input: React.FC<InputProps> = ({
   let InputComponent;
   const inputCol = { span: 24 };
   const labelText = label !== 'Comment' ? label : null;
-  const textHelper = errors[id] && <span>{errors[id]?.message as React.ReactNode}</span>;
-
-  const onChangeInput: React.ChangeEventHandler = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      setValue(id, event.target.value, {
-        shouldTouch: true,
-        shouldValidate: true,
-      });
-    },
-    [id, setValue]
-  );
 
   switch (type) {
     case 'password':
@@ -59,7 +43,6 @@ const Input: React.FC<InputProps> = ({
     <FormItem
       name={id}
       label={labelText}
-      help={textHelper}
       labelCol={inputCol}
       wrapperCol={inputCol}
       labelAlign={'top' as FormLabelAlign}
@@ -70,7 +53,6 @@ const Input: React.FC<InputProps> = ({
         type={type}
         suffix={suffix}
         disabled={disabled}
-        onChange={onChangeInput}
         placeholder={placeholder}
         autoComplete={autoComplete}
       />
