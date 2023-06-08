@@ -1,4 +1,4 @@
-import { Form } from 'antd';
+import { Form, DatePicker as AntdDatePicker } from 'antd';
 import styled from 'styled-components';
 
 export const InputWrapper = styled.div`
@@ -13,4 +13,8 @@ export const FormItem = styled(Form.Item)`
   .ant-form-item-explain {
     font-size: 12px;
   }
+`;
+
+export const DatePicker = styled(AntdDatePicker)`
+  width: 100%;
 `;

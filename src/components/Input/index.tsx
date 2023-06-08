@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useCallback } from 'react';
-import { FieldErrors, FieldValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { FieldErrors, FieldValues, UseFormSetValue } from 'react-hook-form';
 import { Input as AntdInput } from 'antd';
 import { FormLabelAlign } from 'antd/es/form/interface';
 import { FormItem } from './styles';
@@ -7,33 +7,32 @@ import { FormItem } from './styles';
 interface InputProps {
   id: string;
   label?: string;
-  type?: string;
-  errors: FieldErrors;
   disabled?: boolean;
   required?: boolean;
-  autoComplete?: string;
-  register: UseFormRegister<FieldValues>;
-  setValue: UseFormSetValue<FieldValues>;
+  errors: FieldErrors;
   placeholder?: string;
+  autoComplete?: string;
   suffix?: React.ReactNode;
+  setValue: UseFormSetValue<FieldValues>;
+  type?: 'password' | 'textarea' | 'date' | 'email';
 }
 
 const Input: React.FC<InputProps> = ({
   id,
   label,
   disabled,
-  register,
   errors,
   setValue,
   suffix,
+  type = 'text',
   required = false,
   placeholder = '',
   autoComplete = 'off',
-  type = 'text',
 }) => {
   let InputComponent;
+  const inputCol = { span: 24 };
+  const labelText = label !== 'Comment' ? label : null;
   const textHelper = errors[id] && <span>{errors[id]?.message as React.ReactNode}</span>;
-  const hasError = errors[id] ? 'error' : '';
 
   const onChangeInput: React.ChangeEventHandler = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -58,24 +57,22 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <FormItem
-      label={label !== 'Comment' ? label : ''}
       name={id}
-      rules={[{ required, message: `${label} is required` }]}
-      labelCol={{ span: 24 }}
-      wrapperCol={{ span: 24 }}
-      labelAlign={'top' as FormLabelAlign}
-      validateStatus={hasError}
+      label={labelText}
       help={textHelper}
+      labelCol={inputCol}
+      wrapperCol={inputCol}
+      labelAlign={'top' as FormLabelAlign}
+      rules={[{ required, message: `${label} is required` }]}
     >
       <InputComponent
-        {...register(id, { required })}
         id={id}
         type={type}
+        suffix={suffix}
         disabled={disabled}
-        autoComplete={autoComplete}
         onChange={onChangeInput}
         placeholder={placeholder}
-        suffix={suffix}
+        autoComplete={autoComplete}
       />
     </FormItem>
   );

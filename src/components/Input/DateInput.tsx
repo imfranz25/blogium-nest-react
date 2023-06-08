@@ -1,10 +1,9 @@
 import React from 'react';
-import { DatePicker } from 'antd';
-import type { DatePickerProps as DatePickerTypes } from 'antd';
 import { FormLabelAlign } from 'antd/es/form/interface';
-import { FieldErrors, FieldValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import type { DatePickerProps as DatePickerTypes } from 'antd';
+import { FieldErrors, FieldValues, UseFormSetValue } from 'react-hook-form';
 
-import { FormItem } from './styles';
+import { FormItem, DatePicker } from './styles';
 
 interface DatePickerProps {
   id: string;
@@ -13,12 +12,19 @@ interface DatePickerProps {
   errors: FieldErrors;
   disabled?: boolean;
   required?: boolean;
-  autoComplete?: string;
-  register: UseFormRegister<FieldValues>;
   setValue: UseFormSetValue<FieldValues>;
 }
 
-const Date: React.FC<DatePickerProps> = ({ label, id, errors, setValue, required = false }) => {
+const Date: React.FC<DatePickerProps> = ({
+  label,
+  id,
+  errors,
+  setValue,
+  disabled,
+  required = false,
+}) => {
+  const inputCol = { span: 24 };
+  const textHelper = errors[id] && <span>{errors[id]?.message as React.ReactNode}</span>;
   const onChange: DatePickerTypes['onChange'] = (_date, dateString) => {
     setValue(id, dateString, {
       shouldTouch: true,
@@ -28,16 +34,15 @@ const Date: React.FC<DatePickerProps> = ({ label, id, errors, setValue, required
 
   return (
     <FormItem
-      label={label}
       name={id}
-      rules={[{ required: required, message: `Please select your ${id}` }]}
-      labelCol={{ span: 24 }}
-      wrapperCol={{ span: 24 }}
+      label={label}
+      help={textHelper}
+      labelCol={inputCol}
+      wrapperCol={inputCol}
       labelAlign={'top' as FormLabelAlign}
-      validateStatus={errors[id] ? 'error' : ''}
-      help={errors[id] && <span>{errors[id]?.message as React.ReactNode}</span>}
+      rules={[{ required: required, message: `Please select your ${id}` }]}
     >
-      <DatePicker style={{ width: '100%' }} onChange={onChange} />
+      <DatePicker onChange={onChange} disabled={disabled} />
     </FormItem>
   );
 };
