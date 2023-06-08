@@ -35,10 +35,10 @@ const ProfilePage = () => {
   }
 
   return (
-    <div>
+    <>
       <div>Profile Picture: {userData?.profilePicture}</div>
       <div>Name: {userData?.firstName}</div>
-    </div>
+    </>
   );
 };
 
