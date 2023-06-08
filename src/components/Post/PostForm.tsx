@@ -46,16 +46,14 @@ const PostForm: React.FC<PostFormProps> = ({ addPost }) => {
   });
 
   const bodyContent = (
-    <div>
-      <Input
-        label="Post"
-        id="post"
-        register={register}
-        errors={errors}
-        setValue={setValue}
-        required
-      />
-    </div>
+    <Input
+      label="Post"
+      id="post"
+      register={register}
+      errors={errors}
+      setValue={setValue}
+      required
+    />
   );
 
   return (
