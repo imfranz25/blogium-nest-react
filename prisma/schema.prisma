@@ -34,9 +34,11 @@ model User {
 }
 
 model Post {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId
-  post   String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  post      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   User    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   Comment Comment[]
@@ -44,19 +46,23 @@ model Post {
 }
 
 model Comment {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  userId  String @db.ObjectId
-  postId  String @db.ObjectId
-  comment String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  postId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  comment   String
 
   User User @relation(fields: [userId], references: [id], onDelete: Cascade)
   Post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 model Like {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  postId String @db.ObjectId
-  userId String @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  postId    String   @db.ObjectId
+  userId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   User User @relation(fields: [userId], references: [id], onDelete: Cascade)
   Post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
