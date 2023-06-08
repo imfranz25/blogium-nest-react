@@ -1,4 +1,4 @@
-import { Card, Col } from 'antd';
+import { Card, Col as AntdCol } from 'antd';
 import styled from 'styled-components';
 
 export const SignUpWrapper = styled.div`
@@ -15,7 +15,7 @@ export const SignUpCard = styled(Card)`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 `;
 
-export const InputCol = styled(Col)`
+export const Column = styled(AntdCol)`
   padding: 0 8px;
 `;
 

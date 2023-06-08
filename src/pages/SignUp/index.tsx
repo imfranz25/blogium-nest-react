@@ -2,7 +2,6 @@
 import * as api from '../../api';
 import { toast } from 'react-hot-toast';
 import { useCallback, useState } from 'react';
-import { useForm, FieldValues } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Button, Form, Row, Typography } from 'antd';
@@ -12,29 +11,20 @@ import useAuth from '../../hooks/useAuth';
 import getErrorMessage from '../../utils/getErrorMessage';
 import Input from '../../components/Input';
 import Date from '../../components/Input/DateInput';
-import { SignUpWrapper, SignUpCard, InputCol, ActionWrapper } from './styles';
+import { SignUpWrapper, SignUpCard, Column, ActionWrapper } from './styles';
+
+interface FormSignUp {
+  email: string;
+  password: string;
+}
 
 const SignUpPage = () => {
   const navigate = useNavigate();
   const { registerToken } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const {
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<FieldValues>({
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      birthday: '',
-    },
-  });
 
   const onSignUp = useCallback(
-    async (userDetails: FieldValues) => {
+    async (userDetails: FormSignUp) => {
       setIsLoading(true);
 
       try {
@@ -61,53 +51,26 @@ const SignUpPage = () => {
           <Typography.Title level={2}>Create an account</Typography.Title>
         </Row>
 
-        <Form onFinish={handleSubmit(onSignUp)}>
+        <Form onFinish={onSignUp}>
           <Row>
-            <InputCol xs={24} sm={24} md={12}>
-              <Input
-                label="First Name"
-                id="firstName"
-                errors={errors}
-                setValue={setValue}
-                required
-              />
-            </InputCol>
-            <InputCol xs={24} sm={24} md={12}>
-              <Input label="Last Name" id="lastName" errors={errors} setValue={setValue} required />
-            </InputCol>
-            <InputCol xs={24} sm={24} md={12}>
-              <Input
-                label="Email"
-                type="email"
-                id="email"
-                errors={errors}
-                setValue={setValue}
-                required
-              />
-            </InputCol>
-            <InputCol xs={24} sm={24} md={12}>
-              <Date id="birthday" label="Birthday" setValue={setValue} errors={errors} required />
-            </InputCol>
-            <InputCol xs={24} sm={24} md={12}>
-              <Input
-                label="Password"
-                id="password"
-                type="password"
-                errors={errors}
-                setValue={setValue}
-                required
-              />
-            </InputCol>
-            <InputCol xs={24} sm={24} md={12}>
-              <Input
-                label="Confirm Password"
-                id="confirmPassword"
-                type="password"
-                errors={errors}
-                setValue={setValue}
-                required
-              />
-            </InputCol>
+            <Column xs={24} sm={24} md={12}>
+              <Input label="First Name" id="firstName" required />
+            </Column>
+            <Column xs={24} sm={24} md={12}>
+              <Input label="Last Name" id="lastName" required />
+            </Column>
+            <Column xs={24} sm={24} md={12}>
+              <Input label="Email" type="email" id="email" required />
+            </Column>
+            <Column xs={24} sm={24} md={12}>
+              <Date id="birthday" label="Birthday" required />
+            </Column>
+            <Column xs={24} sm={24} md={12}>
+              <Input label="Password" id="password" type="password" required />
+            </Column>
+            <Column xs={24} sm={24} md={12}>
+              <Input label="Confirm Password" id="confirmPassword" type="password" required />
+            </Column>
           </Row>
           <ActionWrapper>
             <Button

@@ -1,32 +1,34 @@
 import { Modal as AntdModal } from 'antd';
 
 interface ModalProps {
+  title?: string;
   isOpen: boolean;
   isLoading: boolean;
-  onSubmit: () => void;
   onCancel: () => void;
-  body: React.ReactNode;
-  okLabel?: string;
+  closable?: boolean;
+  children: React.ReactNode;
+  onOk?: () => void;
 }
 
 const Modal: React.FC<ModalProps> = ({
+  title,
   isLoading,
   isOpen,
   onCancel,
-  onSubmit,
-  body,
-  okLabel = 'Submit',
+  children,
+  closable,
+  onOk,
 }) => {
   return (
     <AntdModal
-      title="Title"
+      title={title}
       open={isOpen}
-      onOk={onSubmit}
       confirmLoading={isLoading}
       onCancel={onCancel}
-      okText={okLabel}
+      closable={closable}
+      onOk={onOk}
     >
-      {body}
+      {children}
     </AntdModal>
   );
 };

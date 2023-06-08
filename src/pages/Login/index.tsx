@@ -2,7 +2,6 @@
 import * as api from '../../api';
 import { toast } from 'react-hot-toast';
 import { useCallback, useState } from 'react';
-import { useForm, FieldValues } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button, Form, Row, Typography } from 'antd';
 import { AiOutlineLogin } from 'react-icons/ai';
@@ -12,18 +11,18 @@ import getErrorMessage from '../../utils/getErrorMessage';
 import Input from '../../components/Input';
 import { LoginWrapper, LoginCard, ActionWrapper } from './styles';
 
+interface FormLogin {
+  email: string;
+  password: string;
+}
+
 const LoginPage = () => {
   const navigate = useNavigate();
   const { registerToken } = useAuth();
   const [isLoading, isSetLoading] = useState(false);
-  const {
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<FieldValues>({ defaultValues: { email: '', password: '' } });
 
   const onLogin = useCallback(
-    async (credentials: FieldValues) => {
+    async (credentials: FormLogin) => {
       try {
         isSetLoading(true);
         const response = await api.loginUser(credentials);
@@ -47,23 +46,9 @@ const LoginPage = () => {
           <Typography.Title level={3}>Welcome back!</Typography.Title>
         </Row>
 
-        <Form onFinish={handleSubmit(onLogin)}>
-          <Input
-            label="Email"
-            type="email"
-            id="email"
-            errors={errors}
-            setValue={setValue}
-            required
-          />
-          <Input
-            label="Password"
-            id="password"
-            type="password"
-            errors={errors}
-            setValue={setValue}
-            required
-          />
+        <Form onFinish={onLogin}>
+          <Input label="Email" type="email" id="email" required />
+          <Input label="Password" id="password" type="password" required />
           <ActionWrapper>
             <Button
               size="large"

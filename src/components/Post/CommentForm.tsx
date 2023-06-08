@@ -48,11 +48,12 @@ const Comment: React.FC<CommentProps> = ({ token, postId, setPosts, setPostData,
             return updatedPost;
           });
         }
+
+        form.resetFields();
         toast.success('Comment successfully added');
       } catch (error) {
         toast.error(getErrorMessage(error));
       } finally {
-        form.resetFields();
         setIsLoading(false);
       }
     },
