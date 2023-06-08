@@ -34,9 +34,10 @@ const Input: React.FC<InputProps> = ({
   let InputComponent;
   const textHelper = errors[id] && <span>{errors[id]?.message as React.ReactNode}</span>;
   const hasError = errors[id] ? 'error' : '';
-  const onChangeInput = useCallback(
-    (value: ChangeEvent<HTMLInputElement>) => {
-      setValue(id, value.target.value, {
+
+  const onChangeInput: React.ChangeEventHandler = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setValue(id, event.target.value, {
         shouldTouch: true,
         shouldValidate: true,
       });
@@ -44,15 +45,20 @@ const Input: React.FC<InputProps> = ({
     [id, setValue]
   );
 
-  if (type === 'password') {
-    InputComponent = AntdInput.Password;
-  } else {
-    InputComponent = AntdInput;
+  switch (type) {
+    case 'password':
+      InputComponent = AntdInput.Password;
+      break;
+    case 'textarea':
+      InputComponent = AntdInput.TextArea;
+      break;
+    default:
+      InputComponent = AntdInput;
   }
 
   return (
     <FormItem
-      label={label}
+      label={label !== 'Comment' ? label : ''}
       name={id}
       rules={[{ required, message: `${label} is required` }]}
       labelCol={{ span: 24 }}

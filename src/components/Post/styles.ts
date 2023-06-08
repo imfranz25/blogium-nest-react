@@ -29,18 +29,28 @@ export const UserContainer = styled.div`
   }
 `;
 
-export const Paragraph = styled(Typography.Paragraph)`
-  margin: 30px 0 0 0 !important;
-`;
-
 export const PostButton = styled(Button)`
   padding: 0 !important;
-  margin: 0 !important;
   height: auto;
   margin-right: 12px !important;
   color: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const CommentButton = styled(Button)`
+  margin-right: -8px !important;
+  color: #0064ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Divider = styled(AntdDivider)`
   margin: 15px 0;
+`;
+
+export const Paragraph = styled(Typography.Paragraph)`
+  margin: 30px 0 0 0 !important;
 `;

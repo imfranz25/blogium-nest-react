@@ -7,7 +7,7 @@ import getErrorMessage from '../../utils/getErrorMessage';
 import useAuth from '../../hooks/useAuth';
 import { SafePost } from '../../types';
 import Post from '../../components/Post';
-import PostForm from '../../components/PostForm';
+import PostForm from '../../components/Post/PostForm';
 
 const FeedPage = () => {
   const { token } = useAuth();

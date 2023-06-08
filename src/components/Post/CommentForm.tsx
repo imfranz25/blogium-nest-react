@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 
 import * as api from '../../api';
 import Input from '../Input';
-import { Divider, PostButton } from './styles';
+import { CommentButton, Divider } from './styles';
 import { SafePost } from '../../types';
 import getErrorMessage from '../../utils/getErrorMessage';
 import { SafePostComment } from '../../types';
@@ -81,7 +81,9 @@ const Comment: React.FC<CommentProps> = ({ token, postId, setPosts, setPostData,
           errors={errors}
           setValue={setValue}
           placeholder="Write a comment..."
-          suffix={<PostButton loading={isLoading} htmlType="submit" icon={<IoSend />} />}
+          suffix={
+            <CommentButton loading={isLoading} htmlType="submit" type="link" icon={<IoSend />} />
+          }
         />
       </Form>
       <div>

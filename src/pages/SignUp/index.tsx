@@ -11,7 +11,7 @@ import { IoCreateOutline } from 'react-icons/io5';
 import useAuth from '../../hooks/useAuth';
 import getErrorMessage from '../../utils/getErrorMessage';
 import Input from '../../components/Input';
-import Date from '../../components/Input/Date';
+import Date from '../../components/Input/DateInput';
 import { SignUpWrapper, SignUpCard, InputCol, ActionWrapper } from './styles';
 
 const SignUpPage = () => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Button, Dropdown } from 'antd';
 import { FaEllipsisH } from 'react-icons/fa';
 
@@ -13,11 +13,13 @@ interface MenuProps {
 const Menu: React.FC<MenuProps> = ({ postId, isOwned }) => {
   const location = useLocation();
 
+  const postMenuItems = useMemo(
+    () => postItems(postId, isOwned, location.pathname),
+    [postId, isOwned, location.pathname]
+  );
+
   return (
-    <Dropdown
-      menu={{ items: postItems(postId, isOwned, location.pathname) }}
-      placement="bottomLeft"
-    >
+    <Dropdown menu={{ items: postMenuItems }} placement="bottomLeft">
       <Button>
         <FaEllipsisH />
       </Button>

@@ -1,5 +1,3 @@
-import * as api from '../../api';
-import { toast } from 'react-hot-toast';
 import { FaEllipsisH } from 'react-icons/fa';
 import { formatDistanceToNow } from 'date-fns';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -59,7 +57,7 @@ const Post: React.FC<PostProps> = ({
   const commentCount = comments.length;
   const likeCount = likes.length;
   const timeCreated = formatDistanceToNow(new Date(createdAt));
-  const likeIcon = isLiked ? <AiFillLike style={{ color: 'blue' }} /> : <AiOutlineLike />;
+  const likeIcon = isLiked ? <AiFillLike style={{ color: '#0064FF' }} /> : <AiOutlineLike />;
 
   const menuItems = useMemo(() => {
     const isOwnPost = userData?.userId === user.userId;
@@ -103,13 +101,14 @@ const Post: React.FC<PostProps> = ({
 
       <Divider />
 
-      <PostButton type="link" disabled={isLikeLoading} onClick={toggleLike} icon={likeIcon}>
-        {likeCount} Like{likeCount > 1 && 's'}
-      </PostButton>
-
-      <PostButton type="link" onClick={toggleComment} icon={<AiOutlineComment />}>
-        {commentCount} Comment{commentCount > 1 && 's'}
-      </PostButton>
+      <Row>
+        <PostButton type="link" disabled={isLikeLoading} onClick={toggleLike} icon={likeIcon}>
+          {likeCount} Like{likeCount > 1 && 's'}
+        </PostButton>
+        <PostButton type="link" onClick={toggleComment} icon={<AiOutlineComment />}>
+          {commentCount} Comment{commentCount > 1 && 's'}
+        </PostButton>
+      </Row>
 
       {isShowComment && (
         <Comment
