@@ -90,11 +90,14 @@ const Post: React.FC<PostProps> = ({
             <Typography.Paragraph>{timeCreated}</Typography.Paragraph>
           </UserContainer>
         </AvatarContainer>
-        <Dropdown menu={{ items: menuItems }} placement="bottomLeft">
-          <Button type="text">
-            <FaEllipsisH />
-          </Button>
-        </Dropdown>
+
+        {menuItems.length > 0 && (
+          <Dropdown menu={{ items: menuItems }} placement="bottomLeft">
+            <Button type="text">
+              <FaEllipsisH />
+            </Button>
+          </Dropdown>
+        )}
       </Row>
 
       <Paragraph>{post}</Paragraph>
