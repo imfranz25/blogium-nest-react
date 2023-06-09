@@ -32,3 +32,12 @@ export type SafePost = SafeLikePost & {
   Like: SafeLikePost[];
   Comment: SafePostComment[];
 };
+
+export type SafeError = {
+  response: {
+    status: number;
+    data: {
+      message: string;
+    };
+  };
+};

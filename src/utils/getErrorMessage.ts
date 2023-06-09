@@ -1,20 +1,16 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getErrorMessage = (error: any) => {
-  const errorCode = error?.response?.status || 500;
+import { SafeError } from '../types';
+
+const getErrorMessage = (error: SafeError) => {
+  // const errorCode = error.response.status === 401;
   let errorMessage;
 
-  switch (errorCode) {
-    case 400:
-    case 409:
-      errorMessage = error?.response?.data?.message[0];
-      break;
-    case 401:
-    case 404:
-      errorMessage = error?.response?.data?.message;
-      break;
+  if (Array.isArray(error.response.status)) {
+    errorMessage = error.response.data.message[0];
+  } else {
+    errorMessage = error.response.data.message;
   }
 
-  return errorMessage ?? 'Something went wrong';
+  return errorMessage;
 };
 
 export default getErrorMessage;

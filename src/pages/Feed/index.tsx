@@ -1,12 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-hot-toast';
 import { Col, Row } from 'antd';
-import { BounceLoader } from 'react-spinners';
 
 import * as api from '../../api';
 import getErrorMessage from '../../utils/getErrorMessage';
 import useAuth from '../../hooks/useAuth';
-import { SafePost } from '../../types';
+import { SafeError, SafePost } from '../../types';
 import Post from '../../components/Post';
 import PostForm from '../../components/Post/PostForm';
 import Loader from '../../components/Loader';
@@ -23,7 +22,7 @@ const FeedPage = () => {
 
       setPosts(response?.data || []);
     } catch (error) {
-      toast.error(getErrorMessage(error));
+      toast.error(getErrorMessage(error as SafeError));
     } finally {
       setIsLoading(false);
     }

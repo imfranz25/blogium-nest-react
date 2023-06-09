@@ -4,7 +4,7 @@ import * as api from '../api';
 import toast from 'react-hot-toast';
 
 import getErrorMessage from '../utils/getErrorMessage';
-import { SafeLikePost, SafePost } from '../types';
+import { SafeError, SafeLikePost, SafePost } from '../types';
 
 interface IUseLike {
   likes: SafeLikePost[];
@@ -79,7 +79,7 @@ const useLike = ({ likes, userId, postId, token, setPosts, setPostData }: IUseLi
         updateLikeStatus(response.data);
         toast.success(responseMessage);
       } catch (error) {
-        toast.error(getErrorMessage(error));
+        toast.error(getErrorMessage(error as SafeError));
       } finally {
         setLikeLoading(false);
       }

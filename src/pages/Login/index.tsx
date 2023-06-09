@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as api from '../../api';
 import { toast } from 'react-hot-toast';
 import { useCallback, useState } from 'react';
@@ -10,11 +9,8 @@ import useAuth from '../../hooks/useAuth';
 import getErrorMessage from '../../utils/getErrorMessage';
 import Input from '../../components/Input';
 import { LoginWrapper, LoginCard, ActionWrapper } from './styles';
-
-interface FormLogin {
-  email: string;
-  password: string;
-}
+import { SafeError } from '../../types';
+import { Credentials } from '../../types/formTypes';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -22,7 +18,7 @@ const LoginPage = () => {
   const [isLoading, isSetLoading] = useState(false);
 
   const onLogin = useCallback(
-    async (credentials: FormLogin) => {
+    async (credentials: Credentials) => {
       try {
         isSetLoading(true);
         const response = await api.loginUser(credentials);
@@ -30,8 +26,8 @@ const LoginPage = () => {
         toast.success('Logged in');
         registerToken(response?.data?.accessToken);
         navigate('/feed');
-      } catch (error: any) {
-        toast.error(getErrorMessage(error));
+      } catch (error) {
+        toast.error(getErrorMessage(error as SafeError));
       } finally {
         isSetLoading(false);
       }

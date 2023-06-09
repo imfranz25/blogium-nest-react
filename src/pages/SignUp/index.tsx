@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as api from '../../api';
 import { toast } from 'react-hot-toast';
 import { useCallback, useState } from 'react';
@@ -12,11 +11,8 @@ import getErrorMessage from '../../utils/getErrorMessage';
 import Input from '../../components/Input';
 import Date from '../../components/Input/DateInput';
 import { SignUpWrapper, SignUpCard, Column, ActionWrapper } from './styles';
-
-interface FormSignUp {
-  email: string;
-  password: string;
-}
+import { SafeError } from '../../types';
+import { UserDetails } from '../../types/formTypes';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -24,7 +20,7 @@ const SignUpPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const onSignUp = useCallback(
-    async (userDetails: FormSignUp) => {
+    async (userDetails: UserDetails) => {
       setIsLoading(true);
 
       try {
@@ -35,8 +31,8 @@ const SignUpPage = () => {
         toast.success('Account successfully created');
         registerToken(response?.data?.accessToken);
         navigate('/feed');
-      } catch (error: any) {
-        toast.error(getErrorMessage(error));
+      } catch (error) {
+        toast.error(getErrorMessage(error as SafeError));
       } finally {
         setIsLoading(false);
       }

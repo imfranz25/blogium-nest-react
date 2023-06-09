@@ -1,14 +1,15 @@
 import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { IoSend } from 'react-icons/io5';
 import toast from 'react-hot-toast';
+import { Form } from 'antd';
 
 import * as api from '../../api';
 import Input from '../Input';
 import { CommentButton, Divider } from './styles';
-import { SafePost } from '../../types';
+import { SafeError, SafePost } from '../../types';
 import getErrorMessage from '../../utils/getErrorMessage';
 import { SafePostComment } from '../../types';
-import { Form } from 'antd';
+import { CommentDetail } from '../../types/formTypes';
 
 interface CommentProps {
   token: string;
@@ -18,16 +19,12 @@ interface CommentProps {
   setPostData?: Dispatch<SetStateAction<SafePost | null>>;
 }
 
-interface FormComment {
-  comment: string;
-}
-
 const Comment: React.FC<CommentProps> = ({ token, postId, setPosts, setPostData, comments }) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmitComment = useCallback(
-    async (comment: FormComment) => {
+    async (comment: CommentDetail) => {
       try {
         setIsLoading(true);
         const response = await api.addComment(postId, comment, token);
@@ -52,7 +49,7 @@ const Comment: React.FC<CommentProps> = ({ token, postId, setPosts, setPostData,
         form.resetFields();
         toast.success('Comment successfully added');
       } catch (error) {
-        toast.error(getErrorMessage(error));
+        toast.error(getErrorMessage(error as SafeError));
       } finally {
         setIsLoading(false);
       }

@@ -1,15 +1,15 @@
 import axios from 'axios';
-import { FieldValues } from 'react-hook-form';
+import { Credentials, UserDetails, PostDetail, CommentDetail } from '../types/formTypes';
 
 const API = import.meta.env.VITE_BACKEND_URL;
 
 /* Auth */
-export const loginUser = async (userCredentials: FieldValues) => {
+export const loginUser = async (userCredentials: Credentials) => {
   return await axios.post(`${API}/auth/login`, userCredentials);
 };
 
 /* User */
-export const createUser = async (userData: FieldValues) => {
+export const createUser = async (userData: UserDetails) => {
   return await axios.post(`${API}/user`, userData);
 };
 
@@ -20,7 +20,7 @@ export const getUser = async (userId: string, token: string) => {
 };
 
 /* Post */
-export const createPost = async (postData: FieldValues, token: string) => {
+export const createPost = async (postData: PostDetail, token: string) => {
   return await axios.post(`${API}/post`, postData, {
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -38,7 +38,7 @@ export const getAllPosts = async (token: string) => {
   });
 };
 
-export const addComment = async (postId: string, commentData: FieldValues, token: string) => {
+export const addComment = async (postId: string, commentData: CommentDetail, token: string) => {
   return await axios.post(`${API}/post/comment/${postId}`, commentData, {
     headers: { Authorization: `Bearer ${token}` },
   });

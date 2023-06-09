@@ -1,20 +1,17 @@
 import { useCallback, useState, Dispatch, SetStateAction } from 'react';
 import { toast } from 'react-hot-toast';
 import useAuth from '../../hooks/useAuth';
+import { Button, Form } from 'antd';
 
 import * as api from '../../api';
 import Modal from '../Modal';
 import Input from '../Input';
 import getErrorMessage from '../../utils/getErrorMessage';
-import { SafePost } from '../../types';
-import { Button, Form } from 'antd';
+import { SafeError, SafePost } from '../../types';
+import { PostDetail } from '../../types/formTypes';
 
 interface PostFormProps {
   addPost: Dispatch<SetStateAction<SafePost[]>>;
-}
-
-interface FormPostProps {
-  post: string;
 }
 
 const PostForm: React.FC<PostFormProps> = ({ addPost }) => {
@@ -28,17 +25,17 @@ const PostForm: React.FC<PostFormProps> = ({ addPost }) => {
   }, []);
 
   const onPostSubmit = useCallback(
-    async (post: FormPostProps) => {
+    async (postDetail: PostDetail) => {
       try {
         setIsLoading(true);
-        const { data: newPost } = await api.createPost(post, token);
+        const { data: newPost } = await api.createPost(postDetail, token);
 
         addPost((posts) => [...posts, newPost]);
         toast.success('Post created successfully');
         form.resetFields();
         setIsModalOpen(false);
       } catch (error) {
-        toast.error(getErrorMessage(error));
+        toast.error(getErrorMessage(error as SafeError));
       } finally {
         setIsLoading(false);
       }
