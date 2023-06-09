@@ -5,6 +5,7 @@ import { Dropdown, Button, Row, Typography } from 'antd';
 import { AiFillLike, AiOutlineComment, AiOutlineLike } from 'react-icons/ai';
 import React, { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
 
+import Comment from './CommentForm';
 import useAuth from '../../hooks/useAuth';
 import useLike from '../../hooks/useLike';
 import postItems from '../../utils/getPostMenu';
@@ -18,17 +19,16 @@ import {
   PostButton,
   Divider,
 } from './styles';
-import Comment from './CommentForm';
 
 interface PostProps {
   id: string;
   post: string;
+  createdAt: string;
   user: SafePostUser;
   likes: SafeLikePost[];
   comments: SafePostComment[];
   setPosts?: Dispatch<SetStateAction<SafePost[]>>;
   setPostData?: Dispatch<SetStateAction<SafePost | null>>;
-  createdAt: string;
 }
 
 const Post: React.FC<PostProps> = ({

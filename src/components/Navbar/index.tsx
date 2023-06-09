@@ -1,8 +1,8 @@
+import { useNavigate } from 'react-router-dom';
 import { Avatar, Dropdown, MenuProps, Image, Typography } from 'antd';
-import blogiumLogo from '../../assets/logo.png';
 
 import useAuth from '../../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+import blogiumLogo from '../../assets/logo.png';
 import { Header, Link, BrandContainer, LinkContainer, AvatarContainer } from './styles';
 
 const Navbar = () => {
@@ -11,7 +11,11 @@ const Navbar = () => {
 
   const menuItems: MenuProps['items'] = [
     {
-      key: '1',
+      key: 'userDetails',
+      label: <span>{user?.email}</span>,
+    },
+    {
+      key: 'logout',
       label: <span onClick={onLogout}>Logout</span>,
     },
   ];
