@@ -7,6 +7,7 @@ import getErrorMessage from '../../utils/getErrorMessage';
 import useAuth from '../../hooks/useAuth';
 import { SafePost } from '../../types';
 import Post from '../../components/Post';
+import { Typography } from 'antd';
 
 const PostDetailsPage = () => {
   const { token } = useAuth();
@@ -20,8 +21,11 @@ const PostDetailsPage = () => {
       const response = await api.getPost(params.id ?? '', token);
 
       setPostData(response.data);
-    } catch (error) {
-      toast.error(getErrorMessage(error));
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error?.response?.status !== 404) {
+        toast.error(getErrorMessage(error));
+      }
     } finally {
       setIsLoading(false);
     }
@@ -37,7 +41,7 @@ const PostDetailsPage = () => {
 
   return (
     <>
-      {postData && (
+      {postData ? (
         <Post
           id={postData.id}
           post={postData.post}
@@ -47,6 +51,8 @@ const PostDetailsPage = () => {
           setPostData={setPostData}
           createdAt={postData.createdAt}
         />
+      ) : (
+        <Typography.Title>Post not found</Typography.Title>
       )}
     </>
   );

@@ -6,6 +6,8 @@ import * as api from '../../api';
 import getErrorMessage from '../../utils/getErrorMessage';
 import useAuth from '../../hooks/useAuth';
 import { SafePostUser } from '../../types';
+import Loader from '../../components/Loader';
+import { Typography } from 'antd';
 
 const ProfilePage = () => {
   const { token } = useAuth();
@@ -19,8 +21,11 @@ const ProfilePage = () => {
       const response = await api.getUser(params.id ?? '', token);
 
       setUserData(response.data);
-    } catch (error) {
-      toast.error(getErrorMessage(error));
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error?.response?.status !== 404) {
+        toast.error(getErrorMessage(error));
+      }
     } finally {
       setIsLoading(false);
     }
@@ -31,13 +36,19 @@ const ProfilePage = () => {
   }, [fetchUser]);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loader />;
   }
 
   return (
     <>
-      <div>Profile Picture: {userData?.profilePicture}</div>
-      <div>Name: {userData?.firstName}</div>
+      {userData ? (
+        <>
+          <div>Profile Picture: {userData?.profilePicture}</div>
+          <div>Name: {userData?.firstName}</div>
+        </>
+      ) : (
+        <Typography.Title>User not found</Typography.Title>
+      )}
     </>
   );
 };
