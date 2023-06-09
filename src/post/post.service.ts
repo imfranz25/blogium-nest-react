@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PrismaService } from '../prisma/prisma.service';
@@ -47,10 +52,23 @@ export class PostService {
   }
 
   async findOne(id: string) {
-    return await this.prisma.post.findUnique({
-      where: { id },
-      include: this.includeOptions,
-    });
+    try {
+      return await this.prisma.post.findUnique({
+        where: { id },
+        include: this.includeOptions,
+      });
+    } catch (error) {
+      console.error(error);
+
+      if (error.code === 'P2023') {
+        throw new HttpException(
+          { message: ['Post does not exist'] },
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      throw new BadRequestException();
+    }
   }
 
   async update(id: string, userId: string, updatePostDto: UpdatePostDto) {

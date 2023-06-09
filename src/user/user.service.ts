@@ -44,26 +44,37 @@ export class UserService {
   }
 
   async findOne(userId: string) {
-    const user = await this.prisma.user.findUnique({
-      where: { id: userId },
-      select: {
-        id: true,
-        profilePicture: true,
-        firstName: true,
-        lastName: true,
-        birthday: true,
-        bio: true,
-      },
-    });
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: { id: userId },
+        select: {
+          id: true,
+          profilePicture: true,
+          firstName: true,
+          lastName: true,
+          birthday: true,
+          bio: true,
+        },
+      });
 
-    if (!user) {
-      throw new HttpException(
-        { message: ['User not found'] },
-        HttpStatus.NOT_FOUND,
-      );
+      if (!user) {
+        throw new HttpException(
+          { message: ['User not found'] },
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      return user;
+    } catch (error) {
+      if (error.code === 'P2023') {
+        throw new HttpException(
+          { message: ['User does not exist'] },
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      throw new BadRequestException();
     }
-
-    return user;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
