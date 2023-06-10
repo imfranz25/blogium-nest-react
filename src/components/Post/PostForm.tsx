@@ -1,12 +1,12 @@
-import { useCallback, useState } from 'react';
-import { toast } from 'react-hot-toast';
 import { Button, Form } from 'antd';
+import { toast } from 'react-hot-toast';
+import { useCallback, useState } from 'react';
 
 import Modal from '../Modal';
 import Input from '../Input';
-import { PostDetail } from '../../types/formTypes';
 import usePost from '../../hooks/usePost';
 import useFetch from '../../hooks/useFetch';
+import { PostDetail } from '../../types/formTypes';
 
 const PostForm = () => {
   const { addPost } = usePost();

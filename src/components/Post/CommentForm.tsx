@@ -1,60 +1,40 @@
-import { Dispatch, SetStateAction, useCallback, useState } from 'react';
-import { IoSend } from 'react-icons/io5';
-import toast from 'react-hot-toast';
 import { Form } from 'antd';
+import { useCallback } from 'react';
+import { IoSend } from 'react-icons/io5';
 
-import * as api from '../../api';
 import Input from '../Input';
-import { CommentButton, Divider } from './styles';
-import { SafeError, SafePost } from '../../types';
-import getErrorMessage from '../../utils/getErrorMessage';
+import usePost from '../../hooks/usePost';
+import useFetch from '../../hooks/useFetch';
 import { SafePostComment } from '../../types';
+import { CommentButton, Divider } from './styles';
 import { CommentDetail } from '../../types/formTypes';
+import toast from 'react-hot-toast';
 
 interface CommentProps {
-  token: string | null;
   postId: string;
   comments: SafePostComment[];
-  setPosts?: Dispatch<SetStateAction<SafePost[]>>;
-  setPostData?: Dispatch<SetStateAction<SafePost | null>>;
 }
 
-const Comment: React.FC<CommentProps> = ({ token, postId, setPosts, setPostData, comments }) => {
+const Comment: React.FC<CommentProps> = ({ postId, comments }) => {
+  const { addComment } = usePost();
   const [form] = Form.useForm();
-  const [isLoading, setIsLoading] = useState(false);
+
+  const { isLoading, refetch: createComment } = useFetch({
+    endpoint: `/post/comment/${postId}`,
+    skipInitialInvocation: true,
+  });
 
   const onSubmitComment = useCallback(
     async (comment: CommentDetail) => {
-      try {
-        setIsLoading(true);
-        const response = await api.addComment(postId, comment, token);
-        if (setPosts) {
-          setPosts((posts) => {
-            const postIndex = posts.findIndex((post) => post.id === postId);
-            const updatedPost = { ...posts[postIndex] };
-            updatedPost.Comment.push(response.data);
-            posts[postIndex] = updatedPost;
-            return posts;
-          });
-        }
-        if (setPostData) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          setPostData((post: any) => {
-            const updatedPost = { ...post };
-            updatedPost?.Comment?.push(response.data);
-            return updatedPost;
-          });
-        }
+      const resData = await createComment({ method: 'POST', data: comment });
 
+      if (resData) {
+        addComment(postId, resData.data);
         form.resetFields();
         toast.success('Comment successfully added');
-      } catch (error) {
-        toast.error(getErrorMessage(error as SafeError));
-      } finally {
-        setIsLoading(false);
       }
     },
-    [postId, setPostData, setPosts, token, form]
+    [addComment, createComment, postId, form]
   );
 
   return (

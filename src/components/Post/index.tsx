@@ -113,15 +113,7 @@ const Post: React.FC<PostProps> = ({
         </PostButton>
       </Row>
 
-      {isShowComment && (
-        <Comment
-          token={token}
-          postId={id}
-          setPostData={setPostData}
-          setPosts={setPosts}
-          comments={comments}
-        />
-      )}
+      {isShowComment && <Comment postId={id} comments={comments} />}
     </PostCard>
   );
 };
