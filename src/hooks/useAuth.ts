@@ -12,7 +12,7 @@ interface AuthStore {
   registerSession: (accessToken: string) => void;
 }
 
-const useUser = create<AuthStore>((set, get) => {
+const useAuth = create<AuthStore>((set, get) => {
   const token = localStorage.getItem('accessToken') || null;
 
   const clearSession = () => {
@@ -59,4 +59,4 @@ const useUser = create<AuthStore>((set, get) => {
   };
 });
 
-export default useUser;
+export default useAuth;

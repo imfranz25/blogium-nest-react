@@ -1,11 +1,11 @@
-import { Navigate, Outlet } from 'react-router-dom';
 import { Layout } from 'antd';
+import { Outlet, Navigate } from 'react-router-dom';
 
+import useAuth from '../../hooks/useAuth';
 import Navbar from '../../components/Navbar';
-import useUser from '../../hooks/useAuth';
 
 const PrivateRoutes = () => {
-  const { token } = useUser();
+  const { token } = useAuth();
 
   if (!token) {
     return <Navigate to="/" />;

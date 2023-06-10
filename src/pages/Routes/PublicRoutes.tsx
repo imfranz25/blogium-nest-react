@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import useUser from '../../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 
 const PublicRoutes = () => {
-  const { token } = useUser();
+  const { token } = useAuth();
 
   if (token) {
     return <Navigate to="/feed" />;

@@ -1,43 +1,51 @@
-import * as api from '../../api';
 import { toast } from 'react-hot-toast';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Button, Form, Row, Typography } from 'antd';
 import { IoCreateOutline } from 'react-icons/io5';
 
 import useAuth from '../../hooks/useAuth';
-import getErrorMessage from '../../utils/getErrorMessage';
 import Input from '../../components/Input';
 import Date from '../../components/Input/DateInput';
 import { SignUpWrapper, SignUpCard, Column, ActionWrapper } from './styles';
-import { SafeError } from '../../types';
 import { UserDetails } from '../../types/formTypes';
+import useFetch from '../../hooks/useFetch';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
-  const { registerToken } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
+  const { registerSession } = useAuth();
+
+  const { isLoading: signUpLoading, refetch: createUser } = useFetch({
+    endpoint: '/user',
+    skipInitialInvocation: true,
+  });
+
+  const { isLoading: logInLoading, refetch: loginUser } = useFetch({
+    endpoint: '/auth/login',
+    skipInitialInvocation: true,
+  });
 
   const onSignUp = useCallback(
     async (userDetails: UserDetails) => {
-      setIsLoading(true);
+      const signUpResponse = await createUser({ method: 'POST', data: userDetails });
 
-      try {
-        await api.createUser(userDetails);
-        const { email, password } = userDetails;
-        const response = await api.loginUser({ email, password });
+      if (!signUpResponse) {
+        return;
+      }
 
+      const logInResponse = await loginUser({
+        method: 'POST',
+        data: { email: userDetails.email, password: userDetails.password },
+      });
+
+      if (logInResponse) {
         toast.success('Account successfully created');
-        registerToken(response?.data?.accessToken);
+        registerSession(logInResponse.data.accessToken);
         navigate('/feed');
-      } catch (error) {
-        toast.error(getErrorMessage(error as SafeError));
-      } finally {
-        setIsLoading(false);
       }
     },
-    [registerToken, navigate]
+    [registerSession, navigate, createUser, loginUser]
   );
 
   return (
@@ -46,7 +54,6 @@ const SignUpPage = () => {
         <Row justify="center">
           <Typography.Title level={2}>Create an account</Typography.Title>
         </Row>
-
         <Form onFinish={onSignUp}>
           <Row>
             <Column xs={24} sm={24} md={12}>
@@ -73,7 +80,7 @@ const SignUpPage = () => {
               size="large"
               type="primary"
               icon={<IoCreateOutline />}
-              loading={isLoading}
+              loading={signUpLoading || logInLoading}
               htmlType="submit"
             >
               Sign up

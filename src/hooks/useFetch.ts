@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { toast } from 'react-hot-toast';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useState, useEffect, useCallback } from 'react';
 
 import useAuth from './useAuth';

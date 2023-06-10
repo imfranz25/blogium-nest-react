@@ -1,15 +1,14 @@
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, Dropdown, MenuProps, Image, Typography } from 'antd';
 
+import useAuth from '../../hooks/useAuth';
 import blogiumLogo from '../../assets/logo.png';
 import { Header, Link, BrandContainer, LinkContainer, AvatarContainer } from './styles';
-import useUser from '../../hooks/useAuth';
-import { useCallback } from 'react';
-import toast from 'react-hot-toast';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { clearSession, user } = useUser();
+  const { clearSession, user } = useAuth();
 
   const logOut = () => {
     clearSession();
