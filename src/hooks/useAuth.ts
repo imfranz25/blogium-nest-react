@@ -1,4 +1,4 @@
-import jwtDecode, { JwtPayload } from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 import { create } from 'zustand';
 
 import { SafeUser } from '../types';
@@ -36,15 +36,17 @@ const useUser = create<AuthStore>((set, get) => {
   };
 
   const sessionGuard = () => {
-    const accessToken = get().token;
+    const userState = get().user;
 
-    if (accessToken) {
-      const decoded = jwtDecode<JwtPayload>(accessToken);
-      const expiration = decoded?.exp ?? 0;
+    if (!userState) {
+      return;
+    }
 
-      if (Date.now() >= expiration * 1000) {
-        toast.error('Session expired');
-      }
+    const isTokenExpired = Date.now() >= userState.exp * 1000;
+
+    if (isTokenExpired) {
+      toast.error('Session expired');
+      clearSession();
     }
   };
 

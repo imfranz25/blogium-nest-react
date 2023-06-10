@@ -4,9 +4,9 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useState, useEffect, useCallback } from 'react';
 
-import getErrorMessage from '../utils/getErrorMessage';
-import { SafeError } from '../types';
 import useAuth from './useAuth';
+import { SafeError } from '../types';
+import getErrorMessage from '../utils/getErrorMessage';
 
 const useFetch = (endpoint: string, options: any) => {
   const API = import.meta.env.VITE_BACKEND_URL;
@@ -18,8 +18,10 @@ const useFetch = (endpoint: string, options: any) => {
     try {
       setIsLoading(true);
       sessionGuard();
-      const response = await axios(`${API}${endpoint}`, options);
-      setData(response.data);
+
+      const { data } = await axios(`${API}${endpoint}`, options);
+
+      setData(data);
     } catch (error) {
       toast.error(getErrorMessage(error as SafeError));
     } finally {
@@ -29,7 +31,7 @@ const useFetch = (endpoint: string, options: any) => {
 
   useEffect(() => {
     fetchData();
-  }, [endpoint, fetchData]);
+  }, [fetchData]);
 
   return { isLoading, data };
 };

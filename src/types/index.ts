@@ -1,9 +1,10 @@
 export type SafeUser = {
   readonly userId: string;
-  readonly iat: number;
   readonly profilePicture: string;
   readonly email: string;
   readonly fullName: string;
+  readonly iat: number;
+  readonly exp: number;
 } | null;
 
 export type SafePostUser = {
