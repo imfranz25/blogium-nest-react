@@ -1,5 +1,6 @@
 import { Form } from 'antd';
 import { useCallback } from 'react';
+import toast from 'react-hot-toast';
 import { IoSend } from 'react-icons/io5';
 
 import Input from '../Input';
@@ -8,7 +9,6 @@ import useFetch from '../../hooks/useFetch';
 import { SafePostComment } from '../../types';
 import { CommentButton, Divider } from './styles';
 import { CommentDetail } from '../../types/formTypes';
-import toast from 'react-hot-toast';
 
 interface CommentProps {
   postId: string;
