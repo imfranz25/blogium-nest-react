@@ -10,7 +10,7 @@ interface IUseLike {
   likes: SafeLikePost[];
   userId: string | undefined;
   postId: string;
-  token: string;
+  token: string | null;
   setPosts?: Dispatch<SetStateAction<SafePost[]>>;
   setPostData?: Dispatch<SetStateAction<SafePost | null>>;
 }

@@ -5,26 +5,26 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Button, Form, Row, Typography } from 'antd';
 import { AiOutlineLogin } from 'react-icons/ai';
 
-import useAuth from '../../hooks/useAuth';
 import getErrorMessage from '../../utils/getErrorMessage';
 import Input from '../../components/Input';
 import { LoginWrapper, LoginCard, ActionWrapper } from './styles';
 import { SafeError } from '../../types';
 import { Credentials } from '../../types/formTypes';
+import useUser from '../../hooks/useAuth';
 
 const LoginPage = () => {
+  const { registerSession } = useUser();
   const navigate = useNavigate();
-  const { registerToken } = useAuth();
   const [isLoading, isSetLoading] = useState(false);
 
   const onLogin = useCallback(
     async (credentials: Credentials) => {
       try {
         isSetLoading(true);
-        const response = await api.loginUser(credentials);
+        const { data } = await api.loginUser(credentials);
 
         toast.success('Logged in');
-        registerToken(response?.data?.accessToken);
+        registerSession(data.accessToken);
         navigate('/feed');
       } catch (error) {
         toast.error(getErrorMessage(error as SafeError));
@@ -32,7 +32,7 @@ const LoginPage = () => {
         isSetLoading(false);
       }
     },
-    [navigate, registerToken]
+    [navigate, registerSession]
   );
 
   return (

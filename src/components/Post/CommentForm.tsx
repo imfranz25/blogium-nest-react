@@ -12,7 +12,7 @@ import { SafePostComment } from '../../types';
 import { CommentDetail } from '../../types/formTypes';
 
 interface CommentProps {
-  token: string;
+  token: string | null;
   postId: string;
   comments: SafePostComment[];
   setPosts?: Dispatch<SetStateAction<SafePost[]>>;

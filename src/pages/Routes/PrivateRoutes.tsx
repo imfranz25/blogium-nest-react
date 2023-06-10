@@ -2,11 +2,12 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { Layout } from 'antd';
 
 import Navbar from '../../components/Navbar';
+import useUser from '../../hooks/useAuth';
 
 const PrivateRoutes = () => {
-  const accessToken = localStorage.getItem('accessToken');
+  const { token } = useUser();
 
-  if (!accessToken) {
+  if (!token) {
     return <Navigate to="/" />;
   }
 

@@ -6,7 +6,6 @@ import { AiFillLike, AiOutlineComment, AiOutlineLike } from 'react-icons/ai';
 import React, { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
 
 import Comment from './CommentForm';
-import useAuth from '../../hooks/useAuth';
 import useLike from '../../hooks/useLike';
 import postItems from '../../utils/getPostMenu';
 import { SafePostUser, SafePostComment, SafePost, SafeLikePost } from '../../types';
@@ -19,6 +18,7 @@ import {
   PostButton,
   Divider,
 } from './styles';
+import useAuth from '../../hooks/useAuth';
 
 interface PostProps {
   id: string;
@@ -54,8 +54,8 @@ const Post: React.FC<PostProps> = ({
     setPostData,
   });
 
-  const commentCount = comments.length;
   const likeCount = likes.length;
+  const commentCount = comments.length;
   const timeCreated = formatDistanceToNow(new Date(createdAt));
   const likeIcon = isLiked ? <AiFillLike style={{ color: '#0064FF' }} /> : <AiOutlineLike />;
 

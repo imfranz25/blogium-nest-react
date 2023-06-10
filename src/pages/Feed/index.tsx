@@ -4,14 +4,14 @@ import { Col, Row } from 'antd';
 
 import * as api from '../../api';
 import getErrorMessage from '../../utils/getErrorMessage';
-import useAuth from '../../hooks/useAuth';
 import { SafeError, SafePost } from '../../types';
 import Post from '../../components/Post';
 import PostForm from '../../components/Post/PostForm';
 import Loader from '../../components/Loader';
+import useUser from '../../hooks/useAuth';
 
 const FeedPage = () => {
-  const { token } = useAuth();
+  const { token } = useUser();
   const [posts, setPosts] = useState<SafePost[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 

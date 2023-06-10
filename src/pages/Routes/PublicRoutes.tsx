@@ -1,9 +1,10 @@
 import { Navigate, Outlet } from 'react-router-dom';
+import useUser from '../../hooks/useAuth';
 
 const PublicRoutes = () => {
-  const accessToken = localStorage.getItem('accessToken');
+  const { token } = useUser();
 
-  if (accessToken) {
+  if (token) {
     return <Navigate to="/feed" />;
   }
 
