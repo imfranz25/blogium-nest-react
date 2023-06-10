@@ -19,11 +19,13 @@ const SignUpPage = () => {
   const { isLoading: signUpLoading, refetch: createUser } = useFetch({
     endpoint: '/user',
     skipInitialInvocation: true,
+    includeToken: false,
   });
 
   const { isLoading: logInLoading, refetch: loginUser } = useFetch({
     endpoint: '/auth/login',
     skipInitialInvocation: true,
+    includeToken: false,
   });
 
   const onSignUp = useCallback(

@@ -1,24 +1,22 @@
-import { useCallback, useState, Dispatch, SetStateAction } from 'react';
+import { useCallback, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import useAuth from '../../hooks/useAuth';
 import { Button, Form } from 'antd';
 
-import * as api from '../../api';
 import Modal from '../Modal';
 import Input from '../Input';
-import getErrorMessage from '../../utils/getErrorMessage';
-import { SafeError, SafePost } from '../../types';
 import { PostDetail } from '../../types/formTypes';
+import usePost from '../../hooks/usePost';
+import useFetch from '../../hooks/useFetch';
 
-interface PostFormProps {
-  addPost: Dispatch<SetStateAction<SafePost[]>>;
-}
-
-const PostForm: React.FC<PostFormProps> = ({ addPost }) => {
-  const { token } = useAuth();
+const PostForm = () => {
+  const { addPost } = usePost();
   const [form] = Form.useForm();
-  const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { refetch: createPost, isLoading } = useFetch({
+    endpoint: '/post',
+    skipInitialInvocation: true,
+  });
 
   const togglePostModal = useCallback(() => {
     setIsModalOpen((state) => !state);
@@ -26,21 +24,16 @@ const PostForm: React.FC<PostFormProps> = ({ addPost }) => {
 
   const onPostSubmit = useCallback(
     async (postDetail: PostDetail) => {
-      try {
-        setIsLoading(true);
-        const { data: newPost } = await api.createPost(postDetail, token);
+      const resData = await createPost({ method: 'POST', data: postDetail });
 
-        addPost((posts) => [...posts, newPost]);
+      if (resData) {
+        addPost(resData.data);
         toast.success('Post created successfully');
         form.resetFields();
         setIsModalOpen(false);
-      } catch (error) {
-        toast.error(getErrorMessage(error as SafeError));
-      } finally {
-        setIsLoading(false);
       }
     },
-    [addPost, token, form]
+    [form, createPost, addPost]
   );
 
   return (

@@ -1,16 +1,21 @@
 import { Col, Row } from 'antd';
 
-import * as api from '../../api';
-import { SafeError, SafePost } from '../../types';
 import Post from '../../components/Post';
 import PostForm from '../../components/Post/PostForm';
 import Loader from '../../components/Loader';
-import useAuth from '../../hooks/useAuth';
+import usePost from '../../hooks/usePost';
 import useFetch from '../../hooks/useFetch';
+import { useEffect } from 'react';
 
 const FeedPage = () => {
   const { isLoading, resData } = useFetch({ endpoint: '/post' });
-  const posts: SafePost[] = resData?.data ?? [];
+  const { posts, setPosts } = usePost();
+
+  useEffect(() => {
+    if (resData) {
+      setPosts(resData.data);
+    }
+  }, [setPosts, resData]);
 
   if (isLoading) {
     return <Loader />;
@@ -19,7 +24,7 @@ const FeedPage = () => {
   return (
     <Row justify="space-around">
       <Col span={16}>
-        {/* <PostForm addPost={setPosts} /> */}
+        <PostForm />
         {posts.map((post) => (
           <Post
             key={post.id}

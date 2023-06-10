@@ -16,6 +16,7 @@ const LoginPage = () => {
   const { isLoading, refetch: loginUser } = useFetch({
     endpoint: '/auth/login',
     skipInitialInvocation: true,
+    includeToken: false,
   });
 
   const onLogin = useCallback(
