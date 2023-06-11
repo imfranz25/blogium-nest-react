@@ -1,26 +1,16 @@
-import { FaEllipsisH } from 'react-icons/fa';
+import { Row } from 'antd';
+import toast from 'react-hot-toast';
 import { formatDistanceToNow } from 'date-fns';
-import { Dropdown, Button, Row, Typography } from 'antd';
-import { useNavigate, useLocation } from 'react-router-dom';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { AiFillLike, AiOutlineComment, AiOutlineLike } from 'react-icons/ai';
 
 import Comment from './CommentForm';
+import PostAvatar from './PostAvatar';
 import useAuth from '../../hooks/useAuth';
-import postItems from '../../utils/getPostMenu';
-import { SafePostUser, SafePostComment, SafeLikePost } from '../../types';
-import {
-  AvatarContainer,
-  PostCard,
-  UserContainer,
-  Avatar,
-  Paragraph,
-  PostButton,
-  Divider,
-} from './styles';
 import useFetch from '../../hooks/useFetch';
-import toast from 'react-hot-toast';
 import usePost from '../../hooks/usePost';
+import { PostCard, Paragraph, PostButton, Divider } from './styles';
+import { SafePostUser, SafePostComment, SafeLikePost } from '../../types';
 
 interface PostProps {
   id: string;
@@ -32,8 +22,6 @@ interface PostProps {
 }
 
 const Post: React.FC<PostProps> = ({ id, post, postOwner, createdAt, likes, comments }) => {
-  const location = useLocation();
-  const navigate = useNavigate();
   const { user: userData } = useAuth();
   const { updateLikePost } = usePost();
   const [isShowComment, setShowComment] = useState(false);
@@ -49,18 +37,6 @@ const Post: React.FC<PostProps> = ({ id, post, postOwner, createdAt, likes, comm
   const timeCreated = formatDistanceToNow(new Date(createdAt));
   const isLiked = likes.some((like) => like.userId === userData?.userId);
   const likeIcon = isLiked ? <AiFillLike style={{ color: '#0064FF' }} /> : <AiOutlineLike />;
-
-  /* Post Options */
-  const menuItems = useMemo(() => {
-    const isOwnPost = userData?.userId === postOwner.userId;
-    const menuList = postItems(id, isOwnPost, location.pathname);
-
-    return menuList;
-  }, [id, userData?.userId, postOwner.userId, location.pathname]);
-
-  const viewUser = useCallback(() => {
-    navigate(`/profile/${postOwner.userId}`);
-  }, [navigate, postOwner.userId]);
 
   const toggleComment = useCallback(() => {
     setShowComment((state) => !state);
@@ -79,24 +55,12 @@ const Post: React.FC<PostProps> = ({ id, post, postOwner, createdAt, likes, comm
 
   return (
     <PostCard>
-      <Row justify="space-between">
-        <AvatarContainer onClick={viewUser}>
-          <Avatar src={postOwner.profilePicture} size={40}>
-            {postOwner.firstName[0].toUpperCase()}
-          </Avatar>
-          <UserContainer>
-            <Typography.Text>{`${postOwner.firstName} ${postOwner.lastName}`}</Typography.Text>
-            <Typography.Paragraph>{timeCreated}</Typography.Paragraph>
-          </UserContainer>
-        </AvatarContainer>
-        {menuItems.length > 0 && (
-          <Dropdown menu={{ items: menuItems }} placement="bottomLeft">
-            <Button type="text">
-              <FaEllipsisH />
-            </Button>
-          </Dropdown>
-        )}
-      </Row>
+      <PostAvatar
+        postId={id}
+        postOwner={postOwner}
+        timeCreated={timeCreated}
+        userId={userData?.userId}
+      />
       <Paragraph>{post}</Paragraph>
       <Divider />
       <Row>
