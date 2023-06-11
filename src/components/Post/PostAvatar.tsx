@@ -22,7 +22,7 @@ const PostAvatar: React.FC<PostAvatarProps> = ({ postId, postOwner, userId, time
     navigate(`/profile/${postOwner.userId}`);
   }, [navigate, postOwner.userId]);
 
-  /* Post Options */
+  /* Post Options (View, Edit, Delete) */
   const menuItems = useMemo(() => {
     const isOwnPost = userId === postOwner.userId;
     const menuList = postItems(postId, isOwnPost, location.pathname);

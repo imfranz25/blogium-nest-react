@@ -4,11 +4,11 @@ import { formatDistanceToNow } from 'date-fns';
 import React, { useCallback, useState } from 'react';
 import { AiFillLike, AiOutlineComment, AiOutlineLike } from 'react-icons/ai';
 
-import Comment from './CommentForm';
+import Comment from './Comment';
 import PostAvatar from './PostAvatar';
+import usePost from '../../hooks/usePost';
 import useAuth from '../../hooks/useAuth';
 import useFetch from '../../hooks/useFetch';
-import usePost from '../../hooks/usePost';
 import { PostCard, Paragraph, PostButton, Divider } from './styles';
 import { SafePostUser, SafePostComment, SafeLikePost } from '../../types';
 
