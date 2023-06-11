@@ -22,7 +22,9 @@ const ProfilePage = () => {
             <div>Name: {userData?.firstName}</div>
           </>
         ) : (
-          <Typography.Title>User not found</Typography.Title>
+          <Row justify="center">
+            <Typography.Title>User not found</Typography.Title>
+          </Row>
         )}
       </Col>
     </Row>
