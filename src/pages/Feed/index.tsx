@@ -30,7 +30,7 @@ const FeedPage = () => {
             key={post.id}
             id={post.id}
             post={post.post}
-            user={{ ...post.User, userId: post.userId }}
+            postOwner={{ ...post.User, userId: post.userId }}
             likes={post.Like}
             comments={post.Comment}
             // setPosts={setPosts}

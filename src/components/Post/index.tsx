@@ -1,14 +1,14 @@
 import { FaEllipsisH } from 'react-icons/fa';
 import { formatDistanceToNow } from 'date-fns';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { Dropdown, Button, Row, Typography } from 'antd';
+import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useCallback, useMemo, useState } from 'react';
 import { AiFillLike, AiOutlineComment, AiOutlineLike } from 'react-icons/ai';
-import React, { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
 
 import Comment from './CommentForm';
-import useLike from '../../hooks/useLike';
+import useAuth from '../../hooks/useAuth';
 import postItems from '../../utils/getPostMenu';
-import { SafePostUser, SafePostComment, SafePost, SafeLikePost } from '../../types';
+import { SafePostUser, SafePostComment, SafeLikePost } from '../../types';
 import {
   AvatarContainer,
   PostCard,
@@ -18,60 +18,43 @@ import {
   PostButton,
   Divider,
 } from './styles';
-import useAuth from '../../hooks/useAuth';
 
 interface PostProps {
   id: string;
   post: string;
   createdAt: string;
-  user: SafePostUser;
+  postOwner: SafePostUser;
   likes: SafeLikePost[];
   comments: SafePostComment[];
-  setPosts?: Dispatch<SetStateAction<SafePost[]>>;
-  setPostData?: Dispatch<SetStateAction<SafePost | null>>;
 }
 
-const Post: React.FC<PostProps> = ({
-  id,
-  post,
-  user,
-  createdAt,
-  likes,
-  comments,
-  setPosts,
-  setPostData,
-}) => {
+const Post: React.FC<PostProps> = ({ id, post, postOwner, createdAt, likes, comments }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user: userData } = useAuth();
   const [isShowComment, setShowComment] = useState(false);
-  const { token, user: userData } = useAuth();
-  const { isLiked, isLikeLoading, toggleLike } = useLike({
-    likes,
-    token,
-    userId: userData?.userId,
-    postId: id,
-    setPosts,
-    setPostData,
-  });
 
+  /* Post Details */
   const likeCount = likes.length;
   const commentCount = comments.length;
   const timeCreated = formatDistanceToNow(new Date(createdAt));
+  const isLiked = likes.findIndex((like) => like.userId === userData?.userId) > -1 ? true : false;
   const likeIcon = isLiked ? <AiFillLike style={{ color: '#0064FF' }} /> : <AiOutlineLike />;
 
+  /* Post Options */
   const menuItems = useMemo(() => {
-    const isOwnPost = userData?.userId === user.userId;
+    const isOwnPost = userData?.userId === postOwner.userId;
     const menuList = postItems(id, isOwnPost, location.pathname);
 
     return menuList;
-  }, [id, userData?.userId, user.userId, location.pathname]);
+  }, [id, userData?.userId, postOwner.userId, location.pathname]);
 
   const viewUser = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
       event.stopPropagation();
-      navigate(`/profile/${user.userId}`);
+      navigate(`/profile/${postOwner.userId}`);
     },
-    [navigate, user.userId]
+    [navigate, postOwner.userId]
   );
 
   const toggleComment = useCallback(() => {
@@ -82,11 +65,11 @@ const Post: React.FC<PostProps> = ({
     <PostCard>
       <Row justify="space-between">
         <AvatarContainer onClick={viewUser}>
-          <Avatar src={user.profilePicture} size={40}>
-            {user.firstName[0].toUpperCase()}
+          <Avatar src={postOwner.profilePicture} size={40}>
+            {postOwner.firstName[0].toUpperCase()}
           </Avatar>
           <UserContainer>
-            <Typography.Text>{`${user.firstName} ${user.lastName}`}</Typography.Text>
+            <Typography.Text>{`${postOwner.firstName} ${postOwner.lastName}`}</Typography.Text>
             <Typography.Paragraph>{timeCreated}</Typography.Paragraph>
           </UserContainer>
         </AvatarContainer>
@@ -105,7 +88,14 @@ const Post: React.FC<PostProps> = ({
       <Divider />
 
       <Row>
-        <PostButton type="link" disabled={isLikeLoading} onClick={toggleLike} icon={likeIcon}>
+        <PostButton
+          type="link"
+          disabled={true}
+          onClick={() => {
+            /*  */
+          }}
+          icon={likeIcon}
+        >
           {likeCount} Like{likeCount > 1 && 's'}
         </PostButton>
         <PostButton type="link" onClick={toggleComment} icon={<AiOutlineComment />}>

@@ -1,4 +1,3 @@
-import { addComment } from './../api/index';
 import { create } from 'zustand';
 
 import { SafePost, SafePostComment } from '../types';
@@ -23,6 +22,7 @@ const usePost = create<PostStore>((set, get) => {
 
     set({ posts: updatedPosts });
   };
+
   return {
     post: null,
     posts: [],

@@ -38,7 +38,7 @@ export type SafeError = {
   response: {
     status: number;
     data: {
-      message: string;
+      message: string | string[];
     };
   };
 };
