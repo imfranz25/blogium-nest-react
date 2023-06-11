@@ -33,7 +33,6 @@ const FeedPage = () => {
             postOwner={{ ...post.User, userId: post.userId }}
             likes={post.Like}
             comments={post.Comment}
-            // setPosts={setPosts}
             createdAt={post.createdAt}
           />
         ))}

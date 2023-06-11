@@ -18,6 +18,9 @@ import {
   PostButton,
   Divider,
 } from './styles';
+import useFetch from '../../hooks/useFetch';
+import toast from 'react-hot-toast';
+import usePost from '../../hooks/usePost';
 
 interface PostProps {
   id: string;
@@ -32,13 +35,19 @@ const Post: React.FC<PostProps> = ({ id, post, postOwner, createdAt, likes, comm
   const location = useLocation();
   const navigate = useNavigate();
   const { user: userData } = useAuth();
+  const { updateLikePost } = usePost();
   const [isShowComment, setShowComment] = useState(false);
+
+  const { isLoading, refetch: likeToggler } = useFetch({
+    endpoint: `/post/like/${id}`,
+    skipInitialInvocation: true,
+  });
 
   /* Post Details */
   const likeCount = likes.length;
   const commentCount = comments.length;
   const timeCreated = formatDistanceToNow(new Date(createdAt));
-  const isLiked = likes.findIndex((like) => like.userId === userData?.userId) > -1 ? true : false;
+  const isLiked = likes.some((like) => like.userId === userData?.userId);
   const likeIcon = isLiked ? <AiFillLike style={{ color: '#0064FF' }} /> : <AiOutlineLike />;
 
   /* Post Options */
@@ -49,17 +58,24 @@ const Post: React.FC<PostProps> = ({ id, post, postOwner, createdAt, likes, comm
     return menuList;
   }, [id, userData?.userId, postOwner.userId, location.pathname]);
 
-  const viewUser = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
-      event.stopPropagation();
-      navigate(`/profile/${postOwner.userId}`);
-    },
-    [navigate, postOwner.userId]
-  );
+  const viewUser = useCallback(() => {
+    navigate(`/profile/${postOwner.userId}`);
+  }, [navigate, postOwner.userId]);
 
   const toggleComment = useCallback(() => {
     setShowComment((state) => !state);
   }, []);
+
+  const likeHandler = useCallback(async () => {
+    const likeMethod = isLiked ? 'DELETE' : 'POST';
+    const response = await likeToggler({ method: likeMethod });
+
+    /* Liked */
+    if (response && userData) {
+      toast.success(`Post ${likeMethod === 'POST' ? 'liked' : 'unliked'}`);
+      updateLikePost(id, userData.userId, response.data);
+    }
+  }, [isLiked, likeToggler, id, updateLikePost, userData]);
 
   return (
     <PostCard>
@@ -73,7 +89,6 @@ const Post: React.FC<PostProps> = ({ id, post, postOwner, createdAt, likes, comm
             <Typography.Paragraph>{timeCreated}</Typography.Paragraph>
           </UserContainer>
         </AvatarContainer>
-
         {menuItems.length > 0 && (
           <Dropdown menu={{ items: menuItems }} placement="bottomLeft">
             <Button type="text">
@@ -82,27 +97,16 @@ const Post: React.FC<PostProps> = ({ id, post, postOwner, createdAt, likes, comm
           </Dropdown>
         )}
       </Row>
-
       <Paragraph>{post}</Paragraph>
-
       <Divider />
-
       <Row>
-        <PostButton
-          type="link"
-          disabled={true}
-          onClick={() => {
-            /*  */
-          }}
-          icon={likeIcon}
-        >
+        <PostButton type="link" disabled={isLoading} onClick={likeHandler} icon={likeIcon}>
           {likeCount} Like{likeCount > 1 && 's'}
         </PostButton>
         <PostButton type="link" onClick={toggleComment} icon={<AiOutlineComment />}>
           {commentCount} Comment{commentCount > 1 && 's'}
         </PostButton>
       </Row>
-
       {isShowComment && <Comment postId={id} comments={comments} />}
     </PostCard>
   );

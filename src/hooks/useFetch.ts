@@ -16,9 +16,9 @@ interface IUseFetch {
 
 const useFetch = ({ endpoint, skipInitialInvocation = false, includeToken = true }: IUseFetch) => {
   const API = import.meta.env.VITE_BACKEND_URL;
+  const { sessionGuard, token } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [resData, setResData] = useState<AxiosResponse | null>(null);
-  const { sessionGuard, token } = useAuth();
 
   const fetchData = useCallback(
     async (config: AxiosRequestConfig = {}) => {
