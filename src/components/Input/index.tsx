@@ -11,7 +11,7 @@ interface InputProps {
   placeholder?: string;
   autoComplete?: string;
   suffix?: React.ReactNode;
-  type?: 'password' | 'textarea' | 'date' | 'email';
+  type?: 'password' | 'textarea' | 'email';
 }
 
 const Input: React.FC<InputProps> = ({
@@ -55,6 +55,7 @@ const Input: React.FC<InputProps> = ({
         disabled={disabled}
         placeholder={placeholder}
         autoComplete={autoComplete}
+        rows={8}
       />
     </FormItem>
   );
