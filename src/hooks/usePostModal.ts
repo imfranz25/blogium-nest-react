@@ -1,15 +1,17 @@
 import { create } from 'zustand';
 
 interface PostModalStore {
+  isEdit: boolean;
   isOpen: boolean;
-  onOpen: () => void;
+  onOpen: (isEdit?: boolean) => void;
   onClose: () => void;
 }
 
 const usePostModal = create<PostModalStore>((set) => ({
+  isEdit: false,
   isOpen: false,
-  onOpen: () => set({ isOpen: true }),
-  onClose: () => set({ isOpen: false }),
+  onOpen: (isEdit = false) => set({ isOpen: true, isEdit }),
+  onClose: () => set({ isOpen: false, isEdit: false }),
 }));
 
 export default usePostModal;

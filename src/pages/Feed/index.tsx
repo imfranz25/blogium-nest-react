@@ -25,7 +25,7 @@ const FeedPage = () => {
   return (
     <Row justify="space-around">
       <Col span={16}>
-        <Button onClick={postModal.onOpen}>Create Post</Button>
+        <Button onClick={() => postModal.onOpen()}>Create Post</Button>
         {posts.map((post) => (
           <Post
             key={post.id}
