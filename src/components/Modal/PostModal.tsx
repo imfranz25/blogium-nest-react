@@ -1,27 +1,24 @@
-import { Button, Form } from 'antd';
+import { Form } from 'antd';
 import { toast } from 'react-hot-toast';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 
-import Modal from '../Modal';
+import Modal from '.';
 import Input from '../Input';
 import usePost from '../../hooks/usePost';
 import useFetch from '../../hooks/useFetch';
 import { httpMethod } from '../../constants';
 import { PostDetail } from '../../types/formTypes';
+import usePostModal from '../../hooks/usePostModal';
 
 const PostForm = () => {
   const { addPost } = usePost();
   const [form] = Form.useForm();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const postModal = usePostModal();
 
   const { refetch: createPost, isLoading } = useFetch({
     endpoint: '/post',
     skipInitialInvocation: true,
   });
-
-  const togglePostModal = useCallback(() => {
-    setIsModalOpen((state) => !state);
-  }, []);
 
   const onPostSubmit = useCallback(
     async (postDetail: PostDetail) => {
@@ -31,18 +28,17 @@ const PostForm = () => {
         addPost(resData.data);
         toast.success('Post created successfully');
         form.resetFields();
-        setIsModalOpen(false);
+        postModal.onClose();
       }
     },
-    [form, createPost, addPost]
+    [form, createPost, addPost, postModal]
   );
 
   return (
     <>
-      <Button onClick={togglePostModal}>Create Post</Button>
       <Modal
-        isOpen={isModalOpen}
-        onCancel={togglePostModal}
+        isOpen={postModal.isOpen}
+        onCancel={postModal.onClose}
         isLoading={isLoading}
         closable={false}
         onOk={form.submit}

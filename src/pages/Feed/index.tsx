@@ -1,15 +1,16 @@
-import { Col, Row } from 'antd';
+import { useEffect } from 'react';
+import { Button, Col, Row } from 'antd';
 
 import Post from '../../components/Post';
-import PostForm from '../../components/Post/PostForm';
-import Loader from '../../components/Loader';
 import usePost from '../../hooks/usePost';
 import useFetch from '../../hooks/useFetch';
-import { useEffect } from 'react';
+import Loader from '../../components/Loader';
+import usePostModal from '../../hooks/usePostModal';
 
 const FeedPage = () => {
-  const { isLoading, resData } = useFetch({ endpoint: '/post' });
+  const postModal = usePostModal();
   const { posts, setPosts } = usePost();
+  const { isLoading, resData } = useFetch({ endpoint: '/post' });
 
   useEffect(() => {
     if (resData) {
@@ -24,7 +25,7 @@ const FeedPage = () => {
   return (
     <Row justify="space-around">
       <Col span={16}>
-        <PostForm />
+        <Button onClick={postModal.onOpen}>Create Post</Button>
         {posts.map((post) => (
           <Post
             key={post.id}
