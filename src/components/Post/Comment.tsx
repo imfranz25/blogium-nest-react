@@ -8,6 +8,7 @@ import usePost from '../../hooks/usePost';
 import useFetch from '../../hooks/useFetch';
 import { SafePostComment } from '../../types';
 import { CommentButton, Divider } from './styles';
+import { httpMethod } from '../../constants';
 import { CommentDetail } from '../../types/formTypes';
 
 interface CommentProps {
@@ -26,7 +27,7 @@ const Comment: React.FC<CommentProps> = ({ postId, comments }) => {
 
   const onSubmitComment = useCallback(
     async (comment: CommentDetail) => {
-      const resData = await createComment({ method: 'POST', data: comment });
+      const resData = await createComment({ method: httpMethod.POST, data: comment });
 
       if (resData) {
         addComment(postId, resData.data);

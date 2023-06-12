@@ -1,14 +1,15 @@
 import { toast } from 'react-hot-toast';
 import { useCallback } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { Button, Form, Row, Typography } from 'antd';
 import { AiOutlineLogin } from 'react-icons/ai';
+import { Button, Form, Row, Typography } from 'antd';
+import { useNavigate, Link } from 'react-router-dom';
 
-import Input from '../../components/Input';
 import useAuth from '../../hooks/useAuth';
+import Input from '../../components/Input';
 import useFetch from '../../hooks/useFetch';
-import { LoginWrapper, LoginCard, ActionWrapper } from './styles';
+import { httpMethod } from '../../constants';
 import { Credentials } from '../../types/formTypes';
+import { LoginWrapper, LoginCard, ActionWrapper } from './styles';
 
 const LoginPage = () => {
   const { registerSession } = useAuth();
@@ -21,7 +22,7 @@ const LoginPage = () => {
 
   const onLogin = useCallback(
     async (credentials: Credentials) => {
-      const response = await loginUser({ method: 'POST', data: credentials });
+      const response = await loginUser({ method: httpMethod.POST, data: credentials });
 
       if (response) {
         toast.success('Logged in');

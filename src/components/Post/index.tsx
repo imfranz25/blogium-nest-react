@@ -9,6 +9,7 @@ import PostAvatar from './PostAvatar';
 import usePost from '../../hooks/usePost';
 import useAuth from '../../hooks/useAuth';
 import useFetch from '../../hooks/useFetch';
+import { httpMethod } from '../../constants';
 import { PostCard, Paragraph, PostButton, Divider } from './styles';
 import { SafePostUser, SafePostComment, SafeLikePost } from '../../types';
 
@@ -43,12 +44,12 @@ const Post: React.FC<PostProps> = ({ id, post, postOwner, createdAt, likes, comm
   }, []);
 
   const likeHandler = useCallback(async () => {
-    const likeMethod = isLiked ? 'DELETE' : 'POST';
+    const likeMethod = isLiked ? httpMethod.DELETE : httpMethod.POST;
     const response = await likeToggler({ method: likeMethod });
 
     /* Liked */
     if (response && userData) {
-      toast.success(`Post ${likeMethod === 'POST' ? 'liked' : 'unliked'}`);
+      toast.success(`Post ${likeMethod === httpMethod.POST ? 'liked' : 'unliked'}`);
       updateLikePost(id, userData.userId, response.data);
     }
   }, [isLiked, likeToggler, id, updateLikePost, userData]);

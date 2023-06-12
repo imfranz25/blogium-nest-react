@@ -7,10 +7,11 @@ import { IoCreateOutline } from 'react-icons/io5';
 
 import useAuth from '../../hooks/useAuth';
 import Input from '../../components/Input';
-import Date from '../../components/Input/DateInput';
-import { SignUpWrapper, SignUpCard, Column, ActionWrapper } from './styles';
-import { UserDetails } from '../../types/formTypes';
 import useFetch from '../../hooks/useFetch';
+import { httpMethod } from '../../constants';
+import Date from '../../components/Input/DateInput';
+import { UserDetails } from '../../types/formTypes';
+import { SignUpWrapper, SignUpCard, Column, ActionWrapper } from './styles';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -30,14 +31,14 @@ const SignUpPage = () => {
 
   const onSignUp = useCallback(
     async (userDetails: UserDetails) => {
-      const signUpResponse = await createUser({ method: 'POST', data: userDetails });
+      const signUpResponse = await createUser({ method: httpMethod.POST, data: userDetails });
 
       if (!signUpResponse) {
         return;
       }
 
       const logInResponse = await loginUser({
-        method: 'POST',
+        method: httpMethod.POST,
         data: { email: userDetails.email, password: userDetails.password },
       });
 

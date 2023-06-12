@@ -6,6 +6,7 @@ import Modal from '../Modal';
 import Input from '../Input';
 import usePost from '../../hooks/usePost';
 import useFetch from '../../hooks/useFetch';
+import { httpMethod } from '../../constants';
 import { PostDetail } from '../../types/formTypes';
 
 const PostForm = () => {
@@ -24,7 +25,7 @@ const PostForm = () => {
 
   const onPostSubmit = useCallback(
     async (postDetail: PostDetail) => {
-      const resData = await createPost({ method: 'POST', data: postDetail });
+      const resData = await createPost({ method: httpMethod.POST, data: postDetail });
 
       if (resData) {
         addPost(resData.data);
