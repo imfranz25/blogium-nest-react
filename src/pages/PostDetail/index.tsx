@@ -4,11 +4,20 @@ import { useParams } from 'react-router-dom';
 import Post from '../../components/Post';
 import Loader from '../../components/Loader';
 import useFetch from '../../hooks/useFetch';
+import usePost from '../../hooks/usePost';
+import { useEffect } from 'react';
 
 const PostDetailsPage = () => {
   const params = useParams();
   const { isLoading, resData } = useFetch({ endpoint: `/post/${params.id}` });
-  const postData = resData?.data;
+  const { posts, setPosts } = usePost();
+  const [postData] = posts;
+
+  useEffect(() => {
+    if (resData) {
+      setPosts([resData.data]);
+    }
+  }, [resData, setPosts]);
 
   if (isLoading) {
     return <Loader />;
