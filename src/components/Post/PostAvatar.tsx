@@ -3,18 +3,22 @@ import { FaEllipsisH } from 'react-icons/fa';
 import { Button, Dropdown, Row, Typography } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { SafePostUser } from '../../types';
+import { SafePost, SafePostUser } from '../../types';
 import postItems from '../../utils/getPostMenu';
 import { AvatarContainer, UserContainer, Avatar } from './styles';
+import usePost from '../../hooks/usePost';
+import usePostModal from '../../hooks/usePostModal';
 
 interface PostAvatarProps {
-  postId: string;
+  postData: SafePost;
   timeCreated: string;
   userId: string | undefined;
   postOwner: SafePostUser;
 }
 
-const PostAvatar: React.FC<PostAvatarProps> = ({ postId, postOwner, userId, timeCreated }) => {
+const PostAvatar: React.FC<PostAvatarProps> = ({ postData, postOwner, userId, timeCreated }) => {
+  const { setPost } = usePost();
+  const postModal = usePostModal();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -22,13 +26,20 @@ const PostAvatar: React.FC<PostAvatarProps> = ({ postId, postOwner, userId, time
     navigate(`/profile/${postOwner.userId}`);
   }, [navigate, postOwner.userId]);
 
+  const setPostEdit = useCallback(() => {
+    setPost(postData);
+    postModal.onOpen();
+  }, [setPost, postData, postModal]);
+
   /* Post Options (View, Edit, Delete) */
   const menuItems = useMemo(() => {
     const isOwnPost = userId === postOwner.userId;
-    const menuList = postItems(postId, isOwnPost, location.pathname);
+    console.log({ userId });
+    console.log({ postOwner });
+    const menuList = postItems(postData.id, isOwnPost, location.pathname, setPostEdit);
 
     return menuList;
-  }, [postId, userId, postOwner.userId, location.pathname]);
+  }, [postData, userId, postOwner.userId, location.pathname, setPostEdit]);
 
   return (
     <Row justify="space-between">

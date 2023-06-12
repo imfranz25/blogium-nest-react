@@ -6,26 +6,22 @@ import { AiFillLike, AiOutlineComment, AiOutlineLike } from 'react-icons/ai';
 
 import Comment from './Comment';
 import PostAvatar from './PostAvatar';
+import { SafePost } from '../../types';
 import usePost from '../../hooks/usePost';
 import useAuth from '../../hooks/useAuth';
 import useFetch from '../../hooks/useFetch';
 import { httpMethod } from '../../constants';
 import { PostCard, Paragraph, PostButton, Divider } from './styles';
-import { SafePostUser, SafePostComment, SafeLikePost } from '../../types';
 
 interface PostProps {
-  id: string;
-  post: string;
-  createdAt: string;
-  postOwner: SafePostUser;
-  likes: SafeLikePost[];
-  comments: SafePostComment[];
+  postData: SafePost;
 }
 
-const Post: React.FC<PostProps> = ({ id, post, postOwner, createdAt, likes, comments }) => {
+const Post: React.FC<PostProps> = ({ postData }) => {
   const { user: userData } = useAuth();
   const { updateLikePost } = usePost();
   const [isShowComment, setShowComment] = useState(false);
+  const { id, post, createdAt, Like: likes, Comment: comments, User: postOwner } = postData;
 
   const { isLoading, refetch: likeToggler } = useFetch({
     endpoint: `/post/like/${id}`,
@@ -57,7 +53,7 @@ const Post: React.FC<PostProps> = ({ id, post, postOwner, createdAt, likes, comm
   return (
     <PostCard>
       <PostAvatar
-        postId={id}
+        postData={postData}
         postOwner={postOwner}
         timeCreated={timeCreated}
         userId={userData?.userId}

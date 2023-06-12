@@ -3,7 +3,9 @@ import { create } from 'zustand';
 import { SafePost, SafePostComment, SafeLikePost } from '../types';
 
 interface PostStore {
+  post: SafePost | null;
   posts: SafePost[];
+  setPost: (post: SafePost) => void;
   setPosts: (posts: SafePost[]) => void;
   addPost: (post: SafePost) => void;
   addComment: (postId: string, comment: SafePostComment) => void;
@@ -40,9 +42,11 @@ const usePost = create<PostStore>((set, get) => {
   };
 
   return {
+    post: null,
     posts: [],
     addComment,
     updateLikePost,
+    setPost: (post) => set({ post }),
     setPosts: (posts) => set({ posts }),
     addPost: (post) => set({ posts: [post, ...get().posts] }),
   };
