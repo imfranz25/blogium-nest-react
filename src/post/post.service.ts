@@ -48,6 +48,11 @@ export class PostService {
   async findAll() {
     return await this.prisma.post.findMany({
       include: this.includeOptions,
+      orderBy: [
+        {
+          createdAt: 'desc',
+        },
+      ],
     });
   }
 
