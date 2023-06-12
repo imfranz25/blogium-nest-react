@@ -1,5 +1,12 @@
 import { SafeError } from '../types';
 
+/**
+ * Fetch error message from error object
+ * For array of errors (return the first index/message)
+ * else return the error message returned by the BE
+ * @param {SafeError} error
+ * @returns {string}
+ */
 const getErrorMessage = (error: SafeError) => {
   let errorMessage;
 
