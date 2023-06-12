@@ -12,16 +12,17 @@ const postItems = (postId: string, isOwned: boolean, location: string) => {
   }
 
   if (isOwned) {
-    menuItems.push({
-      key: `edit-${postId}`,
-      label: 'Edit',
-    });
-
-    menuItems.push({
-      key: `delete-${postId}`,
-      label: 'Delete',
-      danger: true,
-    });
+    menuItems.push(
+      {
+        key: `edit-${postId}`,
+        label: 'Edit',
+      },
+      {
+        key: `delete-${postId}`,
+        label: 'Delete',
+        danger: true,
+      }
+    );
   }
 
   return menuItems;
