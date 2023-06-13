@@ -32,13 +32,13 @@ const PostForm = () => {
       }
 
       /* Post created */
-      if (resData?.status === 201) {
+      if (resData.status === 201) {
         addPost(resData.data);
         postStateMessage = 'created';
       }
 
       /* Update success */
-      if (resData?.status === 200 && post) {
+      if (resData.status === 200 && post) {
         updatePost(post.id, postDetail.post);
         postStateMessage = 'updated';
       }

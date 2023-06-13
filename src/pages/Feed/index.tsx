@@ -27,16 +27,7 @@ const FeedPage = () => {
       <Col span={16}>
         <Button onClick={() => postModal.onOpen()}>Create Post</Button>
         {posts.map((post) => (
-          <Post
-            key={post.id}
-            postData={{ ...post, User: { ...post.User, userId: post.userId } }}
-            // id={post.id}
-            // post={post.post}
-            // postOwner={{ ...post.User, userId: post.userId }}
-            // likes={post.Like}
-            // comments={post.Comment}
-            // createdAt={post.createdAt}
-          />
+          <Post key={post.id} postData={post} />
         ))}
       </Col>
     </Row>

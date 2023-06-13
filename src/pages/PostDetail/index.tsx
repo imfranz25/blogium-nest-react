@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Col, Row, Typography } from 'antd';
 import { useParams } from 'react-router-dom';
 
@@ -27,15 +27,7 @@ const PostDetailsPage = () => {
     <Row justify="space-around">
       <Col span={16}>
         {postData ? (
-          <Post
-            postData={{ ...postData, User: { ...postData.User, userId: postData.userId } }}
-            // id={postData.id}
-            // post={postData.post}
-            // likes={postData.Like}
-            // comments={postData.Comment}
-            // postOwner={{ ...postData.User, userId: postData.userId }}
-            // createdAt={postData.createdAt}
-          />
+          <Post postData={postData} />
         ) : (
           <Row justify="center">
             <Typography.Title>Post not found</Typography.Title>

@@ -23,8 +23,8 @@ const PostAvatar: React.FC<PostAvatarProps> = ({ postData, postOwner, userId, ti
   const location = useLocation();
 
   const viewUser = useCallback(() => {
-    navigate(`/profile/${postOwner.userId}`);
-  }, [navigate, postOwner.userId]);
+    navigate(`/profile/${postData.userId}`);
+  }, [navigate, postData.userId]);
 
   const setPostEdit = useCallback(() => {
     setPost(postData);
@@ -33,17 +33,17 @@ const PostAvatar: React.FC<PostAvatarProps> = ({ postData, postOwner, userId, ti
 
   /* Post Options (View, Edit, Delete) */
   const menuItems = useMemo(() => {
-    const isOwnPost = userId === postOwner.userId;
+    const isOwnPost = userId === postData.userId;
     const menuList = postItems(postData.id, isOwnPost, location.pathname, setPostEdit);
 
     return menuList;
-  }, [postData, userId, postOwner.userId, location.pathname, setPostEdit]);
+  }, [postData, userId, location.pathname, setPostEdit]);
 
   return (
     <Row justify="space-between">
       <AvatarContainer onClick={viewUser}>
         <Avatar src={postOwner.profilePicture} size={40}>
-          {postOwner.firstName[0].toUpperCase()}
+          {postOwner?.firstName[0]?.toUpperCase()}
         </Avatar>
         <UserContainer>
           <Typography.Text>{`${postOwner.firstName} ${postOwner.lastName}`}</Typography.Text>
