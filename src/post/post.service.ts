@@ -48,11 +48,7 @@ export class PostService {
   async findAll() {
     return await this.prisma.post.findMany({
       include: this.includeOptions,
-      orderBy: [
-        {
-          createdAt: 'desc',
-        },
-      ],
+      orderBy: [{ createdAt: 'desc' }],
     });
   }
 
@@ -77,38 +73,27 @@ export class PostService {
   }
 
   async update(id: string, userId: string, updatePostDto: UpdatePostDto) {
-    await this.prisma.post.updateMany({
+    return await this.prisma.post.updateMany({
       where: { id, userId },
       data: updatePostDto,
     });
-
-    return { id, ...updatePostDto };
   }
 
   async remove(id: string, userId: string) {
     return await this.prisma.post.deleteMany({
-      where: {
-        id,
-        userId,
-      },
+      where: { id, userId },
     });
   }
 
   async like(postId: string, userId: string) {
     return await this.prisma.like.create({
-      data: {
-        userId,
-        postId,
-      },
+      data: { userId, postId },
     });
   }
 
   async unlike(postId: string, userId: string) {
     return await this.prisma.like.deleteMany({
-      where: {
-        userId,
-        postId,
-      },
+      where: { userId, postId },
     });
   }
 

@@ -54,7 +54,15 @@ export class PostController {
     @Body() updatePostDto: UpdatePostDto,
   ) {
     const userId = request?.user?.id;
-    return this.postService.update(id, userId, updatePostDto);
+    const updatedPost = this.postService.update(id, userId, updatePostDto);
+
+    if (!updatedPost) {
+      throw new NotFoundException(
+        'Post does not exist thus no update occurred',
+      );
+    }
+
+    return updatedPost;
   }
 
   @Delete(':id')
