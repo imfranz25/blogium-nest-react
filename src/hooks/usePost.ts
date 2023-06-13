@@ -6,17 +6,27 @@ interface PostStore {
   post: SafePost | null;
   posts: SafePost[];
   setPost: (post: SafePost) => void;
-  setPosts: (posts: SafePost[]) => void;
   addPost: (post: SafePost) => void;
+  setPosts: (posts: SafePost[]) => void;
+  updatePost: (postId: string, post: string) => void;
   addComment: (postId: string, comment: SafePostComment) => void;
   updateLikePost: (postId: string, userId: string, likeData: SafeLikePost) => void;
 }
 
 const usePost = create<PostStore>((set, get) => {
+  const updatePost = (postId: string, post: string) => {
+    const updatedPosts = get().posts;
+    const postIndex = updatedPosts.findIndex((post) => post.id === postId);
+
+    updatedPosts[postIndex].post = post;
+
+    set({ posts: updatedPosts });
+  };
+
   const addComment = (postId: string, comment: SafePostComment) => {
     const updatedPosts = [...get().posts];
     const postIndex = updatedPosts.findIndex((post) => post.id === postId);
-    const updatedPost = { ...updatedPosts[postIndex] };
+    const updatedPost = updatedPosts[postIndex];
 
     updatedPost.Comment.push(comment);
     updatedPosts[postIndex] = updatedPost;
@@ -27,7 +37,7 @@ const usePost = create<PostStore>((set, get) => {
   const updateLikePost = (postId: string, userId: string, likeData: SafeLikePost) => {
     const updatedPosts = [...get().posts];
     const postIndex = updatedPosts.findIndex((post) => post.id === postId);
-    const updatedPost = { ...updatedPosts[postIndex] };
+    const updatedPost = updatedPosts[postIndex];
     const likeIndex = updatedPost.Like.findIndex((like) => like.userId === userId);
 
     if (likeIndex > -1) {
@@ -46,6 +56,7 @@ const usePost = create<PostStore>((set, get) => {
     posts: [],
     addComment,
     updateLikePost,
+    updatePost,
     setPost: (post) => set({ post }),
     setPosts: (posts) => set({ posts }),
     addPost: (post) => set({ posts: [post, ...get().posts] }),

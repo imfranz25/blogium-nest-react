@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { FaEllipsisH } from 'react-icons/fa';
 import { Button, Dropdown, Row, Typography } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -17,14 +17,10 @@ interface PostAvatarProps {
 }
 
 const PostAvatar: React.FC<PostAvatarProps> = ({ postData, postOwner, userId, timeCreated }) => {
-  const { setPost, post } = usePost();
+  const { setPost } = usePost();
   const postModal = usePostModal();
   const navigate = useNavigate();
   const location = useLocation();
-
-  useEffect(() => {
-    console.log(post);
-  }, [post]);
 
   const viewUser = useCallback(() => {
     navigate(`/profile/${postOwner.userId}`);
@@ -32,7 +28,6 @@ const PostAvatar: React.FC<PostAvatarProps> = ({ postData, postOwner, userId, ti
 
   const setPostEdit = useCallback(() => {
     setPost(postData);
-    console.log(postData);
     postModal.onOpen(true);
   }, [setPost, postData, postModal]);
 

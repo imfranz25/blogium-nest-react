@@ -1,6 +1,6 @@
-import { Form } from 'antd';
+import { Form, FormInstance } from 'antd';
 import { toast } from 'react-hot-toast';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import Modal from '.';
 import Input from '../Input';
@@ -11,9 +11,10 @@ import { PostDetail } from '../../types/formTypes';
 import usePostModal from '../../hooks/usePostModal';
 
 const PostForm = () => {
-  const { addPost, post } = usePost();
+  const { addPost, updatePost, post } = usePost();
   const [form] = Form.useForm();
   const postModal = usePostModal();
+  const formRef = useRef<FormInstance<PostDetail>>(null);
 
   const { refetch: managePost, isLoading } = useFetch({
     endpoint: `/post${postModal.isEdit ? `/${post?.id}` : ''}`,
@@ -26,10 +27,8 @@ const PostForm = () => {
       const postMethod = postModal.isEdit ? httpMethod.PATCH : httpMethod.POST;
       const resData = await managePost({ method: postMethod, data: postDetail });
 
-      /* Update success */
-      if (resData?.status === 200) {
-        // addPost(resData.data);
-        postStateMessage = 'updated';
+      if (!resData) {
+        return;
       }
 
       /* Post created */
@@ -38,16 +37,26 @@ const PostForm = () => {
         postStateMessage = 'created';
       }
 
-      toast.success(`Post ${postStateMessage} successfully`);
+      /* Update success */
+      if (resData?.status === 200 && post) {
+        updatePost(post.id, postDetail.post);
+        postStateMessage = 'updated';
+      }
+
       form.resetFields();
       postModal.onClose();
+      toast.success(`Post ${postStateMessage} successfully`);
     },
-    [form, managePost, addPost, postModal]
+    [form, managePost, addPost, postModal, updatePost, post]
   );
 
+  /**
+   * If the form is flagged for post edit
+   * then set the initial post value to specified edit post
+   */
   useEffect(() => {
-    if (postModal.isEdit && post) {
-      form.setFieldsValue({ post: post.post });
+    if (formRef.current) {
+      form.setFieldsValue({ post: postModal.isEdit ? post?.post : '' });
     }
   }, [form, postModal.isEdit, post]);
 
@@ -60,7 +69,7 @@ const PostForm = () => {
         closable={false}
         onOk={form.submit}
       >
-        <Form onFinish={onPostSubmit} form={form}>
+        <Form onFinish={onPostSubmit} form={form} ref={formRef}>
           <Input type="textarea" label="Post" id="post" required />
         </Form>
       </Modal>
