@@ -31,9 +31,15 @@ const PostAvatar: React.FC<PostAvatarProps> = ({ postData, postOwner, userId, ti
   const setPostState = useCallback(
     (state: 'edit' | 'delete') => {
       setPost(postData);
+      // set to edit mode
+      if (state === 'edit') {
+        postModal.onOpen(true);
+      }
 
-      if (state === 'edit') postModal.onOpen(true); // set to edit mode
-      if (state === 'delete') deleteModal.onOpen(); // set to delete mode
+      // set to delete mode
+      if (state === 'delete') {
+        deleteModal.onOpen();
+      }
     },
     [setPost, postData, postModal, deleteModal]
   );

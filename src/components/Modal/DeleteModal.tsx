@@ -1,5 +1,6 @@
-import { toast } from 'react-hot-toast';
 import { useCallback } from 'react';
+import { toast } from 'react-hot-toast';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import Modal from '.';
 import usePost from '../../hooks/usePost';
@@ -8,6 +9,8 @@ import { httpMethod } from '../../constants';
 import useDeleteModal from '../../hooks/useDeleteModal';
 
 const PostForm = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const deleteModal = useDeleteModal();
   const { removePost, post } = usePost();
 
@@ -19,19 +22,33 @@ const PostForm = () => {
   const onDeletePost = useCallback(async () => {
     const resData = await deletePost({ method: httpMethod.DELETE });
 
-    if (resData && post) {
-      removePost(post.id);
-      deleteModal.onClose();
-      toast.success(`Post deleted successfully`);
+    if (!resData || !post) {
+      return;
     }
-  }, [deleteModal, deletePost, removePost, post]);
+
+    removePost(post.id);
+    deleteModal.onClose();
+    toast.success(`Post deleted successfully`);
+
+    /* For pages except feed -> navigate to feed */
+    if (location.pathname !== '/feed') {
+      navigate('/feed');
+    }
+  }, [deleteModal, deletePost, removePost, post, location.pathname, navigate]);
+
+  /* Don't let the user close the modal while submitting */
+  const onCancel = () => {
+    if (isLoading) return;
+
+    deleteModal.onClose();
+  };
 
   return (
     <>
       <Modal
         title={`Are you sure you want to delete this post?`}
         isOpen={deleteModal.isOpen}
-        onCancel={deleteModal.onClose}
+        onCancel={onCancel}
         isLoading={isLoading}
         closable={false}
         onOk={onDeletePost}

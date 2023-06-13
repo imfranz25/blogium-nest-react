@@ -18,13 +18,13 @@ const ignoreLabel = ['Comment', 'Post'];
 
 const Input: React.FC<InputProps> = ({
   id,
-  disabled,
   suffix,
   label,
   type = 'text',
   required = false,
   placeholder = '',
   autoComplete = 'off',
+  disabled = false,
 }) => {
   let InputComponent;
   const inputCol = { span: 24 };

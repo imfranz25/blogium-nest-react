@@ -14,6 +14,7 @@ import { LoginWrapper, LoginCard, ActionWrapper } from './styles';
 const LoginPage = () => {
   const { registerSession } = useAuth();
   const navigate = useNavigate();
+
   const { isLoading, refetch: loginUser } = useFetch({
     endpoint: '/auth/login',
     skipInitialInvocation: true,
@@ -40,8 +41,8 @@ const LoginPage = () => {
           <Typography.Title level={3}>Welcome back!</Typography.Title>
         </Row>
         <Form onFinish={onLogin}>
-          <Input label="Email" type="email" id="email" required />
-          <Input label="Password" id="password" type="password" required />
+          <Input label="Email" type="email" id="email" disabled={isLoading} required />
+          <Input label="Password" id="password" type="password" disabled={isLoading} required />
           <ActionWrapper>
             <Button
               size="large"

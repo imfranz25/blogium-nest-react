@@ -51,6 +51,17 @@ const PostForm = () => {
   );
 
   /**
+   * Don't let the user close the modal while submitting
+   * Also, clear the post field after closing the modal
+   */
+  const onCancel = () => {
+    if (isLoading) return;
+
+    postModal.onClose();
+    // form.setFieldsValue({ post: '' });
+  };
+
+  /**
    * If the form is flagged for post edit
    * then set the initial post value to specified edit post
    */
@@ -65,13 +76,13 @@ const PostForm = () => {
       <Modal
         title={`${postModal.isEdit ? 'Edit' : 'Create'} post`}
         isOpen={postModal.isOpen}
-        onCancel={postModal.onClose}
+        onCancel={onCancel}
         isLoading={isLoading}
         closable={false}
         onOk={form.submit}
       >
         <Form onFinish={onPostSubmit} form={form} ref={formRef}>
-          <Input type="textarea" label="Post" id="post" required />
+          <Input type="textarea" label="Post" id="post" disabled={isLoading} required />
         </Form>
       </Modal>
     </>

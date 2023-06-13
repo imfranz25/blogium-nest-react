@@ -47,6 +47,7 @@ const Comment: React.FC<CommentProps> = ({ postId, comments }) => {
           id="comment"
           label="Comment"
           placeholder="Write a comment..."
+          disabled={isLoading}
           suffix={
             <CommentButton loading={isLoading} htmlType="submit" type="link" icon={<IoSend />} />
           }

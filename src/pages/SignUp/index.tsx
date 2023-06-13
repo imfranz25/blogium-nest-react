@@ -29,6 +29,8 @@ const SignUpPage = () => {
     includeToken: false,
   });
 
+  const isFormLoading = signUpLoading || logInLoading;
+
   const onSignUp = useCallback(
     async (userDetails: UserDetails) => {
       const signUpResponse = await createUser({ method: httpMethod.POST, data: userDetails });
@@ -60,22 +62,34 @@ const SignUpPage = () => {
         <Form onFinish={onSignUp}>
           <Row>
             <Column xs={24} sm={24} md={12}>
-              <Input label="First Name" id="firstName" required />
+              <Input label="First Name" id="firstName" disabled={isFormLoading} required />
             </Column>
             <Column xs={24} sm={24} md={12}>
-              <Input label="Last Name" id="lastName" required />
+              <Input label="Last Name" id="lastName" disabled={isFormLoading} required />
             </Column>
             <Column xs={24} sm={24} md={12}>
-              <Input label="Email" type="email" id="email" required />
+              <Input label="Email" type="email" id="email" disabled={isFormLoading} required />
             </Column>
             <Column xs={24} sm={24} md={12}>
-              <Date id="birthday" label="Birthday" required />
+              <Date id="birthday" label="Birthday" disabled={isFormLoading} required />
             </Column>
             <Column xs={24} sm={24} md={12}>
-              <Input label="Password" id="password" type="password" required />
+              <Input
+                label="Password"
+                id="password"
+                type="password"
+                disabled={isFormLoading}
+                required
+              />
             </Column>
             <Column xs={24} sm={24} md={12}>
-              <Input label="Confirm Password" id="confirmPassword" type="password" required />
+              <Input
+                label="Confirm Password"
+                id="confirmPassword"
+                type="password"
+                disabled={isFormLoading}
+                required
+              />
             </Column>
           </Row>
           <ActionWrapper>
@@ -83,7 +97,7 @@ const SignUpPage = () => {
               size="large"
               type="primary"
               icon={<IoCreateOutline />}
-              loading={signUpLoading || logInLoading}
+              loading={isFormLoading}
               htmlType="submit"
             >
               Sign up
