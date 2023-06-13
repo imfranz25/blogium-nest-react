@@ -63,6 +63,7 @@ const PostForm = () => {
   return (
     <>
       <Modal
+        title={`${postModal.isEdit ? 'Edit' : 'Create'} post`}
         isOpen={postModal.isOpen}
         onCancel={postModal.onClose}
         isLoading={isLoading}

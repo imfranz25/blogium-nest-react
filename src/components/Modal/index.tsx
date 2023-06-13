@@ -6,7 +6,7 @@ interface ModalProps {
   isLoading: boolean;
   onCancel: () => void;
   closable?: boolean;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   onOk?: () => void;
 }
 

@@ -14,11 +14,13 @@ interface InputProps {
   type?: 'password' | 'textarea' | 'email';
 }
 
+const ignoreLabel = ['Comment', 'Post'];
+
 const Input: React.FC<InputProps> = ({
   id,
-  label,
   disabled,
   suffix,
+  label,
   type = 'text',
   required = false,
   placeholder = '',
@@ -26,7 +28,7 @@ const Input: React.FC<InputProps> = ({
 }) => {
   let InputComponent;
   const inputCol = { span: 24 };
-  const labelText = label !== 'Comment' ? label : null;
+  const labelText = !ignoreLabel.includes(label || '') ? label : null;
 
   switch (type) {
     case 'password':
