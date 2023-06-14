@@ -24,7 +24,11 @@ const useFetch = ({ endpoint, skipInitialInvocation = false, includeToken = true
     async (config: AxiosRequestConfig = {}) => {
       try {
         setIsLoading(true);
-        sessionGuard();
+        const isExpired = sessionGuard();
+
+        if (isExpired && includeToken) {
+          return;
+        }
 
         if (includeToken) {
           config.headers = {

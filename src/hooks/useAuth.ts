@@ -8,7 +8,7 @@ interface AuthStore {
   token: string | null;
   user: SafeUser | null;
   clearSession: () => void;
-  sessionGuard: () => void;
+  sessionGuard: () => boolean;
   registerSession: (accessToken: string) => void;
 }
 
@@ -35,11 +35,12 @@ const useAuth = create<AuthStore>((set, get) => {
     return decodedToken;
   };
 
+  /* Returns true if token is expired else false */
   const sessionGuard = () => {
     const userState = get().user;
 
     if (!userState) {
-      return;
+      return true;
     }
 
     const isTokenExpired = Date.now() >= userState.exp * 1000;
@@ -47,7 +48,11 @@ const useAuth = create<AuthStore>((set, get) => {
     if (isTokenExpired) {
       toast.error('Session expired');
       clearSession();
+
+      return true;
     }
+
+    return false;
   };
 
   return {
