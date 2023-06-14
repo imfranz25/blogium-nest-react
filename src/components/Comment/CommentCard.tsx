@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react';
 import Avatar from 'antd/es/avatar/avatar';
 import { formatDistanceToNow } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
+import { Divider } from 'antd';
 
 import { SafePostUser } from '../../types';
-import { AvatarContainer, UserContainer } from '../Post/styles';
-import { Typography } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { AvatarContainer } from '../Post/styles';
+import { CommentText, CommentContainer, UserContainer, StyledName, StyledTime } from './styles';
 
 interface CommentCardProps {
   user: SafePostUser;
@@ -21,28 +22,28 @@ const CommentCard: React.FC<CommentCardProps> = ({ user, comment, timeCreated })
   }, [navigate, user.id]);
 
   return (
-    <div>
-      <AvatarContainer onClick={viewUser}>
-        <Avatar src={user.profilePicture} size={25}>
-          <span style={{ padding: '5px' }}>{user.firstName[0].toUpperCase()}</span>
-        </Avatar>
-        <div
-          style={{
-            display: 'flex !important',
-            alignItems: 'center !important',
-            marginLeft: '5px',
-          }}
+    <>
+      <Divider style={{ padding: 0, margin: '0 0 15px 0' }} />
+      <AvatarContainer>
+        <Avatar
+          src={user.profilePicture}
+          size={25}
+          onClick={viewUser}
+          style={{ backgroundColor: '#87ceeb' }}
         >
-          <span style={{ fontSize: '15px' }}>
+          <span style={{ padding: '8px' }}>{user.firstName[0].toUpperCase()}</span>
+        </Avatar>
+        <UserContainer onClick={viewUser}>
+          <StyledName>
             {user.firstName} {user.lastName}
-          </span>
-          <span style={{ fontSize: '12px', color: 'gray', marginLeft: '5px' }}>
-            {formatDistanceToNow(new Date(timeCreated))}
-          </span>
-        </div>
+          </StyledName>
+          <StyledTime>{formatDistanceToNow(new Date(timeCreated))}</StyledTime>
+        </UserContainer>
       </AvatarContainer>
-      <Typography.Paragraph style={{ marginLeft: '30px' }}> {comment}</Typography.Paragraph>
-    </div>
+      <CommentContainer>
+        <CommentText>{comment}</CommentText>
+      </CommentContainer>
+    </>
   );
 };
 

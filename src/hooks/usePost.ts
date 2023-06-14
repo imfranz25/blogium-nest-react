@@ -29,7 +29,7 @@ const usePost = create<PostStore>((set, get) => {
     const postIndex = updatedPosts.findIndex((post) => post.id === postId);
     const updatedPost = updatedPosts[postIndex];
 
-    updatedPost.Comment.push(comment);
+    updatedPost.Comment.unshift(comment);
     updatedPosts[postIndex] = updatedPost;
 
     set({ posts: updatedPosts });
