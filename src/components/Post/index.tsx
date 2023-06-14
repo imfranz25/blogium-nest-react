@@ -4,7 +4,7 @@ import { formatDistanceToNow } from 'date-fns';
 import React, { useCallback, useState } from 'react';
 import { AiFillLike, AiOutlineComment, AiOutlineLike } from 'react-icons/ai';
 
-import Comment from './Comment';
+import Comments from '../Comment';
 import PostAvatar from './PostAvatar';
 import { SafePost } from '../../types';
 import usePost from '../../hooks/usePost';
@@ -68,7 +68,7 @@ const Post: React.FC<PostProps> = ({ postData }) => {
           {commentCount} Comment{commentCount > 1 && 's'}
         </PostButton>
       </Row>
-      {isShowComment && <Comment postId={id} comments={comments} />}
+      {isShowComment && <Comments postId={id} comments={comments} />}
     </PostCard>
   );
 };

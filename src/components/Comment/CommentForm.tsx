@@ -6,17 +6,15 @@ import { IoSend } from 'react-icons/io5';
 import Input from '../Input';
 import usePost from '../../hooks/usePost';
 import useFetch from '../../hooks/useFetch';
-import { SafePostComment } from '../../types';
-import { CommentButton, Divider } from './styles';
+import { CommentButton, Divider } from '../Post/styles';
 import { httpMethod } from '../../constants';
 import { CommentDetail } from '../../types/formTypes';
 
 interface CommentProps {
   postId: string;
-  comments: SafePostComment[];
 }
 
-const Comment: React.FC<CommentProps> = ({ postId, comments }) => {
+const Comment: React.FC<CommentProps> = ({ postId }) => {
   const { addComment } = usePost();
   const [form] = Form.useForm();
 
@@ -53,14 +51,6 @@ const Comment: React.FC<CommentProps> = ({ postId, comments }) => {
           }
         />
       </Form>
-      <div>
-        Comments:
-        <ul>
-          {comments.map((comment) => (
-            <li key={comment.id}>{comment.comment}</li>
-          ))}
-        </ul>
-      </div>
     </>
   );
 };

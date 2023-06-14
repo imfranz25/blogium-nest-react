@@ -56,7 +56,7 @@ const PostAvatar: React.FC<PostAvatarProps> = ({ postData, postOwner, userId, ti
     <Row justify="space-between">
       <AvatarContainer onClick={viewUser}>
         <Avatar src={postOwner.profilePicture} size={40}>
-          {postOwner?.firstName[0]?.toUpperCase()}
+          {postOwner.firstName[0].toUpperCase()}
         </Avatar>
         <UserContainer>
           <Typography.Text>{`${postOwner.firstName} ${postOwner.lastName}`}</Typography.Text>

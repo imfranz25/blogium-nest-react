@@ -8,6 +8,7 @@ export type SafeUser = {
 } | null;
 
 export type SafePostUser = {
+  id?: string;
   firstName: string;
   lastName: string;
   userId: string;
@@ -17,7 +18,8 @@ export type SafePostUser = {
 export type SafePostComment = {
   id: string;
   comment: string;
-  User: Pick<SafePostUser, 'profilePicture'>;
+  User: SafePostUser;
+  createdAt: string;
 };
 
 export type SafeLikePost = {
