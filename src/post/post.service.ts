@@ -24,9 +24,13 @@ export class PostService {
       select: {
         id: true,
         comment: true,
+        createdAt: true,
         User: {
           select: {
             profilePicture: true,
+            firstName: true,
+            lastName: true,
+            id: true,
           },
         },
       },
@@ -112,9 +116,13 @@ export class PostService {
         id: true,
         comment: true,
         userId: true,
+        createdAt: true,
         User: {
           select: {
             profilePicture: true,
+            firstName: true,
+            lastName: true,
+            id: true,
           },
         },
       },
