@@ -40,6 +40,7 @@ export const CommentContainer = styled.div`
 export const CommentText = styled(Typography.Paragraph)`
   background-color: #f9fafb;
   padding: 5px 10px;
-  border-radius: 6px;
-  border: rgba(0, 0, 0, 0.1) 1px solid;
+  border-radius: 0px 10px 6px 10px;
+  border: rgba(0, 0, 0, 0.2) 1px solid;
+  text-align: justify;
 `;

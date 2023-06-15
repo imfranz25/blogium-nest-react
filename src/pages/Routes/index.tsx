@@ -7,6 +7,7 @@ import SignUpPage from '../SignUp';
 import PageNotFound from '../404';
 import FeedPage from '../Feed';
 import ProfilePage from '../Profile';
+import EditProfile from '../EditProfile';
 import PostPage from '../PostDetail';
 
 const AppRoutes = () => {
@@ -36,7 +37,7 @@ const AppRoutes = () => {
         },
         {
           path: '/edit-profile',
-          element: <ProfilePage />,
+          element: <EditProfile />,
         },
         {
           path: '/profile/:id',
