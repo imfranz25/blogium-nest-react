@@ -54,6 +54,36 @@ export class UserService {
           lastName: true,
           birthday: true,
           bio: true,
+          Post: {
+            orderBy: {
+              createdAt: 'desc',
+            },
+            include: {
+              User: {
+                select: {
+                  profilePicture: true,
+                  firstName: true,
+                  lastName: true,
+                },
+              },
+              Like: true,
+              Comment: {
+                select: {
+                  id: true,
+                  comment: true,
+                  createdAt: true,
+                  User: {
+                    select: {
+                      profilePicture: true,
+                      firstName: true,
+                      lastName: true,
+                      id: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       });
 
