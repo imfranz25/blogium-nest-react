@@ -4,6 +4,7 @@ import {
   HttpStatus,
   Injectable,
 } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PrismaService } from '../prisma/prisma.service';
@@ -11,7 +12,7 @@ import { CommentPostDto } from './dto/comment-post.dto';
 
 @Injectable()
 export class PostService {
-  private readonly includeOptions = {
+  private readonly includeOptions: Prisma.PostInclude = {
     User: {
       select: {
         profilePicture: true,
@@ -33,6 +34,9 @@ export class PostService {
             id: true,
           },
         },
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     },
   };
