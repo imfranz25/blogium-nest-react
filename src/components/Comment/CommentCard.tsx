@@ -1,12 +1,19 @@
 import React, { useCallback } from 'react';
-import Avatar from 'antd/es/avatar/avatar';
 import { formatDistanceToNow } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
-import { Divider } from 'antd';
 
 import { SafePostUser } from '../../types';
 import { AvatarContainer } from '../Post/styles';
-import { CommentText, CommentContainer, UserContainer, StyledName, StyledTime } from './styles';
+import {
+  CommentText,
+  CommentContainer,
+  UserContainer,
+  StyledName,
+  StyledTime,
+  CommentDivider,
+  StyledAvatar,
+  AvatarText,
+} from './styles';
 
 interface CommentCardProps {
   user: SafePostUser;
@@ -23,23 +30,22 @@ const CommentCard: React.FC<CommentCardProps> = ({ user, comment, timeCreated })
 
   return (
     <>
-      <Divider style={{ padding: 0, margin: '0 0 15px 0' }} />
+      <CommentDivider />
+
       <AvatarContainer>
-        <Avatar
-          src={user.profilePicture}
-          size={25}
-          onClick={viewUser}
-          style={{ backgroundColor: '#87ceeb' }}
-        >
-          <span style={{ padding: '8px' }}>{user.firstName[0].toUpperCase()}</span>
-        </Avatar>
+        <StyledAvatar src={user.profilePicture} size={25} onClick={viewUser}>
+          <AvatarText>{user.firstName[0].toUpperCase()}</AvatarText>
+        </StyledAvatar>
+
         <UserContainer onClick={viewUser}>
           <StyledName>
             {user.firstName} {user.lastName}
           </StyledName>
+          &#8226;
           <StyledTime>{formatDistanceToNow(new Date(timeCreated))}</StyledTime>
         </UserContainer>
       </AvatarContainer>
+
       <CommentContainer>
         <CommentText>{comment}</CommentText>
       </CommentContainer>

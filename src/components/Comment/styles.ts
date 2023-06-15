@@ -1,5 +1,18 @@
-import { Typography } from 'antd';
+import { Avatar, Divider, Typography } from 'antd';
 import styled from 'styled-components';
+
+export const CommentDivider = styled(Divider)`
+  padding: 0;
+  margin: 0 0 15px 0;
+`;
+
+export const StyledAvatar = styled(Avatar)`
+  background-color: #87ceeb;
+`;
+
+export const AvatarText = styled.span`
+  padding: 8px;
+`;
 
 export const UserContainer = styled.div`
   display: flex;
@@ -15,7 +28,7 @@ export const StyledName = styled.span`
 export const StyledTime = styled.span`
   font-size: 11px;
   color: gray;
-  margin-left: 5px;
+  margin-left: 2px;
 `;
 
 export const CommentContainer = styled.div`

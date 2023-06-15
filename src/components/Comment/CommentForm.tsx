@@ -27,11 +27,13 @@ const Comment: React.FC<CommentProps> = ({ postId }) => {
     async (comment: CommentDetail) => {
       const resData = await createComment({ method: httpMethod.POST, data: comment });
 
-      if (resData) {
-        addComment(postId, resData.data);
-        form.resetFields();
-        toast.success('Comment successfully added');
+      if (!resData) {
+        return;
       }
+
+      addComment(postId, resData.data);
+      form.resetFields();
+      toast.success('Comment successfully added');
     },
     [addComment, createComment, postId, form]
   );
