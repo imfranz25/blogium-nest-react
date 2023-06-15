@@ -8,6 +8,7 @@ import postItems from '../../utils/getPostMenu';
 import usePostModal from '../../hooks/usePostModal';
 import { SafePost, SafePostUser } from '../../types';
 import useDeleteModal from '../../hooks/useDeleteModal';
+import { PostState } from '../../types';
 import { AvatarContainer, UserContainer, Avatar } from './styles';
 
 interface PostAvatarProps {
@@ -29,17 +30,19 @@ const PostAvatar: React.FC<PostAvatarProps> = ({ postData, postOwner, userId, ti
   }, [navigate, postData.userId]);
 
   const setPostState = useCallback(
-    (state: 'edit' | 'delete') => {
-      setPost(postData);
-      // set to edit mode
+    (state: PostState) => {
+      /* set to edit mode */
       if (state === 'edit') {
         postModal.onOpen(true);
       }
 
-      // set to delete mode
+      /* set to delete mode */
       if (state === 'delete') {
         deleteModal.onOpen();
       }
+
+      /* set global state of post */
+      setPost(postData);
     },
     [setPost, postData, postModal, deleteModal]
   );

@@ -30,8 +30,10 @@ const PostForm = () => {
     deleteModal.onClose();
     toast.success(`Post deleted successfully`);
 
-    /* For pages except feed -> navigate to feed */
-    if (location.pathname !== '/feed') {
+    /* For post detail pages -> navigate to feed */
+    const isInPostDetailPage = location.pathname.includes('/post/');
+
+    if (isInPostDetailPage) {
       navigate('/feed');
     }
   }, [deleteModal, deletePost, removePost, post, location.pathname, navigate]);

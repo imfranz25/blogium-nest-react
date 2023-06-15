@@ -50,3 +50,5 @@ export type SafeError = {
     };
   };
 };
+
+export type PostState = 'edit' | 'delete';
