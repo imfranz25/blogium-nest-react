@@ -1,16 +1,16 @@
 import { format } from 'date-fns';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Col, Row, Typography, Card, Button } from 'antd';
+import { Col, Row, Typography, Button } from 'antd';
 
-import useAuth from '../../hooks/useAuth';
 import Post from '../../components/Post';
+import useAuth from '../../hooks/useAuth';
+import usePost from '../../hooks/usePost';
 import useFetch from '../../hooks/useFetch';
 import Loader from '../../components/Loader';
 import { SafeUserProfile } from '../../types';
 import { StyledAvatar } from '../../components/Comment/styles';
-import { UserContainer } from '../../components/Post/styles';
-import { useEffect } from 'react';
-import usePost from '../../hooks/usePost';
+import { ProfileContainer, NameLogo, UserContainer, EditContainer, UserRow } from './styles';
 
 const ProfilePage = () => {
   const params = useParams();
@@ -36,13 +36,13 @@ const ProfilePage = () => {
       <Col span={16}>
         {userData ? (
           <>
-            <Row>
-              <Col span={16}>
-                <Row align="middle">
+            <ProfileContainer>
+              <Col sm={20} md={16}>
+                <UserRow align="middle">
                   <StyledAvatar src={userData.profilePicture} size={100}>
-                    <span style={{ fontSize: '35px' }}>{userData.firstName[0].toUpperCase()}</span>
+                    <NameLogo>{userData.firstName[0].toUpperCase()}</NameLogo>
                   </StyledAvatar>
-                  <UserContainer style={{ marginLeft: '25px' }}>
+                  <UserContainer>
                     <Typography.Title level={3}>
                       {userData.firstName} {userData.lastName}
                     </Typography.Title>
@@ -51,17 +51,17 @@ const ProfilePage = () => {
                       {userData.bio ? `"${userData.bio}"` : 'No bio'}
                     </Typography.Paragraph>
                   </UserContainer>
-                </Row>
+                </UserRow>
               </Col>
 
               {isOwnProfile && (
-                <Col span={4} offset={4} style={{ display: 'flex', alignItems: 'center' }}>
+                <EditContainer xs={24} sm={24} md={{ offset: 4, span: 4 }}>
                   <Button type="primary" onClick={() => navigate(`/edit-profile`)}>
                     Edit Profile
                   </Button>
-                </Col>
+                </EditContainer>
               )}
-            </Row>
+            </ProfileContainer>
 
             {posts.length > 0 && (
               <>
