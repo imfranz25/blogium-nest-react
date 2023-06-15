@@ -15,11 +15,6 @@ export type SafePostUser = {
   profilePicture: string | null;
 };
 
-export type SafeUserProfile = Omit<SafePostUser, 'userId'> & {
-  bio: string;
-  birthday: string;
-};
-
 export type SafePostComment = {
   id: string;
   comment: string;
@@ -39,6 +34,12 @@ export type SafePost = SafeLikePost & {
   User: SafePostUser;
   Like: SafeLikePost[];
   Comment: SafePostComment[];
+};
+
+export type SafeUserProfile = Omit<SafePostUser, 'userId'> & {
+  bio: string;
+  birthday: string;
+  Post: SafePost[];
 };
 
 export type SafeError = {
