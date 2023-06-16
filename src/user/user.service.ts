@@ -54,6 +54,7 @@ export class UserService {
           lastName: true,
           birthday: true,
           bio: true,
+          email: true,
           Post: {
             orderBy: {
               createdAt: 'desc',
