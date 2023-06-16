@@ -1,20 +1,20 @@
 import dayjs from 'dayjs';
+import { useCallback } from 'react';
+import { toast } from 'react-hot-toast';
 import { Button, Col, Form, Row, Typography, Upload } from 'antd';
 
+import { EditCard } from './styles';
 import useAuth from '../../hooks/useAuth';
-import useFetch from '../../hooks/useFetch';
 import { Column } from '../SignUp/styles';
 import Input from '../../components/Input';
-import DateInput from '../../components/Input/DateInput';
-import { EditCard } from './styles';
-import { GenDetails } from '../../types/formTypes';
-import { useCallback } from 'react';
+import useFetch from '../../hooks/useFetch';
 import { httpMethod } from '../../constants';
-import { toast } from 'react-hot-toast';
+import { GenDetails } from '../../types/formTypes';
+import DateInput from '../../components/Input/DateInput';
 
 const EditProfilePage = () => {
   const [form] = Form.useForm();
-  const { user: userData } = useAuth();
+  const { user: userData, registerSession } = useAuth();
 
   const { isLoading: isFormLoading, refetch: updateUser } = useFetch({
     endpoint: `/user/${userData?.userId}`,
@@ -29,10 +29,11 @@ const EditProfilePage = () => {
         return;
       }
 
-      console.log(response);
+      form.resetFields();
       toast.success('User info updated');
+      registerSession(response.data.accessToken);
     },
-    [updateUser]
+    [updateUser, registerSession, form]
   );
 
   return (
@@ -60,7 +61,7 @@ const EditProfilePage = () => {
                 </Form.Item>
               </Column>
               <Column xs={24} sm={24} md={12}>
-                <Input label="Bio" type="textarea" id="bio" disabled={isFormLoading} required />
+                <Input label="Bio" type="textarea" id="bio" disabled={isFormLoading} />
               </Column>
               <Column xs={24} sm={24} md={12}>
                 <Input label="First Name" id="firstName" disabled={isFormLoading} required />

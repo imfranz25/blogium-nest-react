@@ -59,7 +59,7 @@ const Navbar = () => {
       </LinkContainer>
       <AvatarContainer>
         <Dropdown menu={{ items: menuItems }} placement="bottomLeft">
-          <Avatar size="large" src={user?.firstName}>
+          <Avatar size="large" src={user?.profilePicture}>
             {user?.firstName ? user.firstName[0].toUpperCase() : '?'}
           </Avatar>
         </Dropdown>
