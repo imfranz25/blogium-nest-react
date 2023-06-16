@@ -30,7 +30,9 @@ const Navbar = () => {
         key: 'userDetails',
         label: (
           <UserInfo>
-            <span>{user.fullName}</span>
+            <span>
+              {user.firstName} {user.lastName}
+            </span>
             {user.email}
           </UserInfo>
         ),
@@ -57,8 +59,8 @@ const Navbar = () => {
       </LinkContainer>
       <AvatarContainer>
         <Dropdown menu={{ items: menuItems }} placement="bottomLeft">
-          <Avatar size="large" src={user?.fullName}>
-            {user?.fullName ? user.fullName[0].toUpperCase() : '?'}
+          <Avatar size="large" src={user?.firstName}>
+            {user?.firstName ? user.firstName[0].toUpperCase() : '?'}
           </Avatar>
         </Dropdown>
       </AvatarContainer>

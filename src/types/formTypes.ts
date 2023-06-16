@@ -17,3 +17,12 @@ export type PostDetail = {
 export type CommentDetail = {
   comment: string;
 };
+
+export type GenDetails = {
+  profilePicture: string;
+  bio: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  birthday: string;
+};

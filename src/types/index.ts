@@ -2,7 +2,10 @@ export type SafeUser = {
   readonly userId: string;
   readonly profilePicture: string;
   readonly email: string;
-  readonly fullName: string;
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly birthday: string;
+  readonly bio: string;
   readonly iat: number;
   readonly exp: number;
 } | null;
