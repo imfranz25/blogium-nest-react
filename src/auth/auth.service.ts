@@ -29,7 +29,10 @@ export class AuthService {
         userId: user.id,
         email: user.email,
         profilePicture: user.profilePicture,
-        fullName: `${user.firstName} ${user.lastName}`,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        bio: user.bio,
+        birthday: user.birthday,
       }),
     };
   }
