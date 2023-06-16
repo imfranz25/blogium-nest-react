@@ -8,6 +8,8 @@ const postItems = (
   location: string,
   setPostState: (state: 'edit' | 'delete') => void
 ) => {
+  const marginRight = { marginRight: '5px' };
+  const borderTop = '1px solid rgba(0,0,0,.1)';
   const menuItems: MenuProps['items'] = [];
 
   if (location === '/feed') {
@@ -29,11 +31,12 @@ const postItems = (
       key: `edit-${postId}`,
       label: (
         <Row align="middle">
-          <FaEdit style={{ marginRight: '5px' }} />
+          <FaEdit style={marginRight} />
           Edit
         </Row>
       ),
       onClick: () => setPostState('edit'),
+      style: { borderTop: menuItems.length > 0 ? borderTop : 0 },
     });
 
     menuItems.push({
@@ -41,11 +44,12 @@ const postItems = (
       danger: true,
       label: (
         <Row align="middle">
-          <FaTrashAlt style={{ marginRight: '5px' }} />
+          <FaTrashAlt style={marginRight} />
           Delete
         </Row>
       ),
       onClick: () => setPostState('delete'),
+      style: { borderTop },
     });
   }
 

@@ -4,27 +4,46 @@ import { Avatar, Dropdown, MenuProps, Image, Typography } from 'antd';
 
 import useAuth from '../../hooks/useAuth';
 import blogiumLogo from '../../assets/logo.png';
-import { Header, Link, BrandContainer, LinkContainer, AvatarContainer } from './styles';
+import {
+  Header,
+  Link,
+  BrandContainer,
+  LinkContainer,
+  AvatarContainer,
+  UserInfo,
+  MenuStyle,
+} from './styles';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { clearSession, user } = useAuth();
+  const menuItems: MenuProps['items'] = [];
 
   const logOut = () => {
     clearSession();
     toast.success('Logged out');
   };
 
-  const menuItems: MenuProps['items'] = [
-    {
-      key: 'userDetails',
-      label: <span>{user?.email}</span>,
-    },
-    {
-      key: 'logout',
-      label: <span onClick={logOut}>Logout</span>,
-    },
-  ];
+  if (user) {
+    menuItems.push(
+      {
+        key: 'userDetails',
+        label: (
+          <UserInfo>
+            <span>{user.fullName}</span>
+            {user.email}
+          </UserInfo>
+        ),
+        style: MenuStyle,
+        onClick: () => navigate(`/profile/${user.userId}`),
+      },
+      {
+        key: 'logout',
+        label: 'Logout',
+        onClick: logOut,
+      }
+    );
+  }
 
   return (
     <Header>
@@ -39,7 +58,7 @@ const Navbar = () => {
       <AvatarContainer>
         <Dropdown menu={{ items: menuItems }} placement="bottomLeft">
           <Avatar size="large" src={user?.fullName}>
-            {user?.fullName[0]?.toUpperCase()}
+            {user?.fullName ? user.fullName[0].toUpperCase() : '?'}
           </Avatar>
         </Dropdown>
       </AvatarContainer>

@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { Layout } from 'antd';
 import { Link as RouterLink } from 'react-router-dom';
 
+export const MenuStyle = { borderBottom: '1px solid rgba(0,0,0,.1)' };
+
 export const Header = styled(Layout.Header)`
   display: flex;
   justify-content: space-between;
@@ -44,5 +46,13 @@ export const AvatarContainer = styled.div`
 
   .ant-avatar {
     background-color: #87ceeb;
+  }
+`;
+
+export const UserInfo = styled.div`
+  display: block;
+
+  & span {
+    display: block;
   }
 `;
