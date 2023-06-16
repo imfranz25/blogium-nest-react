@@ -14,15 +14,10 @@ const EditProfilePage = () => {
   const { user } = useAuth();
 
   /* Profile Details */
-  const { isLoading, resData } = useFetch({ endpoint: `/user/${user?.userId}` });
+  const { isLoading: isFormLoading, resData } = useFetch({ endpoint: `/user/${user?.userId}` });
   const userData = resData?.data;
 
-  const { isLoading: isFormLoading, refetch } = useFetch({
-    endpoint: `/user/${user?.userId}`,
-    skipInitialInvocation: true,
-  });
-
-  if (isLoading || !userData) {
+  if (isFormLoading || !userData) {
     return <Loader />;
   }
 
