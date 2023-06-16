@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   UseGuards,
+  Req,
+  UnauthorizedException,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -39,7 +41,18 @@ export class UserController {
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  update(
+    @Req() request: any,
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    const userId = request?.user?.id;
+
+    /* Logged in user must match the user id to be updated */
+    if (userId !== id) {
+      throw new UnauthorizedException();
+    }
+
     return this.userService.update(id, updateUserDto);
   }
 }

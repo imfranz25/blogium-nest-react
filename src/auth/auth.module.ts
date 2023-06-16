@@ -16,11 +16,11 @@ export const JWT_SECRET = process.env.JWT_SECRET || '';
     ConfigModule,
     PrismaModule,
     PassportModule,
+    UserModule,
     JwtModule.register({
       secret: JWT_SECRET,
       signOptions: { expiresIn: '1hr' }, // e.g. 30s, 7d, 24h
     }),
-    UserModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, PrismaService, JwtStrategy],
