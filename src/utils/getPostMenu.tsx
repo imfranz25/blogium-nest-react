@@ -1,5 +1,6 @@
-import {  MenuProps } from 'antd';
+import { MenuProps, Row } from 'antd';
 import { Link } from 'react-router-dom';
+import { FaTrashAlt, FaEdit, FaRegEye } from 'react-icons/fa';
 
 const postItems = (
   postId: string,
@@ -12,20 +13,39 @@ const postItems = (
   if (location === '/feed') {
     menuItems.push({
       key: `view-${postId}`,
-      label: <Link to={`/post/${postId}`}>View</Link>,
+      label: (
+        <Row align="middle">
+          <FaRegEye style={{ marginRight: '5px' }} />
+          <Link to={`/post/${postId}`} style={{ color: 'black' }}>
+            View
+          </Link>
+        </Row>
+      ),
     });
   }
 
   if (isOwned) {
     menuItems.push({
       key: `edit-${postId}`,
-      label: <span onClick={() => setPostState('edit')}>Edit</span>,
+      label: (
+        <Row align="middle">
+          <FaEdit style={{ marginRight: '5px' }} />
+          Edit
+        </Row>
+      ),
+      onClick: () => setPostState('edit'),
     });
 
     menuItems.push({
       key: `delete-${postId}`,
       danger: true,
-      label: <span onClick={() => setPostState('delete')}>Delete</span>,
+      label: (
+        <Row align="middle">
+          <FaTrashAlt style={{ marginRight: '5px' }} />
+          Delete
+        </Row>
+      ),
+      onClick: () => setPostState('delete'),
     });
   }
 

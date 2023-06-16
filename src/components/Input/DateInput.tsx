@@ -23,7 +23,7 @@ const Date: React.FC<DatePickerProps> = ({ label, id, disabled, required = false
       labelAlign={'top' as FormLabelAlign}
       rules={[{ required: required, message: `Please select your ${id}` }]}
     >
-      <DatePicker disabled={disabled} />
+      <DatePicker format="YYYY/MM/DD" disabled={disabled} />
     </FormItem>
   );
 };

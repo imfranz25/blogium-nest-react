@@ -9,7 +9,7 @@ import useAuth from '../../hooks/useAuth';
 import Input from '../../components/Input';
 import useFetch from '../../hooks/useFetch';
 import { httpMethod } from '../../constants';
-import Date from '../../components/Input/DateInput';
+import DateInput from '../../components/Input/DateInput';
 import { UserDetails } from '../../types/formTypes';
 import { SignUpWrapper, SignUpCard, Column, ActionWrapper } from './styles';
 
@@ -71,7 +71,7 @@ const SignUpPage = () => {
               <Input label="Email" type="email" id="email" disabled={isFormLoading} required />
             </Column>
             <Column xs={24} sm={24} md={12}>
-              <Date id="birthday" label="Birthday" disabled={isFormLoading} required />
+              <DateInput id="birthday" label="Birthday" disabled={isFormLoading} required />
             </Column>
             <Column xs={24} sm={24} md={12}>
               <Input
