@@ -9,16 +9,22 @@ import { Column } from '../SignUp/styles';
 import Input from '../../components/Input';
 import useFetch from '../../hooks/useFetch';
 import { httpMethod } from '../../constants';
-import { GenDetails } from '../../types/formTypes';
+import { GenDetails, PassDetails } from '../../types/formTypes';
 import DateInput from '../../components/Input/DateInput';
 import FileUploader from '../../components/Input/FileUploader';
 
 const EditProfilePage = () => {
-  const [form] = Form.useForm();
+  const [userForm] = Form.useForm();
+  const [passForm] = Form.useForm();
   const { user: userData, registerSession } = useAuth();
 
   const { isLoading: isFormLoading, refetch: updateUser } = useFetch({
     endpoint: `/user/${userData?.userId}`,
+    skipInitialInvocation: true,
+  });
+
+  const { isLoading: isFormPassLoading, refetch: updatePassword } = useFetch({
+    endpoint: `/user/password/${userData?.userId}`,
     skipInitialInvocation: true,
   });
 
@@ -30,11 +36,25 @@ const EditProfilePage = () => {
         return;
       }
 
-      form.resetFields();
+      userForm.resetFields();
       toast.success('User info updated');
       registerSession(response.data.accessToken);
     },
-    [updateUser, registerSession, form]
+    [updateUser, registerSession, userForm]
+  );
+
+  const onSavePassword = useCallback(
+    async (passDetails: PassDetails) => {
+      const response = await updatePassword({ method: httpMethod.PATCH, data: passDetails });
+
+      if (!response) {
+        return;
+      }
+
+      passForm.resetFields();
+      toast.success('User pass updated');
+    },
+    [updatePassword, passForm]
   );
 
   return (
@@ -44,7 +64,7 @@ const EditProfilePage = () => {
         <EditCard bordered hoverable>
           <Typography.Title level={2}>General Information</Typography.Title>
           <Form
-            form={form}
+            form={userForm}
             onFinish={onSaveGeneralInfo}
             initialValues={{
               firstName: userData?.firstName,
@@ -82,14 +102,14 @@ const EditProfilePage = () => {
 
         <EditCard bordered hoverable>
           <Typography.Title level={2}>Security Information</Typography.Title>
-          <Form>
+          <Form form={passForm} onFinish={onSavePassword}>
             <Row>
               <Column xs={24} sm={24} md={12}>
                 <Input
                   type="password"
                   label="New Password"
                   id="newPassword"
-                  disabled={isFormLoading}
+                  disabled={isFormPassLoading}
                   required
                 />
               </Column>
@@ -98,7 +118,7 @@ const EditProfilePage = () => {
                   type="password"
                   label="Confirm New Password"
                   id="confirmNewPassword"
-                  disabled={isFormLoading}
+                  disabled={isFormPassLoading}
                   required
                 />
               </Column>
@@ -107,12 +127,12 @@ const EditProfilePage = () => {
                   type="password"
                   label="Old Password"
                   id="oldPassword"
-                  disabled={isFormLoading}
+                  disabled={isFormPassLoading}
                   required
                 />
               </Column>
             </Row>
-            <Button size="large" type="primary" loading={isFormLoading} htmlType="submit">
+            <Button size="large" type="primary" loading={isFormPassLoading} htmlType="submit">
               Update Password
             </Button>
           </Form>

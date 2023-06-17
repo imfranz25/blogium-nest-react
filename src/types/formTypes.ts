@@ -26,3 +26,9 @@ export type GenDetails = {
   email: string;
   birthday: string;
 };
+
+export type PassDetails = {
+  newPassword: string;
+  confirmNewPassword: string;
+  oldPassword: string;
+};
