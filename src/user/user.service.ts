@@ -8,6 +8,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserPasswordDto } from './dto/update-password.to';
 import { PrismaService } from '../prisma/prisma.service';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
@@ -161,5 +162,43 @@ export class UserService {
 
       throw new BadRequestException();
     }
+  }
+
+  async updatePassword(id: string, updatePasswordDto: UpdateUserPasswordDto) {
+    const { newPassword, confirmNewPassword, oldPassword } = updatePasswordDto;
+
+    if (newPassword !== confirmNewPassword) {
+      throw new HttpException(
+        { message: ['Password and confirm password does not match'] },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const existingUser = await this.prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (!existingUser) {
+      throw new HttpException(
+        { message: ['User not found'] },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    const isOldPasswordMatch = await bcrypt.compare(
+      oldPassword,
+      existingUser.hashedPassword,
+    );
+
+    if (!isOldPasswordMatch) {
+      throw new BadRequestException('Invalid old password');
+    }
+
+    const newHashedPassword = await bcrypt.hash(newPassword, 12);
+
+    return await this.prisma.user.update({
+      where: { id },
+      data: { hashedPassword: newHashedPassword },
+    });
   }
 }
