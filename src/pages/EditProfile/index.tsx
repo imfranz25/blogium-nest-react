@@ -56,7 +56,7 @@ const EditProfilePage = () => {
           >
             <Row>
               <Column xs={24} sm={24} md={12}>
-                <FileUploader id="profilePicture" />
+                <FileUploader id="profilePicture" disable={isFormLoading} />
               </Column>
               <Column xs={24} sm={24} md={12}>
                 <Input label="Bio" type="textarea" id="bio" disabled={isFormLoading} />
