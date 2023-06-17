@@ -11,6 +11,7 @@ import useFetch from '../../hooks/useFetch';
 import { httpMethod } from '../../constants';
 import { GenDetails } from '../../types/formTypes';
 import DateInput from '../../components/Input/DateInput';
+import FileUploader from '../../components/Input/FileUploader';
 
 const EditProfilePage = () => {
   const [form] = Form.useForm();
@@ -39,6 +40,7 @@ const EditProfilePage = () => {
   return (
     <Row justify="space-around">
       <Col span={16}>
+        <Typography.Title level={2}>Profile</Typography.Title>
         <EditCard bordered hoverable>
           <Typography.Title level={2}>General Information</Typography.Title>
           <Form
@@ -54,11 +56,7 @@ const EditProfilePage = () => {
           >
             <Row>
               <Column xs={24} sm={24} md={12}>
-                <Form.Item name="profilePicture">
-                  <Upload listType="picture" accept="image/png, image/jpeg" maxCount={1}>
-                    <Button>Upload</Button>
-                  </Upload>
-                </Form.Item>
+                <FileUploader id="profilePicture" />
               </Column>
               <Column xs={24} sm={24} md={12}>
                 <Input label="Bio" type="textarea" id="bio" disabled={isFormLoading} />
