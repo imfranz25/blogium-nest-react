@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { useCallback } from 'react';
 import { toast } from 'react-hot-toast';
-import { Button, Col, Form, Row, Typography, Upload } from 'antd';
+import { Button, Col, Form, Row, Typography } from 'antd';
 
 import { EditCard } from './styles';
 import useAuth from '../../hooks/useAuth';
