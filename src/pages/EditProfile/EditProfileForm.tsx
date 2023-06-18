@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import toast from 'react-hot-toast';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Button, Form, Row, Typography } from 'antd';
 
 import { EditCard } from './styles';
