@@ -16,12 +16,12 @@ const postItems = (
     menuItems.push({
       key: `view-${postId}`,
       label: (
-        <Row align="middle">
-          <FaRegEye style={{ marginRight: '5px' }} />
-          <Link to={`/post/${postId}`} style={{ color: 'black' }}>
+        <Link to={`/post/${postId}`}>
+          <Row align="middle">
+            <FaRegEye style={marginRight} />
             View
-          </Link>
-        </Row>
+          </Row>
+        </Link>
       ),
     });
   }
@@ -29,27 +29,27 @@ const postItems = (
   if (isOwned) {
     menuItems.push({
       key: `edit-${postId}`,
+      style: { borderTop: menuItems.length > 0 ? borderTop : 0 },
+      onClick: () => setPostState('edit'),
       label: (
         <Row align="middle">
           <FaEdit style={marginRight} />
           Edit
         </Row>
       ),
-      onClick: () => setPostState('edit'),
-      style: { borderTop: menuItems.length > 0 ? borderTop : 0 },
     });
 
     menuItems.push({
       key: `delete-${postId}`,
       danger: true,
+      style: { borderTop },
+      onClick: () => setPostState('delete'),
       label: (
         <Row align="middle">
           <FaTrashAlt style={marginRight} />
           Delete
         </Row>
       ),
-      onClick: () => setPostState('delete'),
-      style: { borderTop },
     });
   }
 

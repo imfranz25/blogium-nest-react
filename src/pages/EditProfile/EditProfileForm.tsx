@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import toast from 'react-hot-toast';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Button, Form, Row, Typography } from 'antd';
 
 import { EditCard } from './styles';
@@ -27,36 +27,38 @@ const ProfileForm = () => {
       const response = await updateUser({ method: httpMethod.PATCH, data: genDetails });
 
       if (!response) {
-        userForm.resetFields();
         return;
       }
 
+      userForm.resetFields();
       toast.success('User info updated');
       registerSession(response.data.accessToken);
     },
     [updateUser, registerSession, userForm]
   );
 
+  useEffect(() => {
+    if (userData) {
+      userForm.setFieldsValue({
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        email: userData.email,
+        bio: userData.bio,
+        birthday: dayjs(userData.birthday, 'YYYY/MM/DD'),
+      });
+    }
+  }, [userData, userForm]);
+
   return (
     <EditCard bordered hoverable>
       <Typography.Title level={2}>General Information</Typography.Title>
-      <Form
-        form={userForm}
-        onFinish={onSaveGeneralInfo}
-        initialValues={{
-          firstName: userData?.firstName,
-          lastName: userData?.lastName,
-          email: userData?.email,
-          bio: userData?.bio,
-          birthday: dayjs(userData?.birthday, 'YYYY/MM/DD'),
-        }}
-      >
+      <Form form={userForm} onFinish={onSaveGeneralInfo}>
         <Row>
           <Column xs={24} sm={24} md={12}>
             <FileUploader id="profilePicture" disable={isFormLoading} />
           </Column>
           <Column xs={24} sm={24} md={12}>
-            <Input label="Bio" type="textarea" id="bio" disabled={isFormLoading} />
+            <Input label="Bio (Optional)" type="textarea" id="bio" disabled={isFormLoading} />
           </Column>
           <Column xs={24} sm={24} md={12}>
             <Input label="First Name" id="firstName" disabled={isFormLoading} required />
