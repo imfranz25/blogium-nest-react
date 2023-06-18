@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { json, urlencoded } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -9,8 +10,10 @@ async function bootstrap() {
   /* Input Validation */
   app.useGlobalPipes(new ValidationPipe());
 
-  /* Enable CORS */
+  /* App Configs */
   app.enableCors();
+  app.use(json({ limit: '50mb' }));
+  app.use(urlencoded({ extended: true, limit: '50mb' }));
 
   /* API Documentation ~ OpenAPI Swagger */
   const config = new DocumentBuilder()

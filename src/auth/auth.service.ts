@@ -1,8 +1,9 @@
 import * as bcrypt from 'bcrypt';
-import { PrismaService } from './../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
-import { AuthEntity } from './entities/auth.entity';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+
+import { PrismaService } from './../prisma/prisma.service';
+import { AuthEntity } from './entities/auth.entity';
 
 @Injectable()
 export class AuthService {

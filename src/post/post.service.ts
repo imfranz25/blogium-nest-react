@@ -1,43 +1,18 @@
 import {
   BadRequestException,
-  HttpException,
-  HttpStatus,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { CommentPostDto } from './dto/comment-post.dto';
+import { commentSelection } from '../prisma/prismaSelect';
+import { postInclude } from '../prisma/prismaSelect';
 
 @Injectable()
 export class PostService {
-  private readonly includeOptions: Prisma.PostInclude = {
-    User: {
-      select: {
-        profilePicture: true,
-        firstName: true,
-        lastName: true,
-      },
-    },
-    Like: true,
-    Comment: {
-      select: {
-        id: true,
-        comment: true,
-        createdAt: true,
-        User: {
-          select: {
-            profilePicture: true,
-            firstName: true,
-            lastName: true,
-            id: true,
-          },
-        },
-      },
-    },
-  };
-
   constructor(private readonly prisma: PrismaService) {}
 
   async create(userId: string, createPostDto: CreatePostDto) {
@@ -46,13 +21,13 @@ export class PostService {
         userId,
         post: createPostDto.post,
       },
-      include: this.includeOptions,
+      include: postInclude,
     });
   }
 
   async findAll() {
     return await this.prisma.post.findMany({
-      include: this.includeOptions,
+      include: postInclude,
       orderBy: [{ createdAt: 'desc' }],
     });
   }
@@ -61,16 +36,13 @@ export class PostService {
     try {
       return await this.prisma.post.findUnique({
         where: { id },
-        include: this.includeOptions,
+        include: postInclude,
       });
     } catch (error) {
       console.error(error);
 
       if (error.code === 'P2023') {
-        throw new HttpException(
-          { message: ['Post does not exist'] },
-          HttpStatus.NOT_FOUND,
-        );
+        throw new NotFoundException('Post does not exist');
       }
 
       throw new BadRequestException();
@@ -113,20 +85,7 @@ export class PostService {
         postId,
         ...commentPostDto,
       },
-      select: {
-        id: true,
-        comment: true,
-        userId: true,
-        createdAt: true,
-        User: {
-          select: {
-            profilePicture: true,
-            firstName: true,
-            lastName: true,
-            id: true,
-          },
-        },
-      },
+      select: commentSelection,
     });
   }
 }
