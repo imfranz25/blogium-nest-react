@@ -12,9 +12,14 @@ import { httpMethod } from '../../constants';
 import DateInput from '../../components/Input/DateInput';
 import { UserDetails } from '../../types/formTypes';
 import { SignUpWrapper, SignUpCard, Column, ActionWrapper } from './styles';
-import { requiredField } from '../../utils/inputValidators';
+import {
+  requiredField,
+  passwordValidator,
+  confirmPasswordValidator,
+} from '../../utils/inputValidators';
 
 const SignUpPage = () => {
+  const [form] = Form.useForm();
   const navigate = useNavigate();
   const { registerSession } = useAuth();
 
@@ -60,7 +65,7 @@ const SignUpPage = () => {
         <Row justify="center">
           <Typography.Title level={2}>Create an account</Typography.Title>
         </Row>
-        <Form onFinish={onSignUp}>
+        <Form onFinish={onSignUp} form={form}>
           <Row>
             <Column xs={24} sm={24} md={12}>
               <Input
@@ -96,7 +101,7 @@ const SignUpPage = () => {
                 id="password"
                 type="password"
                 disabled={isFormLoading}
-                rules={requiredField('Password')}
+                rules={passwordValidator}
               />
             </Column>
             <Column xs={24} sm={24} md={12}>
@@ -105,7 +110,7 @@ const SignUpPage = () => {
                 id="confirmPassword"
                 type="password"
                 disabled={isFormLoading}
-                rules={requiredField('Confirm new password')}
+                rules={confirmPasswordValidator(form)}
               />
             </Column>
           </Row>
