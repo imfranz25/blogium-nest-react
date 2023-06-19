@@ -10,7 +10,7 @@ import useFetch from '../../hooks/useFetch';
 import { httpMethod } from '../../constants';
 import { Credentials } from '../../types/formTypes';
 import { LoginWrapper, LoginCard, ActionWrapper } from './styles';
-import { requiredField } from '../../utils/inputValidators';
+import { requiredField, emailValidator } from '../../utils/inputValidators';
 
 const LoginPage = () => {
   const { registerSession } = useAuth();
@@ -47,7 +47,7 @@ const LoginPage = () => {
             type="email"
             id="email"
             disabled={isLoading}
-            rules={requiredField('Email')}
+            rules={emailValidator}
           />
           <Input
             label="Password"

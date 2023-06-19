@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormLabelAlign } from 'antd/es/form/interface';
+import dayjs from 'dayjs';
 
 import { FormItem, DatePicker } from './styles';
 
@@ -14,6 +15,10 @@ interface DatePickerProps {
 const Date: React.FC<DatePickerProps> = ({ label, id, disabled, required = false }) => {
   const inputCol = { span: 24 };
 
+  const disabledDate = (current: dayjs.Dayjs): boolean => {
+    return current.isAfter(dayjs().endOf('day'));
+  };
+
   return (
     <FormItem
       name={id}
@@ -22,8 +27,9 @@ const Date: React.FC<DatePickerProps> = ({ label, id, disabled, required = false
       wrapperCol={inputCol}
       labelAlign={'top' as FormLabelAlign}
       rules={[{ required: required, message: `Please select your ${id}` }]}
+      initialValue={dayjs('1999-01-01')}
     >
-      <DatePicker format="YYYY/MM/DD" disabled={disabled} />
+      <DatePicker format="YYYY/MM/DD" disabled={disabled} disabledDate={disabledDate} />
     </FormItem>
   );
 };
