@@ -1,11 +1,11 @@
 export type SafeUser = {
   readonly userId: string;
-  readonly profilePicture: string;
+  readonly profilePicture: string | undefined;
+  readonly bio: string | undefined;
   readonly email: string;
   readonly firstName: string;
   readonly lastName: string;
   readonly birthday: string;
-  readonly bio: string;
   readonly iat: number;
   readonly exp: number;
 } | null;

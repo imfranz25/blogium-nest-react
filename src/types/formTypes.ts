@@ -19,8 +19,8 @@ export type CommentDetail = {
 };
 
 export type GenDetails = {
-  profilePicture: string;
-  bio: string;
+  profilePicture?: string;
+  bio?: string;
   firstName: string;
   lastName: string;
   email: string;

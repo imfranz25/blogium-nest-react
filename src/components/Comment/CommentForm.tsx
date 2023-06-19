@@ -9,6 +9,7 @@ import useFetch from '../../hooks/useFetch';
 import { CommentButton, Divider } from '../Post/styles';
 import { httpMethod } from '../../constants';
 import { CommentDetail } from '../../types/formTypes';
+import { requiredField } from '../../utils/inputValidators';
 
 interface CommentProps {
   postId: string;
@@ -43,11 +44,11 @@ const Comment: React.FC<CommentProps> = ({ postId }) => {
       <Divider />
       <Form onFinish={onSubmitComment} form={form}>
         <Input
-          required
           id="comment"
           label="Comment"
           placeholder="Write a comment..."
           disabled={isLoading}
+          rules={requiredField('Comment')}
           suffix={
             <CommentButton loading={isLoading} htmlType="submit" type="link" icon={<IoSend />} />
           }

@@ -12,6 +12,7 @@ import { httpMethod } from '../../constants';
 import { GenDetails } from '../../types/formTypes';
 import DateInput from '../../components/Input/DateInput';
 import FileUploader from '../../components/Input/FileUploader';
+import { requiredField } from '../../utils/inputValidators';
 
 const ProfileForm = () => {
   const [userForm] = Form.useForm();
@@ -61,13 +62,29 @@ const ProfileForm = () => {
             <Input label="Bio (Optional)" type="textarea" id="bio" disabled={isFormLoading} />
           </Column>
           <Column xs={24} sm={24} md={12}>
-            <Input label="First Name" id="firstName" disabled={isFormLoading} required />
+            <Input
+              label="First Name"
+              id="firstName"
+              disabled={isFormLoading}
+              rules={requiredField('First name')}
+            />
           </Column>
           <Column xs={24} sm={24} md={12}>
-            <Input label="Last Name" id="lastName" disabled={isFormLoading} required />
+            <Input
+              label="Last Name"
+              id="lastName"
+              disabled={isFormLoading}
+              rules={requiredField('Last name')}
+            />
           </Column>
           <Column xs={24} sm={24} md={12}>
-            <Input label="Email" type="email" id="email" disabled={isFormLoading} required />
+            <Input
+              label="Email"
+              type="email"
+              id="email"
+              disabled={isFormLoading}
+              rules={requiredField('Email')}
+            />
           </Column>
           <Column xs={24} sm={24} md={12}>
             <DateInput id="birthday" label="Birthday" disabled={isFormLoading} required />

@@ -10,6 +10,7 @@ import useFetch from '../../hooks/useFetch';
 import { httpMethod } from '../../constants';
 import { Credentials } from '../../types/formTypes';
 import { LoginWrapper, LoginCard, ActionWrapper } from './styles';
+import { requiredField } from '../../utils/inputValidators';
 
 const LoginPage = () => {
   const { registerSession } = useAuth();
@@ -41,8 +42,20 @@ const LoginPage = () => {
           <Typography.Title level={3}>Welcome back!</Typography.Title>
         </Row>
         <Form onFinish={onLogin}>
-          <Input label="Email" type="email" id="email" disabled={isLoading} required />
-          <Input label="Password" id="password" type="password" disabled={isLoading} required />
+          <Input
+            label="Email"
+            type="email"
+            id="email"
+            disabled={isLoading}
+            rules={requiredField('Email')}
+          />
+          <Input
+            label="Password"
+            id="password"
+            type="password"
+            disabled={isLoading}
+            rules={requiredField('Password')}
+          />
           <ActionWrapper>
             <Button
               size="large"

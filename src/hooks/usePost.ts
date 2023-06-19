@@ -25,7 +25,7 @@ const usePost = create<PostStore>((set, get) => {
   };
 
   const addComment = (postId: string, comment: SafePostComment) => {
-    const updatedPosts = [...get().posts];
+    const updatedPosts = get().posts;
     const postIndex = updatedPosts.findIndex((post) => post.id === postId);
     const updatedPost = updatedPosts[postIndex];
 
@@ -36,7 +36,7 @@ const usePost = create<PostStore>((set, get) => {
   };
 
   const updateLikePost = (postId: string, userId: string, likeData: SafeLikePost) => {
-    const updatedPosts = [...get().posts];
+    const updatedPosts = get().posts;
     const postIndex = updatedPosts.findIndex((post) => post.id === postId);
     const updatedPost = updatedPosts[postIndex];
     const likeIndex = updatedPost.Like.findIndex((like) => like.userId === userId);
@@ -53,8 +53,7 @@ const usePost = create<PostStore>((set, get) => {
   };
 
   const removePost = (postId: string) => {
-    const posts = [...get().posts];
-    const filteredPost = posts.filter((post) => post.id !== postId);
+    const filteredPost = get().posts.filter((post) => post.id !== postId);
 
     set({ posts: filteredPost });
   };

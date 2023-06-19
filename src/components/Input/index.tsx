@@ -2,16 +2,17 @@ import React from 'react';
 import { Input as AntdInput } from 'antd';
 import { FormLabelAlign } from 'antd/es/form/interface';
 import { FormItem } from './styles';
+import { RuleObject } from 'antd/es/form';
 
 interface InputProps {
   id: string;
   label?: string;
   disabled?: boolean;
-  required?: boolean;
   placeholder?: string;
   autoComplete?: string;
   suffix?: React.ReactNode;
   type?: 'password' | 'textarea' | 'email';
+  rules?: RuleObject[];
 }
 
 const ignoreLabel = ['Comment', 'Post'];
@@ -21,7 +22,7 @@ const Input: React.FC<InputProps> = ({
   suffix,
   label,
   type = 'text',
-  required = false,
+  rules = [],
   placeholder = '',
   autoComplete = 'off',
   disabled = false,
@@ -48,7 +49,7 @@ const Input: React.FC<InputProps> = ({
       labelCol={inputCol}
       wrapperCol={inputCol}
       labelAlign={'top' as FormLabelAlign}
-      rules={[{ required, message: `${label} is required` }]}
+      rules={rules}
     >
       <InputComponent
         id={id}

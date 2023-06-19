@@ -12,6 +12,7 @@ import { httpMethod } from '../../constants';
 import DateInput from '../../components/Input/DateInput';
 import { UserDetails } from '../../types/formTypes';
 import { SignUpWrapper, SignUpCard, Column, ActionWrapper } from './styles';
+import { requiredField } from '../../utils/inputValidators';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -62,13 +63,29 @@ const SignUpPage = () => {
         <Form onFinish={onSignUp}>
           <Row>
             <Column xs={24} sm={24} md={12}>
-              <Input label="First Name" id="firstName" disabled={isFormLoading} required />
+              <Input
+                label="First Name"
+                id="firstName"
+                disabled={isFormLoading}
+                rules={requiredField('First name')}
+              />
             </Column>
             <Column xs={24} sm={24} md={12}>
-              <Input label="Last Name" id="lastName" disabled={isFormLoading} required />
+              <Input
+                label="Last Name"
+                id="lastName"
+                disabled={isFormLoading}
+                rules={requiredField('Last name')}
+              />
             </Column>
             <Column xs={24} sm={24} md={12}>
-              <Input label="Email" type="email" id="email" disabled={isFormLoading} required />
+              <Input
+                label="Email"
+                type="email"
+                id="email"
+                disabled={isFormLoading}
+                rules={requiredField('Email')}
+              />
             </Column>
             <Column xs={24} sm={24} md={12}>
               <DateInput id="birthday" label="Birthday" disabled={isFormLoading} required />
@@ -79,7 +96,7 @@ const SignUpPage = () => {
                 id="password"
                 type="password"
                 disabled={isFormLoading}
-                required
+                rules={requiredField('Password')}
               />
             </Column>
             <Column xs={24} sm={24} md={12}>
@@ -88,7 +105,7 @@ const SignUpPage = () => {
                 id="confirmPassword"
                 type="password"
                 disabled={isFormLoading}
-                required
+                rules={requiredField('Confirm new password')}
               />
             </Column>
           </Row>

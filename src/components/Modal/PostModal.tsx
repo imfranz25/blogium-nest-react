@@ -9,6 +9,7 @@ import useFetch from '../../hooks/useFetch';
 import { httpMethod } from '../../constants';
 import { PostDetail } from '../../types/formTypes';
 import usePostModal from '../../hooks/usePostModal';
+import { requiredField } from '../../utils/inputValidators';
 
 const PostForm = () => {
   const { addPost, updatePost, post } = usePost();
@@ -82,7 +83,13 @@ const PostForm = () => {
         onOk={form.submit}
       >
         <Form onFinish={onPostSubmit} form={form} ref={formRef}>
-          <Input type="textarea" label="Post" id="post" disabled={isLoading} required />
+          <Input
+            type="textarea"
+            label="Post"
+            id="post"
+            disabled={isLoading}
+            rules={requiredField('Post')}
+          />
         </Form>
       </Modal>
     </>

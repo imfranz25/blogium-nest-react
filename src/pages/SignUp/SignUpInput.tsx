@@ -1,5 +1,6 @@
 import Input from '../../components/Input';
 import Date from '../../components/Input/DateInput';
+import { requiredField } from '../../utils/inputValidators';
 import { Column } from './styles';
 
 interface SignUpInputProps {
@@ -20,9 +21,9 @@ const SignUpInput: React.FC<SignUpInputProps> = ({
   return (
     <Column xs={24} sm={24} md={12}>
       {isDate ? (
-        <Date type="date" id="birthday" label="Birthday" required />
+        <Date type="date" id="birthday" label="Birthday" required={required} />
       ) : (
-        <Input label={label} id={id} required={required} />
+        <Input label={label} id={id} rules={requiredField()} />
       )}
     </Column>
   );
