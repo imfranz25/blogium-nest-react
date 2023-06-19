@@ -13,7 +13,8 @@ import DateInput from '../../components/Input/DateInput';
 import { UserDetails } from '../../types/formTypes';
 import { SignUpWrapper, SignUpCard, Column, ActionWrapper } from './styles';
 import {
-  requiredField,
+  emailValidator,
+  nameValidator,
   passwordValidator,
   confirmPasswordValidator,
 } from '../../utils/inputValidators';
@@ -72,7 +73,7 @@ const SignUpPage = () => {
                 label="First Name"
                 id="firstName"
                 disabled={isFormLoading}
-                rules={requiredField('First name')}
+                rules={nameValidator('First name')}
               />
             </Column>
             <Column xs={24} sm={24} md={12}>
@@ -80,7 +81,7 @@ const SignUpPage = () => {
                 label="Last Name"
                 id="lastName"
                 disabled={isFormLoading}
-                rules={requiredField('Last name')}
+                rules={nameValidator('Last name')}
               />
             </Column>
             <Column xs={24} sm={24} md={12}>
@@ -89,7 +90,7 @@ const SignUpPage = () => {
                 type="email"
                 id="email"
                 disabled={isFormLoading}
-                rules={requiredField('Email')}
+                rules={emailValidator}
               />
             </Column>
             <Column xs={24} sm={24} md={12}>

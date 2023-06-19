@@ -15,6 +15,42 @@ export const requiredField = (fieldName = 'This'): RuleObject[] => [
   },
 ];
 
+export const emailValidator: RuleObject[] = [
+  {
+    validator(_rule, value) {
+      return new Promise<void>((resolve, reject) => {
+        if (!value || !value.trim()) {
+          return reject(`Email is required`);
+        }
+
+        if (!validator.isEmail(value)) {
+          return reject(`Invalid email format`);
+        }
+
+        resolve();
+      });
+    },
+  },
+];
+
+export const nameValidator = (fieldName: string): RuleObject[] => [
+  {
+    validator(_rule, value) {
+      return new Promise<void>((resolve, reject) => {
+        if (!value || !value.trim()) {
+          return reject(`${fieldName} is required`);
+        }
+
+        if (!validator.isAlpha(value, undefined, { ignore: ' ' })) {
+          return reject(`Special chars or number is not allowed`);
+        }
+
+        resolve();
+      });
+    },
+  },
+];
+
 export const passwordValidator: RuleObject[] = [
   {
     validator(_rule, value) {
