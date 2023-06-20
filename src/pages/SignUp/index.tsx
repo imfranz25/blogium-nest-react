@@ -111,7 +111,7 @@ const SignUpPage = () => {
                 id="confirmPassword"
                 type="password"
                 disabled={isFormLoading}
-                rules={confirmPasswordValidator(form)}
+                rules={confirmPasswordValidator(form, 'password')}
               />
             </Column>
           </Row>

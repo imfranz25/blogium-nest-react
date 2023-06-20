@@ -79,11 +79,11 @@ export const passwordValidator: RuleObject[] = [
   },
 ];
 
-export const confirmPasswordValidator = (form: FormInstance): RuleObject[] => [
+export const confirmPasswordValidator = (form: FormInstance, id: string): RuleObject[] => [
   {
     validator(_rule, value) {
       return new Promise<void>((resolve, reject) => {
-        const password = form.getFieldValue('password');
+        const password = form.getFieldValue(id);
 
         if (!value || !value.trim()) {
           return reject(`Confirm password is required`);

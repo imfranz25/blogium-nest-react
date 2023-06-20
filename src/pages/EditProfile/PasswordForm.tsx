@@ -9,7 +9,11 @@ import Input from '../../components/Input';
 import useFetch from '../../hooks/useFetch';
 import { httpMethod } from '../../constants';
 import { PassDetails } from '../../types/formTypes';
-import { requiredField } from '../../utils/inputValidators';
+import {
+  requiredField,
+  passwordValidator,
+  confirmPasswordValidator,
+} from '../../utils/inputValidators';
 
 const ChangePasswordForm = () => {
   const [passForm] = Form.useForm();
@@ -45,7 +49,7 @@ const ChangePasswordForm = () => {
               label="New Password"
               id="newPassword"
               disabled={isFormPassLoading}
-              rules={requiredField('New password')}
+              rules={passwordValidator}
             />
           </Column>
           <Column xs={24} sm={24} md={12}>
@@ -54,7 +58,7 @@ const ChangePasswordForm = () => {
               label="Confirm New Password"
               id="confirmNewPassword"
               disabled={isFormPassLoading}
-              rules={requiredField('Confirm new password')}
+              rules={confirmPasswordValidator(passForm, 'newPassword')}
             />
           </Column>
           <Column xs={24} sm={24} md={12}>
