@@ -12,7 +12,7 @@ import { httpMethod } from '../../constants';
 import { GenDetails } from '../../types/formTypes';
 import DateInput from '../../components/Input/DateInput';
 import FileUploader from '../../components/Input/FileUploader';
-import { requiredField } from '../../utils/inputValidators';
+import { nameValidator, emailValidator } from '../../utils/inputValidators';
 
 const ProfileForm = () => {
   const [userForm] = Form.useForm();
@@ -66,7 +66,7 @@ const ProfileForm = () => {
               label="First Name"
               id="firstName"
               disabled={isFormLoading}
-              rules={requiredField('First name')}
+              rules={nameValidator('First name')}
             />
           </Column>
           <Column xs={24} sm={24} md={12}>
@@ -74,7 +74,7 @@ const ProfileForm = () => {
               label="Last Name"
               id="lastName"
               disabled={isFormLoading}
-              rules={requiredField('Last name')}
+              rules={nameValidator('Last name')}
             />
           </Column>
           <Column xs={24} sm={24} md={12}>
@@ -83,7 +83,7 @@ const ProfileForm = () => {
               type="email"
               id="email"
               disabled={isFormLoading}
-              rules={requiredField('Email')}
+              rules={emailValidator}
             />
           </Column>
           <Column xs={24} sm={24} md={12}>

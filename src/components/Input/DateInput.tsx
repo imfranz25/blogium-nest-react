@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FormLabelAlign } from 'antd/es/form/interface';
 import dayjs from 'dayjs';
 
@@ -15,9 +15,9 @@ interface DatePickerProps {
 const Date: React.FC<DatePickerProps> = ({ label, id, disabled, required = false }) => {
   const inputCol = { span: 24 };
 
-  const disabledDate = (current: dayjs.Dayjs): boolean => {
+  const disabledDate = useCallback((current: dayjs.Dayjs): boolean => {
     return current.isAfter(dayjs().endOf('day'));
-  };
+  }, []);
 
   return (
     <FormItem

@@ -1,8 +1,8 @@
-import jwtDecode from 'jwt-decode';
 import { create } from 'zustand';
+import jwtDecode from 'jwt-decode';
+import toast from 'react-hot-toast';
 
 import { SafeUser } from '../types';
-import toast from 'react-hot-toast';
 
 interface AuthStore {
   token: string | null;

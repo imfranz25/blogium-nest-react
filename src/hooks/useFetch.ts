@@ -26,6 +26,7 @@ const useFetch = ({ endpoint, skipInitialInvocation = false, includeToken = true
         setIsLoading(true);
         const isExpired = sessionGuard();
 
+        /* For protected endpoints - check for expiration */
         if (isExpired && includeToken) {
           return;
         }
