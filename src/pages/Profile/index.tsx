@@ -9,6 +9,7 @@ import usePost from '../../hooks/usePost';
 import useFetch from '../../hooks/useFetch';
 import Loader from '../../components/Loader';
 import { SafeUserProfile } from '../../types';
+import PostHeader from '../../components/PostHeader';
 import EmptyState from '../../components/EmptyState';
 import { StyledAvatar } from '../../components/Comment/styles';
 import { ProfileContainer, NameLogo, UserContainer, EditContainer, UserRow } from './styles';
@@ -35,6 +36,10 @@ const ProfilePage = () => {
   return (
     <Row justify="space-around">
       <Col span={16}>
+        <div style={{ marginBottom: '20px' }}>
+          <PostHeader label="Profile" isOWnProfile={isOwnProfile} />
+        </div>
+
         {userData ? (
           <>
             <ProfileContainer>
