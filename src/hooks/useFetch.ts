@@ -40,6 +40,7 @@ const useFetch = ({ endpoint, skipInitialInvocation = false, includeToken = true
         const response = await axios(`${API}${endpoint}`, config);
 
         setResData(response);
+
         return response;
       } catch (error) {
         toast.error(getErrorMessage(error as SafeError));

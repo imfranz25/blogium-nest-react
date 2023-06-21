@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Button, Col, Row } from 'antd';
+import { Button, Col, Row, Typography } from 'antd';
 
 import Post from '../../components/Post';
 import usePost from '../../hooks/usePost';
@@ -25,7 +25,14 @@ const FeedPage = () => {
   return (
     <Row justify="space-around">
       <Col span={16}>
-        <Button onClick={() => postModal.onOpen()}>Create Post</Button>
+        <Row justify="space-between" align="middle">
+          <Typography.Title level={2} style={{ margin: 0 }}>
+            Feed
+          </Typography.Title>
+          <Button onClick={() => postModal.onOpen()} type="primary">
+            Create Post
+          </Button>
+        </Row>
         {posts.map((post) => (
           <Post key={post.id} postData={post} />
         ))}

@@ -38,13 +38,11 @@ const ProfileForm = () => {
 
       const response = await updateUser({ method: httpMethod.PATCH, data: genDetails });
 
-      if (!response) {
-        return;
+      if (response) {
+        userForm.resetFields();
+        toast.success('User info updated');
+        registerSession(response.data.accessToken);
       }
-
-      userForm.resetFields();
-      toast.success('User info updated');
-      registerSession(response.data.accessToken);
     },
     [updateUser, registerSession, userForm]
   );

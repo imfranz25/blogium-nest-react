@@ -1,9 +1,9 @@
-import React, { useCallback } from 'react';
-import { FormLabelAlign } from 'antd/es/form/interface';
 import dayjs from 'dayjs';
+import React, { useCallback } from 'react';
 
 import { FormItem, DatePicker } from './styles';
 import { requiredField } from '../../utils/inputValidators';
+import { FormLabelAlign } from 'antd/es/form/interface';
 
 interface DatePickerProps {
   id: string;

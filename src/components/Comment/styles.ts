@@ -1,5 +1,5 @@
-import { Avatar, Divider, Typography } from 'antd';
 import styled from 'styled-components';
+import { Avatar, Divider, Typography } from 'antd';
 
 export const CommentDivider = styled(Divider)`
   padding: 0;

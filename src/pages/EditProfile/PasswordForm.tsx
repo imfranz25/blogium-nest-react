@@ -28,12 +28,10 @@ const ChangePasswordForm = () => {
     async (passDetails: PassDetails) => {
       const response = await updatePassword({ method: httpMethod.PATCH, data: passDetails });
 
-      if (!response) {
-        return;
+      if (response) {
+        passForm.resetFields();
+        toast.success('User pass updated');
       }
-
-      passForm.resetFields();
-      toast.success('User pass updated');
     },
     [updatePassword, passForm]
   );

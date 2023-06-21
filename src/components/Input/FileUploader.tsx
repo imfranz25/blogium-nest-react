@@ -1,6 +1,6 @@
-import { Upload, Button, Row } from 'antd';
-import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { useState } from 'react';
+import { Upload, Button, Row } from 'antd';
 
 import { FormInstance } from 'antd/es/form';
 import { AvatarPreview, Avatar } from './styles';
@@ -30,7 +30,9 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   };
 
   const beforeUpload = (file: RcFile) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    const isJpgOrPng =
+      file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg';
+
     if (!isJpgOrPng) {
       toast.error('You can only upload JPG/PNG file!');
     }
@@ -68,7 +70,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
       <Row justify="center">
         <Upload
           listType="picture"
-          accept="image/png, image/jpeg"
+          accept="image/png, image/jpeg, image/jpg"
           className="avatar-uploader"
           showUploadList={false}
           disabled={disable}
@@ -77,7 +79,6 @@ const FileUploader: React.FC<FileUploaderProps> = ({
           onChange={handleChange}
           customRequest={() => false}
         >
-          <br />
           <Button disabled={disable}>Upload</Button>
         </Upload>
       </Row>

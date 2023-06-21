@@ -3,12 +3,12 @@ import { FaEllipsisH } from 'react-icons/fa';
 import { Button, Dropdown, Row, Typography } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { PostState } from '../../types';
 import usePost from '../../hooks/usePost';
 import postItems from '../../utils/getPostMenu';
 import usePostModal from '../../hooks/usePostModal';
 import { SafePost, SafePostUser } from '../../types';
 import useDeleteModal from '../../hooks/useDeleteModal';
-import { PostState } from '../../types';
 import { AvatarContainer, UserContainer, Avatar } from './styles';
 
 interface PostAvatarProps {
@@ -38,7 +38,7 @@ const PostAvatar: React.FC<PostAvatarProps> = ({ postData, postOwner, userId, ti
         deleteModal.onOpen();
       }
 
-      /* set global state of post */
+      /* set global state of post -> postData */
       setPost(postData);
     },
     [setPost, postData, postModal, deleteModal]

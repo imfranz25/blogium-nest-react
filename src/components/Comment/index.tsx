@@ -1,12 +1,12 @@
-import { SafePostComment } from '../../types';
-
 import CommentCard from './CommentCard';
 import CommentForm from './CommentForm';
+import { SafePostComment } from '../../types';
 
 interface CommentProps {
   postId: string;
   comments: SafePostComment[];
 }
+
 const Comments: React.FC<CommentProps> = ({ postId, comments }) => {
   return (
     <>

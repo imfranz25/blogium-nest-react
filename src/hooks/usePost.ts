@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-
 import { SafePost, SafePostComment, SafeLikePost } from '../types';
 
 interface PostStore {
