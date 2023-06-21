@@ -1,18 +1,18 @@
 import dayjs from 'dayjs';
 import toast from 'react-hot-toast';
 import { useCallback, useEffect } from 'react';
-import { Button, Form, Row, Typography } from 'antd';
+import { Button, Form, Row } from 'antd';
 
-import { EditCard } from './styles';
-import useAuth from '../../hooks/useAuth';
-import { Column } from '../SignUp/styles';
-import Input from '../../components/Input';
-import useFetch from '../../hooks/useFetch';
-import { httpMethod } from '../../constants';
-import { GenDetails } from '../../types/formTypes';
-import DateInput from '../../components/Input/DateInput';
-import FileUploader from '../../components/Input/FileUploader';
-import { nameValidator, emailValidator } from '../../utils/inputValidators';
+import Input from './Input';
+import useAuth from '../hooks/useAuth';
+import useFetch from '../hooks/useFetch';
+import { httpMethod } from '../constants';
+import DateInput from './Input/DateInput';
+import { Column } from '../pages/SignUp/styles';
+import FileUploader from './Input/FileUploader';
+import { GenDetails } from '../types/formTypes';
+import { EditCard, Title } from '../pages/EditProfile/styles';
+import { nameValidator, emailValidator } from '../utils/inputValidators';
 
 const ProfileForm = () => {
   const [userForm] = Form.useForm();
@@ -61,7 +61,7 @@ const ProfileForm = () => {
 
   return (
     <EditCard bordered hoverable>
-      <Typography.Title level={2}>General Information</Typography.Title>
+      <Title level={2}>General Information</Title>
       <Form form={userForm} onFinish={onSaveGeneralInfo}>
         <Row>
           <Column xs={24} sm={24} md={12}>

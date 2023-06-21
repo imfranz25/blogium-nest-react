@@ -1,19 +1,19 @@
 import toast from 'react-hot-toast';
 import { useCallback } from 'react';
-import { Button, Form, Row, Typography } from 'antd';
+import { Button, Form, Row } from 'antd';
 
-import { EditCard } from './styles';
-import useAuth from '../../hooks/useAuth';
-import { Column } from '../SignUp/styles';
-import Input from '../../components/Input';
-import useFetch from '../../hooks/useFetch';
-import { httpMethod } from '../../constants';
-import { PassDetails } from '../../types/formTypes';
+import Input from './Input';
+import useAuth from '../hooks/useAuth';
+import useFetch from '../hooks/useFetch';
+import { httpMethod } from '../constants';
+import { Column } from '../pages/SignUp/styles';
+import { PassDetails } from '../types/formTypes';
+import { EditCard, Title } from '../pages/EditProfile/styles';
 import {
   requiredField,
   passwordValidator,
   confirmPasswordValidator,
-} from '../../utils/inputValidators';
+} from '../utils/inputValidators';
 
 const ChangePasswordForm = () => {
   const [passForm] = Form.useForm();
@@ -38,7 +38,7 @@ const ChangePasswordForm = () => {
 
   return (
     <EditCard bordered hoverable>
-      <Typography.Title level={2}>Security Information</Typography.Title>
+      <Title level={2}>Security Information</Title>
       <Form form={passForm} onFinish={onSavePassword}>
         <Row>
           <Column xs={24} sm={24} md={12}>

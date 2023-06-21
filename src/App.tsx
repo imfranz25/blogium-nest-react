@@ -11,7 +11,7 @@ const App = () => {
       <AppRoutes />
       <PostModal />
       <DeleteModal />
-      <Toaster position="top-right" toastOptions={{ duration: 1000 }} />
+      <Toaster toastOptions={{ duration: 1000 }} />
     </>
   );
 };

@@ -9,6 +9,7 @@ import usePost from '../../hooks/usePost';
 import useFetch from '../../hooks/useFetch';
 import Loader from '../../components/Loader';
 import { SafeUserProfile } from '../../types';
+import EmptyState from '../../components/EmptyState';
 import { StyledAvatar } from '../../components/Comment/styles';
 import { ProfileContainer, NameLogo, UserContainer, EditContainer, UserRow } from './styles';
 
@@ -63,19 +64,19 @@ const ProfilePage = () => {
               )}
             </ProfileContainer>
 
-            {posts.length > 0 && (
+            {posts.length > 0 ? (
               <>
                 <Typography.Title level={2}>Posts</Typography.Title>
                 {posts.map((post) => (
                   <Post key={post.id} postData={post} />
                 ))}
               </>
+            ) : (
+              <EmptyState label="No posts found" />
             )}
           </>
         ) : (
-          <Row justify="center">
-            <Typography.Title>User not found</Typography.Title>
-          </Row>
+          <EmptyState label="User not found" />
         )}
       </Col>
     </Row>

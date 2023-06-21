@@ -1,13 +1,14 @@
-import { Col, Row, Typography } from 'antd';
+import { Col, Row } from 'antd';
 
-import ChangePasswordForm from './PasswordForm';
-import EditProfileForm from './EditProfileForm';
+import ChangePasswordForm from '../../components/PasswordForm';
+import EditProfileForm from '../../components/EditProfileForm';
+import { Title } from './styles';
 
 const EditProfilePage = () => {
   return (
     <Row justify="space-around">
       <Col span={16}>
-        <Typography.Title level={2}>Profile</Typography.Title>
+        <Title level={2}>Profile</Title>
         <EditProfileForm />
         <ChangePasswordForm />
       </Col>
