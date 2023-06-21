@@ -1,4 +1,4 @@
-import { Form, DatePicker as AntdDatePicker, Row, Avatar as AntdAvatar } from 'antd';
+import { Form, DatePicker as AntdDatePicker, Row, Avatar as AntdAvatar, Button } from 'antd';
 import styled from 'styled-components';
 
 export const InputWrapper = styled.div`
@@ -31,4 +31,11 @@ export const Avatar = styled(AntdAvatar)`
   span {
     font-size: 34px;
   }
+`;
+
+export const UploadButton = styled(Button)`
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  margin-top 15px;
 `;

@@ -1,5 +1,5 @@
-import { RuleObject, FormInstance } from 'antd/es/form';
 import validator from 'validator';
+import { RuleObject, FormInstance } from 'antd/es/form';
 
 export const requiredField = (fieldName = 'This'): RuleObject[] => [
   {

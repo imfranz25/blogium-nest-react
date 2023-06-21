@@ -1,16 +1,16 @@
-import { toast } from 'react-hot-toast';
 import { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { Button, Form, Row, Typography } from 'antd';
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import { IoCreateOutline } from 'react-icons/io5';
+import { Button, Form, Row, Typography } from 'antd';
 
 import useAuth from '../../hooks/useAuth';
 import Input from '../../components/Input';
 import useFetch from '../../hooks/useFetch';
 import { httpMethod } from '../../constants';
-import DateInput from '../../components/Input/DateInput';
 import { UserDetails } from '../../types/formTypes';
+import DateInput from '../../components/Input/DateInput';
 import { SignUpWrapper, SignUpCard, Column, ActionWrapper } from './styles';
 import {
   emailValidator,

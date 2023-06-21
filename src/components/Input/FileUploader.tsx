@@ -1,9 +1,10 @@
 import toast from 'react-hot-toast';
 import { useState } from 'react';
-import { Upload, Button, Row } from 'antd';
+import { Upload, Row } from 'antd';
+import { BsUpload } from 'react-icons/bs';
 
 import { FormInstance } from 'antd/es/form';
-import { AvatarPreview, Avatar } from './styles';
+import { AvatarPreview, Avatar, UploadButton } from './styles';
 import { RcFile, UploadChangeParam, UploadFile, UploadProps } from 'antd/es/upload';
 
 interface FileUploaderProps {
@@ -79,7 +80,9 @@ const FileUploader: React.FC<FileUploaderProps> = ({
           onChange={handleChange}
           customRequest={() => false}
         >
-          <Button disabled={disable}>Upload</Button>
+          <UploadButton style={{ marginTop: '15px' }} disabled={disable} icon={<BsUpload />}>
+            Upload
+          </UploadButton>
         </Upload>
       </Row>
     </Row>
