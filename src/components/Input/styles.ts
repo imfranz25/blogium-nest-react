@@ -26,6 +26,7 @@ export const AvatarPreview = styled(Row)`
 
 export const Avatar = styled(AntdAvatar)`
   border: 1px dashed rgba(0, 0, 0, 0.2);
+  background-color: #87ceeb;
 
   span {
     font-size: 34px;
