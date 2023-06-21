@@ -5,11 +5,10 @@ import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { CreateUserDto } from './create-user.dto';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
-  profilePicture?: any;
+  profilePicture?: string;
 
   @ApiProperty({ example: 'Musician' })
   @IsString({ message: 'Invalid biography format' })
   @Transform(({ value }) => value.trim())
-  @IsNotEmpty({ message: 'Old password is required' })
   bio?: string;
 }
