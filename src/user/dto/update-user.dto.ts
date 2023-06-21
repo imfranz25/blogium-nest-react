@@ -8,7 +8,12 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   profilePicture?: string;
 
   @ApiProperty({ example: 'Musician' })
-  @IsString({ message: 'Invalid biography format' })
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }) => {
+    if (value) {
+      return value.trim();
+    }
+
+    return '';
+  })
   bio?: string;
 }
