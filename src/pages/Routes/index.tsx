@@ -15,7 +15,6 @@ const AppRoutes = () => {
     {
       path: '/',
       element: <PublicRoutes />,
-      errorElement: <PageNotFound />,
       children: [
         {
           index: true,
@@ -48,6 +47,10 @@ const AppRoutes = () => {
           element: <PostPage />,
         },
       ],
+    },
+    {
+      path: '*',
+      element: <PageNotFound />,
     },
   ];
 

@@ -1,8 +1,8 @@
-import { Layout } from 'antd';
 import { Outlet, Navigate } from 'react-router-dom';
 
 import useAuth from '../../hooks/useAuth';
 import Navbar from '../../components/Navbar';
+import { Content } from 'antd/es/layout/layout';
 
 const PrivateRoutes = () => {
   const { token } = useAuth();
@@ -12,12 +12,12 @@ const PrivateRoutes = () => {
   }
 
   return (
-    <Layout>
+    <>
       <Navbar />
-      <div style={{ paddingTop: '80px' }}>
+      <Content style={{ marginTop: '80px' }}>
         <Outlet />
-      </div>
-    </Layout>
+      </Content>
+    </>
   );
 };
 
