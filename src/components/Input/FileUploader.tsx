@@ -1,8 +1,9 @@
-import { Form, Upload, Button, Avatar, Row, Typography } from 'antd';
+import { Upload, Button, Row } from 'antd';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { FormInstance } from 'antd/es/form';
+import { AvatarPreview, Avatar } from './styles';
 import { RcFile, UploadChangeParam, UploadFile, UploadProps } from 'antd/es/upload';
 
 interface FileUploaderProps {
@@ -59,11 +60,11 @@ const FileUploader: React.FC<FileUploaderProps> = ({
 
   return (
     <Row justify="center">
-      <Row justify="center" style={{ width: '100%', marginTop: '25px' }}>
-        <Avatar src={imageUrl} size={150} style={{ border: '1px dashed rgba(0,0,0,.2)' }}>
-          <span style={{ fontSize: '34px' }}>{preview[0].toUpperCase()}</span>
+      <AvatarPreview justify="center">
+        <Avatar src={imageUrl} size={150}>
+          <span>{preview[0].toUpperCase()}</span>
         </Avatar>
-      </Row>
+      </AvatarPreview>
       <Row justify="center">
         <Upload
           listType="picture"

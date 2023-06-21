@@ -3,6 +3,7 @@ import { FormLabelAlign } from 'antd/es/form/interface';
 import dayjs from 'dayjs';
 
 import { FormItem, DatePicker } from './styles';
+import { requiredField } from '../../utils/inputValidators';
 
 interface DatePickerProps {
   id: string;
@@ -26,7 +27,7 @@ const Date: React.FC<DatePickerProps> = ({ label, id, disabled, required = false
       labelCol={inputCol}
       wrapperCol={inputCol}
       labelAlign={'top' as FormLabelAlign}
-      rules={[{ required: required, message: `Please select your ${id}` }]}
+      rules={required ? requiredField(label) : []}
       initialValue={dayjs('1999-01-01')}
     >
       <DatePicker format="YYYY/MM/DD" disabled={disabled} disabledDate={disabledDate} />

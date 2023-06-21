@@ -5,7 +5,10 @@ export const requiredField = (fieldName = 'This'): RuleObject[] => [
   {
     validator(_rule, value) {
       return new Promise<void>((resolve, reject) => {
-        if (!value || !value.trim()) {
+        const isString = typeof value === 'string';
+
+        /* Sanitize data -> for string only */
+        if (!value || (isString && !value.trim())) {
           return reject(`${fieldName} is required`);
         }
 
