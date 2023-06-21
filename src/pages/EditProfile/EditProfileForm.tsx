@@ -25,6 +25,17 @@ const ProfileForm = () => {
 
   const onSaveGeneralInfo = useCallback(
     async (genDetails: GenDetails) => {
+      const uploadedProfile = userForm.getFieldValue('profilePicture');
+
+      /**
+       * profile upload is option thus check
+       * if the user upload a profile pic
+       * before appending it to user form details
+       */
+      if (uploadedProfile) {
+        genDetails.profilePicture = uploadedProfile;
+      }
+
       const response = await updateUser({ method: httpMethod.PATCH, data: genDetails });
 
       if (!response) {
@@ -56,7 +67,13 @@ const ProfileForm = () => {
       <Form form={userForm} onFinish={onSaveGeneralInfo}>
         <Row>
           <Column xs={24} sm={24} md={12}>
-            <FileUploader id="profilePicture" disable={isFormLoading} />
+            <FileUploader
+              defaultImg={userData?.profilePicture}
+              id="profilePicture"
+              disable={isFormLoading}
+              form={userForm}
+              preview={userData?.firstName}
+            />
           </Column>
           <Column xs={24} sm={24} md={12}>
             <Input label="Bio (Optional)" type="textarea" id="bio" disabled={isFormLoading} />
