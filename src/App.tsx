@@ -8,10 +8,10 @@ import DeleteModal from './components/Modal/DeleteModal';
 const App = () => {
   return (
     <>
-      <AppRoutes />
+      <Toaster toastOptions={{ duration: 1000 }} />
       <PostModal />
       <DeleteModal />
-      <Toaster toastOptions={{ duration: 1000 }} />
+      <AppRoutes />
     </>
   );
 };

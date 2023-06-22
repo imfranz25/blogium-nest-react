@@ -1,11 +1,12 @@
+import { Col, Row } from 'antd';
 import { useEffect } from 'react';
-import { Col, Row, Typography } from 'antd';
 import { useParams } from 'react-router-dom';
 
 import Post from '../../components/Post';
 import Loader from '../../components/Loader';
 import useFetch from '../../hooks/useFetch';
 import usePost from '../../hooks/usePost';
+import EmptyState from '../../components/EmptyState';
 
 const PostDetailsPage = () => {
   const params = useParams();
@@ -26,13 +27,7 @@ const PostDetailsPage = () => {
   return (
     <Row justify="space-around">
       <Col span={16}>
-        {postData ? (
-          <Post postData={postData} />
-        ) : (
-          <Row justify="center">
-            <Typography.Title>Post not found</Typography.Title>
-          </Row>
-        )}
+        {postData ? <Post postData={postData} /> : <EmptyState label="Post not found" />}
       </Col>
     </Row>
   );

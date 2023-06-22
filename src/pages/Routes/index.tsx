@@ -1,14 +1,16 @@
+import { lazy } from 'react';
 import { RouteObject, useRoutes } from 'react-router-dom';
 
 import PublicRoutes from './PublicRoutes';
 import PrivateRoutes from './PrivateRoutes';
-import LoginPage from '../Login';
-import SignUpPage from '../SignUp';
-import PageNotFound from '../404';
-import FeedPage from '../Feed';
-import ProfilePage from '../Profile';
-import EditProfile from '../EditProfile';
-import PostPage from '../PostDetail';
+
+const LoginPage = lazy(() => import('../Login'));
+const SignUpPage = lazy(() => import('../SignUp'));
+const PageNotFound = lazy(() => import('../404'));
+const FeedPage = lazy(() => import('../Feed'));
+const ProfilePage = lazy(() => import('../Profile'));
+const EditProfile = lazy(() => import('../EditProfile'));
+const PostPage = lazy(() => import('../PostDetail'));
 
 const AppRoutes = () => {
   const routes: RouteObject[] = [

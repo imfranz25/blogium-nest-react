@@ -36,12 +36,11 @@ const ProfilePage = () => {
   return (
     <Row justify="space-around">
       <Col span={16}>
-        <div style={{ marginBottom: '20px' }}>
-          <PostHeader label="Profile" isOWnProfile={isOwnProfile} />
-        </div>
-
         {userData ? (
           <>
+            <div style={{ marginBottom: '20px' }}>
+              <PostHeader label="Profile" isOWnProfile={isOwnProfile} />
+            </div>
             <ProfileContainer>
               <Col sm={20} md={16}>
                 <UserRow align="middle">

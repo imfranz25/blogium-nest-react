@@ -1,7 +1,9 @@
+import { Suspense } from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 
 import useAuth from '../../hooks/useAuth';
 import Navbar from '../../components/Navbar';
+import Loader from '../../components/Loader';
 import { Content } from 'antd/es/layout/layout';
 
 const PrivateRoutes = () => {
@@ -15,7 +17,9 @@ const PrivateRoutes = () => {
     <>
       <Navbar />
       <Content style={{ marginTop: '80px' }}>
-        <Outlet />
+        <Suspense fallback={<Loader />}>
+          <Outlet />
+        </Suspense>
       </Content>
     </>
   );

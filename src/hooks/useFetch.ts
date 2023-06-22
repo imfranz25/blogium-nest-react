@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { toast } from 'react-hot-toast';
 import { useState, useEffect, useCallback } from 'react';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
@@ -43,7 +41,14 @@ const useFetch = ({ endpoint, skipInitialInvocation = false, includeToken = true
 
         return response;
       } catch (error) {
-        toast.error(getErrorMessage(error as SafeError));
+        const errorObj = error as SafeError;
+
+        /* Handle not found separately */
+        if (errorObj?.response?.status === 404) {
+          return;
+        }
+
+        toast.error(getErrorMessage(errorObj));
       } finally {
         setIsLoading(false);
       }
