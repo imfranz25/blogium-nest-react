@@ -1,10 +1,14 @@
 import { PuffLoader } from 'react-spinners';
 import { LoaderWrapper } from './style';
 
-const Loader = () => {
+interface LoaderProps {
+  size?: number;
+}
+
+const Loader: React.FC<LoaderProps> = ({ size = 100 }) => {
   return (
-    <LoaderWrapper>
-      <PuffLoader color="#87ceeb" size={100} aria-label="Loading posts" />
+    <LoaderWrapper style={{ height: `${size === 50 ? '20vh' : '100vh'}` }}>
+      <PuffLoader color="#87ceeb" size={size} aria-label="Loading posts" />
     </LoaderWrapper>
   );
 };

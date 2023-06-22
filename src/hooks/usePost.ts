@@ -9,6 +9,7 @@ interface PostStore {
   setPosts: (posts: SafePost[]) => void;
   removePost: (postId: string) => void;
   updatePost: (postId: string, post: string) => void;
+  removeComment: (postId: string, commentId: string) => void;
   addComment: (postId: string, comment: SafePostComment) => void;
   updateLikePost: (postId: string, userId: string, likeData: SafeLikePost) => void;
 }
@@ -30,6 +31,17 @@ const usePost = create<PostStore>((set, get) => {
 
     updatedPost.Comment.push(comment);
     updatedPosts[postIndex] = updatedPost;
+
+    set({ posts: updatedPosts });
+  };
+
+  const removeComment = (postId: string, commentId: string) => {
+    const updatedPosts = get().posts;
+    const postIndex = updatedPosts.findIndex((post) => post.id === postId);
+    const updatedPost = updatedPosts[postIndex];
+    const updatedComment = updatedPost.Comment.filter((comment) => comment.id !== commentId);
+
+    updatedPosts[postIndex].Comment = updatedComment;
 
     set({ posts: updatedPosts });
   };
@@ -63,6 +75,7 @@ const usePost = create<PostStore>((set, get) => {
     updatePost,
     addComment,
     removePost,
+    removeComment,
     updateLikePost,
     setPost: (post) => set({ post }),
     setPosts: (posts) => set({ posts }),

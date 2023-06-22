@@ -14,6 +14,8 @@ const Comments: React.FC<CommentProps> = ({ postId, comments }) => {
       {comments.map((comment) => (
         <CommentCard
           key={comment.id}
+          id={comment.id}
+          postId={postId}
           user={comment.User}
           comment={comment.comment}
           timeCreated={comment.createdAt}

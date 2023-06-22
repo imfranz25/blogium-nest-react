@@ -20,13 +20,16 @@ const Comment: React.FC<CommentProps> = ({ postId }) => {
   const [form] = Form.useForm();
 
   const { isLoading, refetch: createComment } = useFetch({
-    endpoint: `/post/comment/${postId}`,
+    endpoint: `/post/comment`,
     skipInitialInvocation: true,
   });
 
   const onSubmitComment = useCallback(
     async (comment: CommentDetail) => {
-      const resData = await createComment({ method: httpMethod.POST, data: comment });
+      const resData = await createComment({
+        method: httpMethod.POST,
+        data: { ...comment, postId },
+      });
 
       if (resData) {
         addComment(postId, resData.data);
