@@ -8,4 +8,7 @@ export class CommentPostDto {
   @IsNotEmpty({ message: 'Comment is required' })
   @ApiProperty()
   comment: string;
+
+  @ApiProperty()
+  postId: string;
 }

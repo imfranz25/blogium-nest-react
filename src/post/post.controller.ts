@@ -99,14 +99,20 @@ export class PostController {
     return this.postService.unlike(post.id, userId);
   }
 
-  @Post('comment/:id')
+  @Post('comment')
   async createComment(
     @Req() request: any,
-    @Param('id') id: string,
     @Body() commentPostDto: CommentPostDto,
   ) {
     const userId = request?.user?.id;
 
-    return await this.postService.addComment(userId, id, commentPostDto);
+    return await this.postService.addComment(userId, commentPostDto);
+  }
+
+  @Delete('comment/:id')
+  async deleteComment(@Req() request: any, @Param('id') id: string) {
+    const userId = request?.user?.id;
+
+    return await this.postService.deleteComment(userId, id);
   }
 }

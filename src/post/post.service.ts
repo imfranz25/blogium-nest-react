@@ -74,18 +74,19 @@ export class PostService {
     });
   }
 
-  async addComment(
-    userId: string,
-    postId: string,
-    commentPostDto: CommentPostDto,
-  ) {
+  async addComment(userId: string, commentPostDto: CommentPostDto) {
     return await this.prisma.comment.create({
       data: {
         userId,
-        postId,
         ...commentPostDto,
       },
       select: commentSelection,
+    });
+  }
+
+  async deleteComment(userId: string, id: string) {
+    return await this.prisma.comment.deleteMany({
+      where: { userId, id },
     });
   }
 }
