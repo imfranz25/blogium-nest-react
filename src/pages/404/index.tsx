@@ -19,7 +19,7 @@ const PageNotFound = () => {
                 We are sorry, but the page you requested was not found
               </Typography.Paragraph>
               <Button onClick={() => navigate('/feed')} type="primary">
-                Back to Feed
+                Go back
               </Button>
             </Section>
           </Row>
