@@ -3,14 +3,14 @@ import { Toaster } from 'react-hot-toast';
 
 import AppRoutes from './pages/Routes';
 import PostModal from './components/Modal/PostModal';
-import DeleteModal from './components/Modal/DeleteModal';
+import ConfirmModal from './components/Modal/ConfirmModal';
 
 const App = () => {
   return (
     <>
       <Toaster toastOptions={{ duration: 1000 }} />
       <PostModal />
-      <DeleteModal />
+      <ConfirmModal />
       <AppRoutes />
     </>
   );

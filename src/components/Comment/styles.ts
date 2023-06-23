@@ -44,3 +44,7 @@ export const CommentText = styled(Typography.Paragraph)`
   border: rgba(0, 0, 0, 0.2) 1px solid;
   text-align: justify;
 `;
+
+export const CommentAction = styled.div`
+  margin-left: auto;
+`

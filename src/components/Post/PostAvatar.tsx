@@ -8,7 +8,7 @@ import usePost from '../../hooks/usePost';
 import postItems from '../../utils/getPostMenu';
 import usePostModal from '../../hooks/usePostModal';
 import { SafePost, SafePostUser } from '../../types';
-import useDeleteModal from '../../hooks/useDeleteModal';
+import useConfirmModal from '../../hooks/useConfirmModal';
 import { AvatarContainer, UserContainer, Avatar } from './styles';
 
 interface PostAvatarProps {
@@ -20,7 +20,7 @@ interface PostAvatarProps {
 
 const PostAvatar: React.FC<PostAvatarProps> = ({ postData, postOwner, userId, timeCreated }) => {
   const { setPost } = usePost();
-  const deleteModal = useDeleteModal();
+  const confirmModal = useConfirmModal();
   const postModal = usePostModal();
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,13 +35,13 @@ const PostAvatar: React.FC<PostAvatarProps> = ({ postData, postOwner, userId, ti
       if (state === 'edit') {
         postModal.onOpen(true);
       } else {
-        deleteModal.onOpen();
+        confirmModal.onOpen();
       }
 
       /* set global state of post -> postData */
       setPost(postData);
     },
-    [setPost, postData, postModal, deleteModal]
+    [setPost, postData, postModal, confirmModal]
   );
 
   /* Post Options (View, Edit, Delete) */

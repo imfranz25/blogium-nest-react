@@ -6,9 +6,9 @@ import { IoSend } from 'react-icons/io5';
 import Input from '../Input';
 import usePost from '../../hooks/usePost';
 import useFetch from '../../hooks/useFetch';
-import { CommentButton, Divider } from '../Post/styles';
 import { httpMethod } from '../../constants';
 import { CommentDetail } from '../../types/formTypes';
+import { CommentButton, Divider } from '../Post/styles';
 import { requiredField } from '../../utils/inputValidators';
 
 interface CommentProps {

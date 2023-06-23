@@ -1,9 +1,10 @@
+import { Dropdown, Row } from 'antd';
+import { toast } from 'react-hot-toast';
 import React, { useCallback } from 'react';
+import { FaEllipsisH } from 'react-icons/fa';
 import { formatDistanceToNow } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
-import { SafePostUser } from '../../types';
-import { AvatarContainer } from '../Post/styles';
 import {
   CommentText,
   CommentContainer,
@@ -13,15 +14,15 @@ import {
   CommentDivider,
   StyledAvatar,
   AvatarText,
+  CommentAction,
 } from './styles';
-import { Dropdown, Row } from 'antd';
+import Loader from '../Loader';
+import usePost from '../../hooks/usePost';
 import useAuth from '../../hooks/useAuth';
-import { FaEllipsisH } from 'react-icons/fa';
+import { SafePostUser } from '../../types';
 import useFetch from '../../hooks/useFetch';
 import { httpMethod } from '../../constants';
-import { toast } from 'react-hot-toast';
-import usePost from '../../hooks/usePost';
-import Loader from '../Loader';
+import { AvatarContainer } from '../Post/styles';
 
 interface CommentCardProps {
   id: string;
@@ -77,18 +78,25 @@ const CommentCard: React.FC<CommentCardProps> = ({ id, postId, user, comment, ti
         </UserContainer>
 
         {isOwnComment && (
-          <Dropdown
-            menu={{
-              items: [
-                { key: `delete=${id}`, label: 'Delete', danger: true, onClick: onDeleteComment },
-              ],
-            }}
-            placement="bottomLeft"
-          >
-            <Row>
-              <FaEllipsisH />
-            </Row>
-          </Dropdown>
+          <CommentAction>
+            <Dropdown
+              placement="bottomLeft"
+              menu={{
+                items: [
+                  {
+                    key: `delete=${id}`,
+                    label: 'Delete',
+                    danger: true,
+                    onClick: onDeleteComment,
+                  },
+                ],
+              }}
+            >
+              <Row>
+                <FaEllipsisH />
+              </Row>
+            </Dropdown>
+          </CommentAction>
         )}
       </AvatarContainer>
 

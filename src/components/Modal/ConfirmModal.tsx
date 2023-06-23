@@ -6,9 +6,13 @@ import Modal from '.';
 import usePost from '../../hooks/usePost';
 import useFetch from '../../hooks/useFetch';
 import { httpMethod } from '../../constants';
-import useDeleteModal from '../../hooks/useDeleteModal';
+import useDeleteModal from '../../hooks/useConfirmModal';
 
-const PostForm = () => {
+interface ConfirmModalProps {
+  title?: string;
+}
+
+const ConfirmModal: React.FC<ConfirmModalProps> = ({ title = 'Confirm' }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const deleteModal = useDeleteModal();
@@ -48,7 +52,7 @@ const PostForm = () => {
   return (
     <>
       <Modal
-        title={`Are you sure you want to delete this post?`}
+        title={title}
         isOpen={deleteModal.isOpen}
         onCancel={onCancel}
         isLoading={isLoading}
@@ -61,4 +65,4 @@ const PostForm = () => {
   );
 };
 
-export default PostForm;
+export default ConfirmModal;
