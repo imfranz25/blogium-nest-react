@@ -8,11 +8,7 @@ import useFetch from '../../hooks/useFetch';
 import { httpMethod } from '../../constants';
 import useDeleteModal from '../../hooks/useConfirmModal';
 
-interface ConfirmModalProps {
-  title?: string;
-}
-
-const ConfirmModal: React.FC<ConfirmModalProps> = ({ title = 'Confirm' }) => {
+const ConfirmModal = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const deleteModal = useDeleteModal();
@@ -52,7 +48,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ title = 'Confirm' }) => {
   return (
     <>
       <Modal
-        title={title}
+        title={`Are you sure you want to delete this post?`}
         isOpen={deleteModal.isOpen}
         onCancel={onCancel}
         isLoading={isLoading}
