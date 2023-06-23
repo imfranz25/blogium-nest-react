@@ -1,7 +1,7 @@
 import { Button, Col, Layout, Row, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
-import Navbar from '../../components/Navbar';
+// import Navbar from '../../components/Navbar';
 import { Content, Section, Title } from './styles';
 
 const PageNotFound = () => {
@@ -9,7 +9,7 @@ const PageNotFound = () => {
 
   return (
     <Layout>
-      <Navbar />
+      {/* <Navbar /> */}
       <Content justify="space-around" align="middle" style={{}}>
         <Col span={16}>
           <Row justify="center">
