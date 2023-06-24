@@ -15,12 +15,13 @@ import { PostCard, Paragraph, PostButton, Divider } from './styles';
 
 interface PostProps {
   postData: SafePost;
+  showComment?: boolean;
 }
 
-const Post: React.FC<PostProps> = ({ postData }) => {
+const Post: React.FC<PostProps> = ({ postData, showComment = false }) => {
   const { user: userData } = useAuth();
   const { updateLikePost } = usePost();
-  const [isShowComment, setShowComment] = useState(false);
+  const [isShowComment, setShowComment] = useState(showComment);
   const { id, post, createdAt, Like: likes, Comment: comments, User: postOwner } = postData;
 
   const { isLoading, refetch: likeToggler } = useFetch({

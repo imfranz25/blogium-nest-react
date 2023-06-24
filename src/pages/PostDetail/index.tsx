@@ -27,7 +27,11 @@ const PostDetailsPage = () => {
   return (
     <Row justify="space-around">
       <Col span={16}>
-        {postData ? <Post postData={postData} /> : <EmptyState label="Post not found" />}
+        {postData ? (
+          <Post postData={postData} showComment />
+        ) : (
+          <EmptyState label="Post not found" />
+        )}
       </Col>
     </Row>
   );
