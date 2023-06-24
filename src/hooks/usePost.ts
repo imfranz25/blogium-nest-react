@@ -2,12 +2,12 @@ import { create } from 'zustand';
 import { SafePost, SafePostComment, SafeLikePost } from '../types';
 
 interface PostStore {
-  post: SafePost | null;
   posts: SafePost[];
+  post: SafePost | null;
   setPost: (post: SafePost) => void;
   addPost: (post: SafePost) => void;
-  setPosts: (posts: SafePost[]) => void;
   removePost: (postId: string) => void;
+  setPosts: (posts: SafePost[]) => void;
   updatePost: (postId: string, post: string) => void;
   removeComment: (postId: string, commentId: string) => void;
   addComment: (postId: string, comment: SafePostComment) => void;

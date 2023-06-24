@@ -57,10 +57,10 @@ const useAuth = create<AuthStore>((set, get) => {
 
   return {
     token,
-    user: token ? registerSession(token) : null,
-    registerSession,
     clearSession,
     sessionGuard,
+    registerSession,
+    user: token ? registerSession(token) : null,
   };
 });
 
