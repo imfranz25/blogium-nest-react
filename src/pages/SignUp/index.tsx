@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { toast } from 'react-hot-toast';
+import { Form, Row, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { IoCreateOutline } from 'react-icons/io5';
-import { Form, Row, Typography } from 'antd';
 
 import useAuth from '../../hooks/useAuth';
 import Input from '../../components/Input';
@@ -12,8 +12,8 @@ import { UserDetails } from '../../types/formTypes';
 import DateInput from '../../components/Input/DateInput';
 import { SignUpWrapper, SignUpCard, Column, ActionWrapper, Button } from './styles';
 import {
-  emailValidator,
   nameValidator,
+  emailValidator,
   passwordValidator,
   confirmPasswordValidator,
 } from '../../utils/inputValidators';
@@ -48,7 +48,8 @@ const SignUpPage = () => {
     async (userDetails: UserDetails) => {
       const signUpResponse = await createUser({ method: httpMethod.POST, data: userDetails });
 
-      if (!signUpResponse) {
+      /* Error -> creating user */
+      if (signUpResponse?.status !== 201) {
         return;
       }
 
@@ -57,11 +58,14 @@ const SignUpPage = () => {
         data: { email: userDetails.email, password: userDetails.password },
       });
 
-      if (logInResponse) {
-        toast.success('Account successfully created');
-        registerSession(logInResponse.data.accessToken);
-        navigate('/feed');
+      /* Error -> creating access token */
+      if (logInResponse?.status !== 201) {
+        return;
       }
+
+      toast.success('Account successfully created');
+      registerSession(logInResponse.data.accessToken);
+      navigate('/feed');
     },
     [registerSession, navigate, createUser, loginUser]
   );
@@ -78,25 +82,25 @@ const SignUpPage = () => {
           <Row>
             <Column xs={24} sm={24} md={12}>
               <Input
-                label="First Name"
                 id="firstName"
+                label="First Name"
                 disabled={isFormLoading}
                 rules={nameValidator('First name')}
               />
             </Column>
             <Column xs={24} sm={24} md={12}>
               <Input
-                label="Last Name"
                 id="lastName"
+                label="Last Name"
                 disabled={isFormLoading}
                 rules={nameValidator('Last name')}
               />
             </Column>
             <Column xs={24} sm={24} md={12}>
               <Input
-                label="Email"
-                type="email"
                 id="email"
+                type="email"
+                label="Email"
                 disabled={isFormLoading}
                 rules={emailValidator}
               />
@@ -106,18 +110,18 @@ const SignUpPage = () => {
             </Column>
             <Column xs={24} sm={24} md={12}>
               <Input
-                label="Password"
                 id="password"
                 type="password"
+                label="Password"
                 disabled={isFormLoading}
                 rules={passwordValidator}
               />
             </Column>
             <Column xs={24} sm={24} md={12}>
               <Input
-                label="Confirm Password"
-                id="confirmPassword"
                 type="password"
+                id="confirmPassword"
+                label="Confirm Password"
                 disabled={isFormLoading}
                 rules={confirmPasswordValidator(form, 'password')}
               />
