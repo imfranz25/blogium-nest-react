@@ -2,17 +2,17 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, Dropdown, MenuProps, Image, Typography } from 'antd';
 
-import useAuth from '../../hooks/useAuth';
-import blogiumLogo from '../../assets/logo.png';
 import {
-  Header,
   Link,
-  BrandContainer,
-  LinkContainer,
-  AvatarContainer,
+  Header,
   UserInfo,
   MenuStyle,
+  LinkContainer,
+  BrandContainer,
+  AvatarContainer,
 } from './styles';
+import useAuth from '../../hooks/useAuth';
+import blogiumLogo from '../../assets/logo.png';
 
 const Navbar = () => {
   const navigate = useNavigate();

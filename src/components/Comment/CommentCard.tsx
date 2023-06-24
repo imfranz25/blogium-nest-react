@@ -6,15 +6,15 @@ import { formatDistanceToNow } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
 import {
-  CommentText,
-  CommentContainer,
-  UserContainer,
   StyledName,
-  StyledTime,
-  CommentDivider,
-  StyledAvatar,
   AvatarText,
+  StyledTime,
+  CommentText,
+  StyledAvatar,
+  UserContainer,
   CommentAction,
+  CommentDivider,
+  CommentContainer,
 } from './styles';
 import Loader from '../Loader';
 import usePost from '../../hooks/usePost';
