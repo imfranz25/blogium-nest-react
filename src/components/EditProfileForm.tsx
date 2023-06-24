@@ -50,7 +50,7 @@ const ProfileForm = () => {
         email: userData.email,
         lastName: userData.lastName,
         firstName: userData.firstName,
-        birthday: dayjs(userData.birthday, 'YYYY/MM/DD'),
+        birthday: dayjs(userData.birthday, 'YYYY/MM/DD').add(1, 'day'),
       });
     }
   }, [userData, userForm]);

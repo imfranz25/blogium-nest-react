@@ -3,9 +3,9 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Post from '../../components/Post';
-import Loader from '../../components/Loader';
-import useFetch from '../../hooks/useFetch';
 import usePost from '../../hooks/usePost';
+import useFetch from '../../hooks/useFetch';
+import Loader from '../../components/Loader';
 import EmptyState from '../../components/EmptyState';
 
 const PostDetailsPage = () => {
