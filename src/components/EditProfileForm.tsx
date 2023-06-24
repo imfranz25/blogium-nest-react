@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import toast from 'react-hot-toast';
-import { useCallback, useEffect } from 'react';
 import { Button, Form, Row } from 'antd';
+import { useCallback, useEffect } from 'react';
 
 import Input from './Input';
 import useAuth from '../hooks/useAuth';
@@ -13,6 +13,7 @@ import FileUploader from './Input/FileUploader';
 import { GenDetails } from '../types/formTypes';
 import { EditCard, Title } from '../pages/EditProfile/styles';
 import { nameValidator, emailValidator } from '../utils/inputValidators';
+import Loader from './Loader';
 
 const ProfileForm = () => {
   const [userForm] = Form.useForm();
@@ -27,18 +28,13 @@ const ProfileForm = () => {
     async (genDetails: GenDetails) => {
       const uploadedProfile = userForm.getFieldValue('profilePicture');
 
-      /**
-       * profile upload is option thus check
-       * if the user upload a profile pic
-       * before appending it to user form details
-       */
       if (uploadedProfile) {
         genDetails.profilePicture = uploadedProfile;
       }
 
       const response = await updateUser({ method: httpMethod.PATCH, data: genDetails });
 
-      if (response) {
+      if (response?.status === 200) {
         userForm.resetFields();
         toast.success('User info updated');
         registerSession(response.data.accessToken);
@@ -50,14 +46,18 @@ const ProfileForm = () => {
   useEffect(() => {
     if (userData) {
       userForm.setFieldsValue({
-        firstName: userData.firstName,
-        lastName: userData.lastName,
-        email: userData.email,
         bio: userData.bio,
+        email: userData.email,
+        lastName: userData.lastName,
+        firstName: userData.firstName,
         birthday: dayjs(userData.birthday, 'YYYY/MM/DD'),
       });
     }
   }, [userData, userForm]);
+
+  if (!userData) {
+    return <Loader />;
+  }
 
   return (
     <EditCard bordered hoverable>
@@ -66,11 +66,11 @@ const ProfileForm = () => {
         <Row>
           <Column xs={24} sm={24} md={12}>
             <FileUploader
-              defaultImg={userData?.profilePicture}
               id="profilePicture"
-              disable={isFormLoading}
               form={userForm}
-              preview={userData?.firstName}
+              disable={isFormLoading}
+              preview={userData.firstName}
+              defaultImg={userData.profilePicture}
             />
           </Column>
           <Column xs={24} sm={24} md={12}>
@@ -78,25 +78,25 @@ const ProfileForm = () => {
           </Column>
           <Column xs={24} sm={24} md={12}>
             <Input
-              label="First Name"
               id="firstName"
+              label="First Name"
               disabled={isFormLoading}
               rules={nameValidator('First name')}
             />
           </Column>
           <Column xs={24} sm={24} md={12}>
             <Input
-              label="Last Name"
               id="lastName"
+              label="Last Name"
               disabled={isFormLoading}
               rules={nameValidator('Last name')}
             />
           </Column>
           <Column xs={24} sm={24} md={12}>
             <Input
-              label="Email"
-              type="email"
               id="email"
+              type="email"
+              label="Email"
               disabled={isFormLoading}
               rules={emailValidator}
             />
