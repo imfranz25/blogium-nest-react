@@ -9,27 +9,26 @@ async function main() {
   const deleteAll = await prisma.user.deleteMany();
 
   if (!deleteAll) {
+    console.log('Something went wrong');
     return;
   }
 
   console.log({ deleteAll });
 
-  const firstName = faker.person.firstName();
-  const hashedPassword = await bcrypt.hash('Stratpoint123!', 12);
-  const accountOne = await prisma.user.create({
+  const myAccount = await prisma.user.create({
     data: {
-      firstName,
-      hashedPassword,
-      lastName: faker.person.lastName(),
-      email: `${firstName}@gmail.com`,
-      birthday: new Date().toISOString(),
+      firstName: 'Francis',
+      lastName: 'Ong',
+      email: `francis@gmail.com`,
+      birthday: new Date('2000-05-13').toISOString(),
       bio: faker.person.bio(),
+      hashedPassword: await bcrypt.hash('Stratpoint123!', 12),
       profilePicture:
         'http://res.cloudinary.com/dttmkct48/image/upload/v1687425856/wmhhojx6pmxkcdqb4k0r.jpg',
     },
   });
 
-  console.log({ accountOne });
+  console.log({ myAccount });
 }
 
 main()
