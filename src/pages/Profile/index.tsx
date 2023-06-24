@@ -13,6 +13,7 @@ import PostHeader from '../../components/PostHeader';
 import EmptyState from '../../components/EmptyState';
 import { StyledAvatar } from '../../components/Comment/styles';
 import { ProfileContainer, NameLogo, UserContainer, EditContainer, UserRow } from './styles';
+import { Divider } from '../../components/Post/styles';
 
 const ProfilePage = () => {
   const params = useParams();
@@ -76,7 +77,10 @@ const ProfilePage = () => {
                 ))}
               </>
             ) : (
-              <EmptyState label="No posts found" />
+              <>
+                <Divider />
+                <EmptyState label="No posts found" />
+              </>
             )}
           </>
         ) : (

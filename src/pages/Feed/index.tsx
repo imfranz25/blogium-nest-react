@@ -6,6 +6,8 @@ import usePost from '../../hooks/usePost';
 import useFetch from '../../hooks/useFetch';
 import Loader from '../../components/Loader';
 import PostHeader from '../../components/PostHeader';
+import EmptyState from '../../components/EmptyState';
+import { Divider } from '../../components/Post/styles';
 
 const FeedPage = () => {
   const { posts, setPosts } = usePost();
@@ -25,9 +27,18 @@ const FeedPage = () => {
     <Row justify="space-around">
       <Col span={16}>
         <PostHeader label="Feed" />
-        {posts.map((post) => (
-          <Post key={post.id} postData={post} />
-        ))}
+        {posts.length > 0 ? (
+          <>
+            {posts.map((post) => (
+              <Post key={post.id} postData={post} />
+            ))}
+          </>
+        ) : (
+          <>
+            <Divider />
+            <EmptyState label="No posts found" />
+          </>
+        )}
       </Col>
     </Row>
   );
