@@ -1,5 +1,5 @@
-import { Form, FormInstance } from 'antd';
 import { toast } from 'react-hot-toast';
+import { Form, FormInstance } from 'antd';
 import { useCallback, useEffect, useRef } from 'react';
 
 import Modal from '.';
@@ -12,9 +12,9 @@ import usePostModal from '../../hooks/usePostModal';
 import { requiredField } from '../../utils/inputValidators';
 
 const PostForm = () => {
-  const { addPost, updatePost, post } = usePost();
   const [form] = Form.useForm();
   const postModal = usePostModal();
+  const { addPost, updatePost, post } = usePost();
   const formRef = useRef<FormInstance<PostDetail>>(null);
 
   const { refetch: managePost, isLoading } = useFetch({
@@ -51,20 +51,16 @@ const PostForm = () => {
     [form, managePost, addPost, postModal, updatePost, post]
   );
 
-  /**
-   * Don't let the user close the modal while submitting
-   * Also, clear the post field after closing the modal
-   */
+  /* Don't let the user close the modal while submitting */
   const onCancel = () => {
     if (isLoading) return;
 
     postModal.onClose();
-    // form.setFieldsValue({ post: '' });
   };
 
   /**
    * If the form is flagged for post edit
-   * then set the initial post value to specified edit post
+   * then set the initial post value to target post
    */
   useEffect(() => {
     if (formRef.current) {
@@ -75,18 +71,18 @@ const PostForm = () => {
   return (
     <>
       <Modal
-        title={`${postModal.isEdit ? 'Edit' : 'Create'} post`}
-        isOpen={postModal.isOpen}
-        onCancel={onCancel}
-        isLoading={isLoading}
         closable={false}
         onOk={form.submit}
+        onCancel={onCancel}
+        isLoading={isLoading}
+        isOpen={postModal.isOpen}
+        title={`${postModal.isEdit ? 'Edit' : 'Create'} post`}
       >
         <Form onFinish={onPostSubmit} form={form} ref={formRef}>
           <Input
-            type="textarea"
-            label="Post"
             id="post"
+            label="Post"
+            type="textarea"
             disabled={isLoading}
             rules={requiredField('Post')}
           />

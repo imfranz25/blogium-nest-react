@@ -3,11 +3,11 @@ import { Modal as AntdModal } from 'antd';
 interface ModalProps {
   title?: string;
   isOpen: boolean;
-  isLoading: boolean;
-  onCancel: () => void;
-  closable?: boolean;
-  children?: React.ReactNode;
   onOk?: () => void;
+  isLoading: boolean;
+  closable?: boolean;
+  onCancel: () => void;
+  children?: React.ReactNode;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -21,12 +21,12 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   return (
     <AntdModal
-      title={title}
+      onOk={onOk}
       open={isOpen}
-      confirmLoading={isLoading}
+      title={title}
       onCancel={onCancel}
       closable={closable}
-      onOk={onOk}
+      confirmLoading={isLoading}
     >
       {children}
     </AntdModal>

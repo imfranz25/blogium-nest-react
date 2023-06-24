@@ -20,9 +20,10 @@ const ConfirmModal = () => {
   });
 
   const onDeletePost = useCallback(async () => {
-    const resData = await deletePost({ method: httpMethod.DELETE });
+    const response = await deletePost({ method: httpMethod.DELETE });
 
-    if (!resData || !post) {
+    /* Post deletion failed */
+    if (response?.status !== 200 || !post) {
       return;
     }
 
@@ -48,14 +49,14 @@ const ConfirmModal = () => {
   return (
     <>
       <Modal
-        title={`Are you sure you want to delete this post?`}
-        isOpen={deleteModal.isOpen}
-        onCancel={onCancel}
-        isLoading={isLoading}
         closable={false}
+        onCancel={onCancel}
         onOk={onDeletePost}
+        isLoading={isLoading}
+        isOpen={deleteModal.isOpen}
+        title={`Are you sure you want to delete this post?`}
       >
-        {post?.post}
+        {post && post.post}
       </Modal>
     </>
   );
