@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { toast } from 'react-hot-toast';
-import { AiOutlineLogin } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
+import { AiOutlineLogin } from 'react-icons/ai';
 import { Button, Form, Row, Typography, Image } from 'antd';
 
 import useAuth from '../../hooks/useAuth';
@@ -10,14 +10,14 @@ import useFetch from '../../hooks/useFetch';
 import { httpMethod } from '../../constants';
 import blogiumLogo from '../../assets/logo.png';
 import { Credentials } from '../../types/formTypes';
+import { Button as StyledButton } from '../SignUp/styles';
 import { BrandContainer } from '../../components/Navbar/styles';
 import { LoginWrapper, LoginCard, ActionWrapper } from './styles';
-import { Button as StyledButton } from '../SignUp/styles';
 import { requiredField, emailValidator } from '../../utils/inputValidators';
 
 const LoginPage = () => {
-  const { registerSession } = useAuth();
   const navigate = useNavigate();
+  const { registerSession } = useAuth();
 
   const { isLoading, refetch: loginUser } = useFetch({
     endpoint: '/auth/login',
@@ -35,7 +35,8 @@ const LoginPage = () => {
     async (credentials: Credentials) => {
       const response = await loginUser({ method: httpMethod.POST, data: credentials });
 
-      if (response) {
+      /* Access token created */
+      if (response?.status === 201) {
         toast.success('Logged in');
         registerSession(response.data.accessToken);
         navigate('/feed');
@@ -55,16 +56,16 @@ const LoginPage = () => {
         </Row>
         <Form onFinish={onLogin}>
           <Input
-            label="Email"
-            type="email"
             id="email"
+            type="email"
+            label="Email"
             disabled={isLoading}
             rules={emailValidator}
           />
           <Input
-            label="Password"
             id="password"
             type="password"
+            label="Password"
             disabled={isLoading}
             rules={requiredField('Password')}
           />
@@ -72,9 +73,9 @@ const LoginPage = () => {
             <Button
               size="large"
               type="primary"
-              icon={<AiOutlineLogin />}
-              loading={isLoading}
               htmlType="submit"
+              loading={isLoading}
+              icon={<AiOutlineLogin />}
             >
               Login
             </Button>

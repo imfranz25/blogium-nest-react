@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import { Col, Row, Typography, Button } from 'antd';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import Post from '../../components/Post';
 import useAuth from '../../hooks/useAuth';
@@ -11,9 +11,9 @@ import Loader from '../../components/Loader';
 import { SafeUserProfile } from '../../types';
 import PostHeader from '../../components/PostHeader';
 import EmptyState from '../../components/EmptyState';
+import { Divider } from '../../components/Post/styles';
 import { StyledAvatar } from '../../components/Comment/styles';
 import { ProfileContainer, NameLogo, UserContainer, EditContainer, UserRow } from './styles';
-import { Divider } from '../../components/Post/styles';
 
 const ProfilePage = () => {
   const params = useParams();

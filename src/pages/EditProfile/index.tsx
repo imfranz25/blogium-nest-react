@@ -1,8 +1,8 @@
 import { Col, Row } from 'antd';
 
+import { Title } from './styles';
 import ChangePasswordForm from '../../components/PasswordForm';
 import EditProfileForm from '../../components/EditProfileForm';
-import { Title } from './styles';
 
 const EditProfilePage = () => {
   return (

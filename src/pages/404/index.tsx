@@ -1,5 +1,5 @@
-import { Button, Col, Layout, Row, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { Button, Col, Layout, Row, Typography } from 'antd';
 
 // import Navbar from '../../components/Navbar';
 import { Content, Section, Title } from './styles';
