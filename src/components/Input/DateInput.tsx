@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
 import React, { useCallback } from 'react';
+import { format, subYears } from 'date-fns';
 
 import { FormItem, DatePicker } from './styles';
-import { requiredField } from '../../utils/inputValidators';
 import { FormLabelAlign } from 'antd/es/form/interface';
-import { format, subYears } from 'date-fns';
+import { requiredField } from '../../utils/inputValidators';
 
 interface DatePickerProps {
   id: string;
@@ -37,9 +37,9 @@ const DateInput: React.FC<DatePickerProps> = ({ label, id, disabled, required = 
       <DatePicker
         format="YYYY/MM/DD"
         disabled={disabled}
+        placement="bottomRight"
         disabledDate={disabledDate}
         defaultPickerValue={dayjs('2000')}
-        placement="bottomRight"
       />
     </FormItem>
   );

@@ -1,26 +1,27 @@
-import toast from 'react-hot-toast';
 import { useState } from 'react';
 import { Upload, Row } from 'antd';
+import toast from 'react-hot-toast';
 import { BsUpload } from 'react-icons/bs';
 
 import { FormInstance } from 'antd/es/form';
+import { validImgFormats } from '../../constants';
 import { AvatarPreview, Avatar, UploadButton } from './styles';
 import { RcFile, UploadChangeParam, UploadFile, UploadProps } from 'antd/es/upload';
 
 interface FileUploaderProps {
   id: string;
-  disable?: boolean;
-  defaultImg?: string;
-  form: FormInstance;
   preview?: string;
+  disable?: boolean;
+  form: FormInstance;
+  defaultImg?: string;
 }
 
 const FileUploader: React.FC<FileUploaderProps> = ({
   form,
   id,
+  preview = '?',
   defaultImg = '',
   disable = false,
-  preview = '?',
 }) => {
   const [imageUrl, setImageUrl] = useState<string>(defaultImg);
 
@@ -31,20 +32,20 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   };
 
   const beforeUpload = (file: RcFile) => {
-    const isJpgOrPng =
-      file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg';
+    const isLt2M = file.size / 1024 / 1024 < 2; // 2MB
+    const isValidImg = validImgFormats.includes(file.type);
 
-    if (!isJpgOrPng) {
+    if (!isValidImg) {
       toast.error('You can only upload JPG/PNG file!');
+      return false;
     }
-
-    const isLt2M = file.size / 1024 / 1024 < 2;
 
     if (!isLt2M) {
       toast.error('Image must be smaller than 2MB!');
+      return false;
     }
 
-    return isJpgOrPng && isLt2M;
+    return isValidImg && isLt2M;
   };
 
   const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
@@ -70,17 +71,17 @@ const FileUploader: React.FC<FileUploaderProps> = ({
       </AvatarPreview>
       <Row justify="center">
         <Upload
+          maxCount={1}
           listType="picture"
-          accept="image/png, image/jpeg, image/jpg"
-          className="avatar-uploader"
           showUploadList={false}
           disabled={disable}
-          maxCount={1}
-          beforeUpload={beforeUpload}
           onChange={handleChange}
+          className="avatar-uploader"
+          beforeUpload={beforeUpload}
           customRequest={() => false}
+          accept="image/png, image/jpeg, image/jpg"
         >
-          <UploadButton style={{ marginTop: '15px' }} disabled={disable} icon={<BsUpload />}>
+          <UploadButton disabled={disable} icon={<BsUpload />}>
             Upload
           </UploadButton>
         </Upload>

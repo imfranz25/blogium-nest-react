@@ -1,18 +1,19 @@
 import React from 'react';
 import { Input as AntdInput } from 'antd';
-import { FormLabelAlign } from 'antd/es/form/interface';
+
 import { FormItem } from './styles';
 import { RuleObject } from 'antd/es/form';
+import { FormLabelAlign } from 'antd/es/form/interface';
 
 interface InputProps {
   id: string;
   label?: string;
   disabled?: boolean;
+  rules?: RuleObject[];
   placeholder?: string;
   autoComplete?: string;
   suffix?: React.ReactNode;
   type?: 'password' | 'textarea' | 'email';
-  rules?: RuleObject[];
 }
 
 const ignoreLabel = ['Comment', 'Post'];
@@ -21,15 +22,15 @@ const Input: React.FC<InputProps> = ({
   id,
   suffix,
   label,
-  type = 'text',
   rules = [],
+  type = 'text',
   placeholder = '',
   autoComplete = 'off',
   disabled = false,
 }) => {
   let InputComponent;
   const inputCol = { span: 24 };
-  const labelText = !ignoreLabel.includes(label || '') ? label : null;
+  const labelText = !ignoreLabel.includes(label ?? '') ? label : null;
 
   switch (type) {
     case 'password':
@@ -45,20 +46,21 @@ const Input: React.FC<InputProps> = ({
   return (
     <FormItem
       name={id}
+      rules={rules}
       label={labelText}
       labelCol={inputCol}
       wrapperCol={inputCol}
       labelAlign={'top' as FormLabelAlign}
-      rules={rules}
     >
       <InputComponent
         id={id}
+        rows={9}
         type={type}
         suffix={suffix}
         disabled={disabled}
         placeholder={placeholder}
         autoComplete={autoComplete}
-        rows={8}
+        style={{ resize: 'none' }}
       />
     </FormItem>
   );

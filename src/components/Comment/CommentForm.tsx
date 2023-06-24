@@ -16,8 +16,8 @@ interface CommentProps {
 }
 
 const Comment: React.FC<CommentProps> = ({ postId }) => {
-  const { addComment } = usePost();
   const [form] = Form.useForm();
+  const { addComment } = usePost();
 
   const { isLoading, refetch: createComment } = useFetch({
     endpoint: `/post/comment`,
@@ -26,13 +26,13 @@ const Comment: React.FC<CommentProps> = ({ postId }) => {
 
   const onSubmitComment = useCallback(
     async (comment: CommentDetail) => {
-      const resData = await createComment({
+      const response = await createComment({
         method: httpMethod.POST,
         data: { ...comment, postId },
       });
 
-      if (resData) {
-        addComment(postId, resData.data);
+      if (response?.status === 201) {
+        addComment(postId, response.data);
         form.resetFields();
         toast.success('Comment successfully added');
       }

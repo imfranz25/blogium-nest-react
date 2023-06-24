@@ -1,8 +1,17 @@
-import { Form, DatePicker as AntdDatePicker, Row, Avatar as AntdAvatar, Button } from 'antd';
 import styled from 'styled-components';
+import { Form, Button, Row, DatePicker as AntdDatePicker, Avatar as AntdAvatar } from 'antd';
+
+export const DatePicker = styled(AntdDatePicker)`
+  width: 100%;
+`;
 
 export const InputWrapper = styled.div`
   margin-bottom: 3px;
+`;
+
+export const AvatarPreview = styled(Row)`
+  width: 100%;
+  margin-top: 25px;
 `;
 
 export const FormItem = styled(Form.Item)`
@@ -13,15 +22,6 @@ export const FormItem = styled(Form.Item)`
   .ant-form-item-explain {
     font-size: 12px;
   }
-`;
-
-export const DatePicker = styled(AntdDatePicker)`
-  width: 100%;
-`;
-
-export const AvatarPreview = styled(Row)`
-  width: 100%;
-  margin-top: 25px;
 `;
 
 export const Avatar = styled(AntdAvatar)`

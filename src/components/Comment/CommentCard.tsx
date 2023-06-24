@@ -27,15 +27,15 @@ import { AvatarContainer } from '../Post/styles';
 interface CommentCardProps {
   id: string;
   postId: string;
-  user: SafePostUser;
   comment: string;
+  user: SafePostUser;
   timeCreated: string;
 }
 
 const CommentCard: React.FC<CommentCardProps> = ({ id, postId, user, comment, timeCreated }) => {
+  const navigate = useNavigate();
   const { user: userData } = useAuth();
   const { removeComment } = usePost();
-  const navigate = useNavigate();
   const isOwnComment = userData?.userId === user.id;
 
   const { refetch: deleteComment, isLoading } = useFetch({
