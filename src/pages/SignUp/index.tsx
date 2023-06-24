@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
-import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { IoCreateOutline } from 'react-icons/io5';
-import { Button, Form, Row, Typography } from 'antd';
+import { Form, Row, Typography } from 'antd';
 
 import useAuth from '../../hooks/useAuth';
 import Input from '../../components/Input';
@@ -11,13 +10,14 @@ import useFetch from '../../hooks/useFetch';
 import { httpMethod } from '../../constants';
 import { UserDetails } from '../../types/formTypes';
 import DateInput from '../../components/Input/DateInput';
-import { SignUpWrapper, SignUpCard, Column, ActionWrapper } from './styles';
+import { SignUpWrapper, SignUpCard, Column, ActionWrapper, Button } from './styles';
 import {
   emailValidator,
   nameValidator,
   passwordValidator,
   confirmPasswordValidator,
 } from '../../utils/inputValidators';
+import { Title } from '../EditProfile/styles';
 
 const SignUpPage = () => {
   const [form] = Form.useForm();
@@ -37,6 +37,12 @@ const SignUpPage = () => {
   });
 
   const isFormLoading = signUpLoading || logInLoading;
+
+  const navigateToLogin = useCallback(() => {
+    if (isFormLoading) return;
+
+    navigate('/');
+  }, [isFormLoading, navigate]);
 
   const onSignUp = useCallback(
     async (userDetails: UserDetails) => {
@@ -64,7 +70,9 @@ const SignUpPage = () => {
     <SignUpWrapper>
       <SignUpCard bordered hoverable>
         <Row justify="center">
-          <Typography.Title level={2}>Create an account</Typography.Title>
+          <Title level={2} style={{ marginBottom: '40px' }}>
+            Create an account
+          </Title>
         </Row>
         <Form onFinish={onSignUp} form={form}>
           <Row>
@@ -130,7 +138,10 @@ const SignUpPage = () => {
 
         <Row justify="center">
           <Typography.Paragraph>
-            Already have an account? <Link to="/">Login</Link>
+            Already have an account?
+            <Button type="link" onClick={navigateToLogin}>
+              Login
+            </Button>
           </Typography.Paragraph>
         </Row>
       </SignUpCard>

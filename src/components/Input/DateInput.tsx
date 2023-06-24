@@ -39,6 +39,7 @@ const DateInput: React.FC<DatePickerProps> = ({ label, id, disabled, required = 
         disabled={disabled}
         disabledDate={disabledDate}
         defaultPickerValue={dayjs('2000')}
+        placement="bottomRight"
       />
     </FormItem>
   );

@@ -1,12 +1,11 @@
-import { Card, Col as AntdCol } from 'antd';
+import { Card, Col as AntdCol, Button as AntdButton } from 'antd';
 import styled from 'styled-components';
 
 export const SignUpWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  padding-top: 20px;
+  padding: 50px 0px 100px 0px;
   background-color: #f9fafb;
 `;
 
@@ -28,4 +27,9 @@ export const ActionWrapper = styled.div`
   .ant-btn {
     width: 100%;
   }
+`;
+
+export const Button = styled(AntdButton)`
+  margin: 0 5px;
+  padding: 0;
 `;

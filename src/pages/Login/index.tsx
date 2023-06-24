@@ -1,15 +1,18 @@
 import { useCallback } from 'react';
 import { toast } from 'react-hot-toast';
 import { AiOutlineLogin } from 'react-icons/ai';
-import { Button, Form, Row, Typography } from 'antd';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Button, Form, Row, Typography, Image } from 'antd';
 
 import useAuth from '../../hooks/useAuth';
 import Input from '../../components/Input';
 import useFetch from '../../hooks/useFetch';
 import { httpMethod } from '../../constants';
+import blogiumLogo from '../../assets/logo.png';
 import { Credentials } from '../../types/formTypes';
+import { BrandContainer } from '../../components/Navbar/styles';
 import { LoginWrapper, LoginCard, ActionWrapper } from './styles';
+import { Button as StyledButton } from '../SignUp/styles';
 import { requiredField, emailValidator } from '../../utils/inputValidators';
 
 const LoginPage = () => {
@@ -21,6 +24,12 @@ const LoginPage = () => {
     skipInitialInvocation: true,
     includeToken: false,
   });
+
+  const navigateToSignUp = useCallback(() => {
+    if (isLoading) return;
+
+    navigate('/sign-up');
+  }, [isLoading, navigate]);
 
   const onLogin = useCallback(
     async (credentials: Credentials) => {
@@ -38,8 +47,11 @@ const LoginPage = () => {
   return (
     <LoginWrapper>
       <LoginCard bordered hoverable>
-        <Row justify="center">
-          <Typography.Title level={3}>Welcome back!</Typography.Title>
+        <Row justify="center" style={{ margin: '20px 0' }}>
+          <BrandContainer>
+            <Image alt="Blogium" width={52} preview={false} src={blogiumLogo} />
+            <Typography.Text>Blogium</Typography.Text>
+          </BrandContainer>
         </Row>
         <Form onFinish={onLogin}>
           <Input
@@ -70,7 +82,10 @@ const LoginPage = () => {
         </Form>
         <Row justify="center">
           <Typography.Paragraph>
-            Don&apos;t have an account? <Link to="/sign-up">Sign up</Link>
+            Don&apos;t have an account?
+            <StyledButton type="link" onClick={navigateToSignUp}>
+              Sign up
+            </StyledButton>
           </Typography.Paragraph>
         </Row>
       </LoginCard>
