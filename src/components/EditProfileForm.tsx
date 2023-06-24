@@ -97,8 +97,8 @@ const ProfileForm = () => {
               id="email"
               type="email"
               label="Email"
-              disabled={isFormLoading}
               rules={emailValidator}
+              disabled={isFormLoading}
             />
           </Column>
           <Column xs={24} sm={24} md={12}>

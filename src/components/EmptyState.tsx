@@ -1,3 +1,4 @@
+import React from 'react';
 import { Row, Typography } from 'antd';
 
 interface EmptyStateProps {

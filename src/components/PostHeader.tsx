@@ -1,3 +1,4 @@
+import React from 'react';
 import { Button, Row, Typography } from 'antd';
 import usePostModal from '../hooks/usePostModal';
 
@@ -23,4 +24,6 @@ const PostHeader: React.FC<PostHeaderProps> = ({ label, isOWnProfile = true }) =
   );
 };
 
-export default PostHeader;
+const MemoizedPostHeader = React.memo(PostHeader);
+
+export default MemoizedPostHeader;

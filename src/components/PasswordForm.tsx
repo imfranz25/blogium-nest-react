@@ -2,18 +2,19 @@ import toast from 'react-hot-toast';
 import { useCallback } from 'react';
 import { Button, Form, Row } from 'antd';
 
+import {
+  requiredField,
+  passwordValidator,
+  confirmPasswordValidator,
+} from '../utils/inputValidators';
 import Input from './Input';
+import Loader from './Loader';
 import useAuth from '../hooks/useAuth';
 import useFetch from '../hooks/useFetch';
 import { httpMethod } from '../constants';
 import { Column } from '../pages/SignUp/styles';
 import { PassDetails } from '../types/formTypes';
 import { EditCard, Title } from '../pages/EditProfile/styles';
-import {
-  requiredField,
-  passwordValidator,
-  confirmPasswordValidator,
-} from '../utils/inputValidators';
 
 const ChangePasswordForm = () => {
   const [passForm] = Form.useForm();
@@ -36,6 +37,10 @@ const ChangePasswordForm = () => {
     [updatePassword, passForm]
   );
 
+  if (!userData) {
+    return <Loader />;
+  }
+
   return (
     <EditCard bordered hoverable>
       <Title level={2}>Security Information</Title>
@@ -44,17 +49,17 @@ const ChangePasswordForm = () => {
           <Column xs={24} sm={24} md={12}>
             <Input
               type="password"
-              label="New Password"
               id="newPassword"
-              disabled={isFormPassLoading}
+              label="New Password"
               rules={passwordValidator}
+              disabled={isFormPassLoading}
             />
           </Column>
           <Column xs={24} sm={24} md={12}>
             <Input
               type="password"
-              label="Confirm New Password"
               id="confirmNewPassword"
+              label="Confirm New Password"
               disabled={isFormPassLoading}
               rules={confirmPasswordValidator(passForm, 'newPassword')}
             />
@@ -62,8 +67,8 @@ const ChangePasswordForm = () => {
           <Column xs={24} sm={24} md={12}>
             <Input
               type="password"
-              label="Old Password"
               id="oldPassword"
+              label="Old Password"
               disabled={isFormPassLoading}
               rules={requiredField('Old password')}
             />
