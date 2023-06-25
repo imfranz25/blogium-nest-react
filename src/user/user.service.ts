@@ -5,6 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import validator from 'validator';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -34,7 +35,11 @@ export class UserService {
 
     try {
       return await this.prisma.user.create({
-        data: { ...newUser, hashedPassword, birthday: new Date(birthday) },
+        data: {
+          ...newUser,
+          hashedPassword,
+          birthday: new Date(birthday),
+        },
       });
     } catch (error) {
       console.log(error);

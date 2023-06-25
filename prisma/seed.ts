@@ -102,7 +102,7 @@ const createRandomUsers = async (userCount = 3, ownId) => {
       data: {
         firstName: firstName,
         lastName: faker.person.lastName(),
-        email: `${firstName}@gmail.com`,
+        email: `${firstName.toLowerCase()}@gmail.com`,
         hashedPassword: await bcrypt.hash('Stratpoint123!', 12),
         bio: faker.person.bio(),
         birthday: new Date('2000-05-13').toISOString(),

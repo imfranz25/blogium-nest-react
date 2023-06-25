@@ -6,6 +6,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import validator from 'validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 
@@ -30,7 +31,11 @@ export class CreateUserDto {
 
   @ApiProperty({ example: 'juandelacruz@gmail.com' })
   @IsString({ message: 'Invalid email format' })
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }) =>
+    validator.normalizeEmail(value.trim(), {
+      gmail_remove_dots: false,
+    }),
+  )
   @IsEmail({}, { message: 'Invalid email format' })
   email: string;
 
