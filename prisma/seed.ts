@@ -10,8 +10,7 @@ const profilePictures = [
   'https://res.cloudinary.com/dttmkct48/image/upload/v1687412284/o6lt7aibklk6hjhihusw.jpg',
 ];
 
-async function main() {
-  /* ----------------------------Clean up database-------------------------- */
+const databaseCleanUp = async () => {
   const deleteAll = await prisma.user.deleteMany();
 
   if (!deleteAll) {
@@ -20,8 +19,9 @@ async function main() {
   }
 
   console.log({ deleteAll });
+};
 
-  /* ----------------------------Create own account-------------------------- */
+const createOwnAccount = async () => {
   const myAccount = await prisma.user.create({
     data: {
       firstName: 'Francis',
@@ -39,12 +39,62 @@ async function main() {
     console.log(`Something went wrong ~ myAccount`);
     return;
   }
+  console.log('My account ~ created');
 
-  console.log('My account created');
+  return myAccount.id;
+};
 
-  /* ----------------------------Create random users-------------------------- */
-  const userCount = 3;
+const createPost = async (userId: string) => {
+  const post = await prisma.post.create({
+    data: {
+      userId: userId,
+      post: faker.lorem.paragraph(),
+    },
+  });
 
+  if (!post) {
+    console.log(`Something went wrong while creating post for user ${userId}`);
+  }
+
+  console.log(`Created post ${post.id} for user ${userId}`);
+
+  return post.id;
+};
+
+const likePost = async (userId: string, postId: string) => {
+  const like = await prisma.like.create({
+    data: {
+      postId: postId,
+      userId: userId,
+    },
+  });
+
+  if (!like) {
+    console.log(`Something went wrong while creating like for post ${postId}`);
+  }
+
+  console.log(`Created like ${like.id} for post ${postId}`);
+};
+
+const addComment = async (userId: string, postId: string) => {
+  const comment = await prisma.comment.create({
+    data: {
+      postId: postId,
+      userId: userId,
+      comment: faker.lorem.paragraph(),
+    },
+  });
+
+  if (!comment) {
+    console.log(
+      `Something went wrong while adding a comment for post ${postId}`,
+    );
+  }
+
+  console.log(`Added comment ${comment.id} for post ${postId}`);
+};
+
+const createRandomUsers = async (userCount = 3, ownId) => {
   for (let i = 1; i <= userCount; i++) {
     const firstName = faker.person.firstName();
 
@@ -62,45 +112,35 @@ async function main() {
 
     if (!user) {
       console.log(`Something went wrong while creating user ${firstName}`);
-      return;
+      break;
     }
 
     console.log(`Created user ${firstName}`);
 
     /* ----------------------------Create post for each users-------------------------- */
-    const post = await prisma.post.create({
-      data: {
-        userId: user.id,
-        post: faker.lorem.paragraph(),
-      },
-    });
-
-    if (!post) {
-      console.log(
-        `Something went wrong while creating post for user ${firstName}`,
-      );
-      return;
-    }
-
-    console.log(`Created post ${post.id} for user ${firstName}`);
+    const newPostId = await createPost(user.id);
 
     /* ----------------------------Like the newly created post----------------------- */
-    const like = await prisma.like.create({
-      data: {
-        postId: post.id,
-        userId: user.id,
-      },
-    });
+    await likePost(user.id, newPostId);
+    await likePost(ownId, newPostId);
 
-    if (!like) {
-      console.log(
-        `Something went wrong while creating like for post ${post.id}`,
-      );
-      return;
-    }
-
-    console.log(`Created like ${like.id} for post ${post.id}`);
+    /* ----------------------------Add comment to post----------------------- */
+    await addComment(user.id, newPostId);
+    await addComment(ownId, newPostId);
   }
+
+  console.log('Random users created :)');
+};
+
+async function main() {
+  /* ----------------------------Clean up database-------------------------- */
+  await databaseCleanUp();
+
+  /* ----------------------------Create own account-------------------------- */
+  const ownId = await createOwnAccount();
+
+  /* ----------------------------Create random users-------------------------- */
+  await createRandomUsers(4, ownId);
 }
 
 main()
