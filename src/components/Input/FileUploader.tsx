@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import { Upload, Row } from 'antd';
 import toast from 'react-hot-toast';
+import React, { useState } from 'react';
 import { BsUpload } from 'react-icons/bs';
 
 import { FormInstance } from 'antd/es/form';
@@ -90,4 +90,6 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   );
 };
 
-export default FileUploader;
+const MemoizedFileUploader = React.memo(FileUploader);
+
+export default MemoizedFileUploader;

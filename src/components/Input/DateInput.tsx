@@ -45,4 +45,6 @@ const DateInput: React.FC<DatePickerProps> = ({ label, id, disabled, required = 
   );
 };
 
-export default DateInput;
+const MemoizedDateInput = React.memo(DateInput);
+
+export default MemoizedDateInput;
