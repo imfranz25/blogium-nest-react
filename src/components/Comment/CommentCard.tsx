@@ -48,7 +48,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ id, postId, user, comment, ti
   }, [navigate, user.id]);
 
   const onDeleteComment = useCallback(async () => {
-    const response = await deleteComment({ method: httpMethod.DELETE });
+    const response = await deleteComment({ method: httpMethod.DELETE, data: { postId } });
 
     if (response?.status === 200) {
       removeComment(postId, id);
