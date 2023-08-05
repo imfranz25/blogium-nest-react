@@ -10,9 +10,9 @@ import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdateUserPasswordDto } from './dto/update-password.to';
-import { PrismaService } from '../prisma/prisma.service';
-import { CloudinaryService } from '../cloudinary/cloudinary.service';
-import { userSelection } from '../prisma/prismaSelect';
+import { PrismaService } from '../common/prisma/prisma.service';
+import { CloudinaryService } from '../common/cloudinary/cloudinary.service';
+import { userSelection } from '../common/prisma/prismaSelect';
 
 @Injectable()
 export class UserService {

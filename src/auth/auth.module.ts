@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
-import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
+import { PassportModule } from '@nestjs/passport';
 
 import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { PrismaModule } from '../prisma/prisma.module';
-import { UserModule } from '../user/user.module';
 import { JwtStrategy } from './jwt.strategy';
-import { PrismaService } from '../prisma/prisma.service';
+import { UserModule } from '../user/user.module';
+import { AuthController } from './auth.controller';
+import { PrismaModule } from '../common/prisma/prisma.module';
+import { PrismaService } from '../common/prisma/prisma.service';
 
 export const JWT_SECRET = process.env.JWT_SECRET || '';
 

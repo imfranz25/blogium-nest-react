@@ -6,10 +6,10 @@ import {
 
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { PrismaService } from '../prisma/prisma.service';
 import { CommentPostDto } from './dto/comment-post.dto';
-import { commentSelection } from '../prisma/prismaSelect';
-import { postInclude } from '../prisma/prismaSelect';
+import { postInclude } from '../common/prisma/prismaSelect';
+import { PrismaService } from '../common/prisma/prisma.service';
+import { commentSelection } from '../common/prisma/prismaSelect';
 
 @Injectable()
 export class PostService {

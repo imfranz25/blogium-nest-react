@@ -29,7 +29,7 @@ const createOwnAccount = async () => {
       email: `francis@gmail.com`,
       birthday: new Date('2000-05-13').toISOString(),
       bio: 'Full snack developer',
-      hashedPassword: await bcrypt.hash('Stratpoint123!', 12),
+      hashedPassword: await bcrypt.hash('Fr@ncis123!', 12),
       profilePicture:
         'https://res.cloudinary.com/dttmkct48/image/upload/v1687591027/twsw2dvqf0ipdolf2rng.png',
     },
@@ -103,7 +103,7 @@ const createRandomUsers = async (userCount = 3, ownId) => {
         firstName: firstName,
         lastName: faker.person.lastName(),
         email: `${firstName.toLowerCase()}@gmail.com`,
-        hashedPassword: await bcrypt.hash('Stratpoint123!', 12),
+        hashedPassword: await bcrypt.hash('Fr@ncis123!', 12),
         bio: faker.person.bio(),
         birthday: new Date('2000-05-13').toISOString(),
         profilePicture: profilePictures[i - 1],
