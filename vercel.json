@@ -2,7 +2,6 @@
   "version": 2,
   "builds": [
     {
-      "buildCommand": "pnpm prisma generate && next build",
       "src": "src/main.ts",
       "use": "@vercel/node"
     }
